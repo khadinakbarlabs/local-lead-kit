@@ -61,7 +61,7 @@
   function renderRows(){
     const rows=job.rows||[];
     $('rows').innerHTML=rows.length?rows.map((row,i)=>{
-      const title=kind==='contacts'?row.business_name:kind==='analysis'?((row.note||'').slice(0,100)):row.business_name;
+      const title=kind==='contacts'?row.business_name:kind==='analysis'?(row.business_name||(row.note||'').slice(0,100)):row.business_name;
       const sub=kind==='contacts'?row.email:kind==='analysis'?row.confidence:hostname(row.website);
       const status=kind==='contacts'?row.validation_status:kind==='analysis'?'AI note':readable(row.coverage);
       return `<button class="row ${i===rowIndex?'active':''}" data-row="${i}"><span class="row-icon">${kind==='contacts'?'@':kind==='analysis'?'✦':'⌖'}</span><div><strong>${e(title)}</strong><small>${e(sub)}</small></div>${chip(status,kind==='contacts'?'amber':'muted')}</button>`;
@@ -73,7 +73,7 @@
     if(!row){$('detail').innerHTML='<div class="eyebrow">RESEARCH WITH CONTEXT</div><h2>A useful next step starts with evidence.</h2><p class="hint">Keep source context and review uncertain entries before using a list.</p>';return;}
     if(kind==='businesses')$('detail').innerHTML='<div class="eyebrow">SELECTED BUSINESS</div><h2>'+e(row.business_name)+'</h2>'+field('LOCATION',row.address)+field('PHONE',row.phone)+linkField('WEBSITE',row.website)+field('CONTACT RESULT',row.email_count+' addresses · '+readable(row.coverage))+linkField('MAPS SOURCE',row.maps_source,'Open the listing');
     else if(kind==='contacts')$('detail').innerHTML='<div class="eyebrow">CONTACT TO REVIEW</div><h2>'+e(row.email)+'</h2>'+chip(row.validation_status,'amber')+field('BUSINESS',row.business_name)+linkField('SOURCE WEBSITE',row.source_website)+field('CHECK REASONS',readable(row.validation_reason))+field('EXTRACTION REVIEW',readable(row.extraction_review))+'<p class="hint">Source context is not exact per-email page provenance. Individual mailbox deliverability was not confirmed.</p>';
-    else $('detail').innerHTML='<div class="eyebrow">AI-ASSISTED RESEARCH NOTE</div><h2>Review the evidence.</h2>'+field('NOTE',row.note)+field('CONFIDENCE',row.confidence)+field('NEXT STEP',row.next_step||'Review the business and its sources.')+'<div class="field"><span>SOURCES</span>'+row.sources.map(url=>link(url)).join('<br>')+'</div><p class="hint">A research note does not establish buying intent.</p>';
+    else $('detail').innerHTML='<div class="eyebrow">AI-ASSISTED RESEARCH NOTE</div><h2>'+e(row.business_name||'Review the evidence.')+'</h2>'+field('NOTE',row.note)+field('CONFIDENCE',row.confidence)+field('NEXT STEP',row.next_step||'Review the business and its sources.')+'<div class="field"><span>SOURCES</span>'+row.sources.map(url=>link(url)).join('<br>')+'</div><p class="hint">A research note does not establish buying intent.</p>';
   }
   async function action(fn){if(busy)return;busy=true;message();try{await fn();}catch(error){message(error.message);}finally{busy=false;document.querySelectorAll('.primary').forEach(b=>b.disabled=false);}}
   $('campaign-form').addEventListener('submit',event=>{event.preventDefault();action(async()=>{

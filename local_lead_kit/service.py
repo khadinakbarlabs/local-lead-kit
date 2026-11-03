@@ -174,7 +174,9 @@ class CampaignService:
         with self.lock:
             job=self.load(job_id)
             if job['status'] not in ['COMPLETE','PARTIAL','IMPORTED']:raise ValueError('Wait for research results before adding AI review.')
-            rows=validate_analysis(rows,job['results']['businesses']);job['results']['analysis']=rows
+            rows=validate_analysis(rows,job['results']['businesses'])
+            names={business['business_id']:business['business_name'] for business in job['results']['businesses']}
+            job['results']['analysis']=[dict(row,business_name=names[row['business_id']]) for row in rows]
             job['analysis_status']='COMPLETE' if len(rows)>=min(25,len(job['results']['businesses'])) else 'PARTIAL'
             job['results']['summary']['ai_reviewed']=len(rows);self.save(job);return job
 

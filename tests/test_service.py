@@ -26,6 +26,17 @@ class FakeApify:
     def record(self,store,key):return {'outcome':'PARTIAL' if self.partial and store=='Storemaps' else 'COMPLETE'}
 
 class ServiceTests(unittest.TestCase):
+    def test_ai_notes_keep_the_real_business_name_in_app_and_export(self):
+        with tempfile.TemporaryDirectory() as folder:
+            service=CampaignService(folder,client=FakeApify(),poll_seconds=0)
+            job=service.prepare({'niche':'Roofing','locations':['Example City'],'target':250,'budget_usd':10})
+            service.approve(job['id'],job['plan']['hash'],background=False)
+            business=service.load(job['id'])['results']['businesses'][0]
+            reviewed=service.apply_analysis(job['id'],[{'business_id':business['business_id'],'note':'Inspect the contact page.','confidence':'low','sources':['https://example.org']}])
+            self.assertEqual(reviewed['results']['analysis'][0]['business_name'],'Example Roofing')
+            exported=list(csv.DictReader(io.StringIO(service.export_csv(job['id'],'analysis'))))
+            self.assertEqual(exported[0]['business_name'],'Example Roofing')
+
     def test_csv_keeps_optional_review_fields_and_neutralizes_formulas(self):
         with tempfile.TemporaryDirectory() as folder:
             service=CampaignService(folder)
