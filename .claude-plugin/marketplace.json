@@ -1,0 +1,6 @@
+{
+  "name": "local-lead-kit-marketplace",
+  "metadata": {"description": "Install Local Lead Kit for local business campaign research, public contacts and evidence-led AI review."},
+  "owner": {"name": "Khadin Akbar"},
+  "plugins": [{"name": "local-lead-kit", "source": "./", "description": "A local campaign app with Apify research and optional AI review."}]
+}

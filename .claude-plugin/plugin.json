@@ -1,0 +1,10 @@
+{
+  "name": "local-lead-kit",
+  "version": "0.1.0",
+  "description": "An app and skill for local business campaigns, public website contacts, optional AI review and private CSV exports.",
+  "author": {"name": "Khadin Akbar"},
+  "homepage": "https://github.com/khadinakbarlabs/local-lead-kit",
+  "repository": "https://github.com/khadinakbarlabs/local-lead-kit",
+  "license": "MIT",
+  "keywords": ["lead-generation", "local-business", "apify", "research"]
+}

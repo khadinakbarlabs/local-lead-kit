@@ -1,0 +1,14 @@
+{
+  "name": "local-lead-kit",
+  "version": "0.1.0",
+  "description": "An app and skill for bounded local business campaigns, public website contacts, evidence-led AI review and private CSV exports.",
+  "author": {"name": "Khadin Akbar"},
+  "license": "MIT",
+  "displayName": "Local Lead Kit",
+  "homepage": "https://github.com/khadinakbarlabs/local-lead-kit",
+  "repository": "https://github.com/khadinakbarlabs/local-lead-kit",
+  "privacyPolicyUrl": "https://github.com/khadinakbarlabs/local-lead-kit/blob/main/PRIVACY.md",
+  "supportUrl": "https://github.com/khadinakbarlabs/local-lead-kit/issues",
+  "termsOfServiceUrl": "https://github.com/khadinakbarlabs/local-lead-kit/blob/main/TERMS.md",
+  "documentationUrl": "https://github.com/khadinakbarlabs/local-lead-kit/blob/main/README.md"
+}

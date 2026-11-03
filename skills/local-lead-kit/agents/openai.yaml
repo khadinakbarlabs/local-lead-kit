@@ -1,0 +1,4 @@
+interface:
+  display_name: "Local Lead Kit"
+  short_description: "Build and review local business campaigns"
+  default_prompt: "Use Local Lead Kit to open the campaign app, collect my niche and territories, and help me get a useful business research list."

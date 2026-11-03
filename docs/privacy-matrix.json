@@ -1,0 +1,13 @@
+{
+  "fields": [
+    {"field": "niche, territories, target", "purpose": "business discovery", "recipient": "configured Apify Actor after approval", "retention": "private local workspace and user's Apify account"},
+    {"field": "APIFY_TOKEN", "purpose": "authenticate user's account", "recipient": "Apify HTTPS authorization header only", "retention": "runtime or explicit private configuration; never exported"},
+    {"field": "public business websites", "purpose": "contact extraction", "recipient": "configured website Actor after approval", "retention": "source-aware private results"},
+    {"field": "extracted addresses", "purpose": "basic email checks", "recipient": "configured validator after approval", "retention": "private results and user-requested CSV"},
+    {"field": "offer and bounded business sample", "purpose": "optional AI research notes", "recipient": "user's active Codex/Claude session", "retention": "host policy and private local notes"},
+    {"field": "launch ticket and local session keys", "purpose": "local browser authorization", "recipient": "loopback app and user's browser", "retention": "private runtime workspace; no public package"}
+  ],
+  "publisher_telemetry": false,
+  "automatic_outreach": false,
+  "installation_triggered_collection": false
+}

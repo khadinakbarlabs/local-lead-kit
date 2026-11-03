@@ -1,0 +1,21 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "local-lead-kit"
+version = "0.1.0"
+description = "A private local business campaign app with Codex/Claude skills"
+requires-python = ">=3.11"
+license = {text = "MIT"}
+authors = [{name = "Khadin Akbar"}]
+readme = "README.md"
+
+[project.scripts]
+local-lead-kit = "local_lead_kit.__main__:main"
+
+[tool.setuptools.packages.find]
+include = ["local_lead_kit*"]
+
+[tool.setuptools.package-data]
+local_lead_kit = ["static/*"]

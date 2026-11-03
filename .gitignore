@@ -1,0 +1,12 @@
+.env
+.env.*
+!.env.example
+.local-leads/
+__pycache__/
+*.pyc
+.pytest_cache/
+.venv/
+dist/
+build/
+*.egg-info/
+.DS_Store
