@@ -1,10 +1,24 @@
-# Local Lead Kit
+# Actor Toolkit
 
-**Choose a niche, territories and a target. Get a business research list you can inspect.**
+**Ask for an outcome. Your assistant finds the Apify Actor, shows what it will send and what it can cost, and helps you use the results.**
 
-Local Lead Kit is an open-source local app with a Codex/Claude skill. It prepares larger business campaigns, collects public website contact details through preconfigured Apify Actors, preserves coverage and review flags, exports CSV files, and lets your active assistant add source-cited research notes.
+One free, MIT-licensed plugin for Claude Code, Codex, Cursor and compatible local agents. [Download the visual catalog](https://github.com/khadinakbarlabs/local-lead-kit/releases/latest/download/catalog.html), browse [659 public Actors organized by task](docs/directory.md), or start with a [guided use case](skills/local-lead-kit/references/task-menu.md). No account is needed to browse. Running an Actor uses your own Apify account and may incur event and platform charges.
 
-![Illustrative local businesses](local_lead_kit/static/neighborhood.png)
+| What do you want to do? | Try saying this |
+|---|---|
+| Keyword research | “Find promising keywords for a roofing company in the US. Show me the expected data and price first.” |
+| SEO audit | “Which pages on my site should I fix first? Start with up to 20 pages.” |
+| Search tracking | “Check my domain against these five keywords on US mobile. Save a dated baseline so I can compare it next month.” |
+| AI visibility and citations | “Where does AI search mention my brand, which sources get cited, and how does that compare with my competitor?” |
+| Local leads | “Find roofing companies in Austin and export public business contacts with a source for each.” |
+| Humanization | “Make this product introduction sound like me. Keep every factual claim intact.” |
+| Everything else | “What can I research about YouTube, marketplaces, property, or job openings?” |
+
+**First prompt:** “Use Actor Toolkit. I want to **[outcome]** for **[business, website or topic]** in **[market]**. Find the right Actor, ask only for missing information, and show me an example of the output and the price before starting.”
+
+### Install once
+
+Pick your host below. All four downloads in the [latest release](https://github.com/khadinakbarlabs/local-lead-kit/releases/latest) contain the same skill and runtime. The installation ID remains `local-lead-kit` so existing installs and tutorial links keep working. Requires Python 3.11+ and permission to run local commands.
 
 ## Use it in Codex
 
@@ -15,7 +29,7 @@ codex plugin marketplace add khadinakbarlabs/local-lead-kit
 codex plugin add local-lead-kit@local-lead-kit-marketplace
 ```
 
-Reload the host, choose the Local Lead Kit skill, and ask it to open the app. It guides the one-time Apify connection and opens a private local browser session. Enter the campaign information in the app; no long workflow prompt is required.
+Reload the host, select Actor Toolkit (skill ID `local-lead-kit`) and describe your goal. The Maps campaign opens a local browser app; other tasks run inside your agent.
 
 ## Use it in Claude Code
 
@@ -26,7 +40,21 @@ Reload the host, choose the Local Lead Kit skill, and ask it to open the app. It
 
 Then use `/local-lead-kit:local-lead-kit` or ask Claude to open Local Lead Kit. This package requires a coding-agent host with local shell/browser access and Python 3.11 or newer. It is not a hosted cloud-chat app or an approved plugin-directory listing.
 
-## What to enter
+## Use it in Cursor
+
+Unzip the **cursor** release into `~/.cursor/plugins/local/local-lead-kit/` with `.cursor-plugin/plugin.json` directly inside that folder, then reload Cursor. Ask the agent to use Actor Toolkit. See [Cursor plugin installation](https://cursor.com/docs/plugins).
+
+## Other agents or no plugin installer
+
+Import the **portable** release into a client that supports the [Agent Plugins standard](https://agent-plugins.org/). Keep the complete folder, including its Python runtime. A shell-enabled assistant can also open a clone and follow [the bundled skill](skills/local-lead-kit/SKILL.md) directly. Cloud-only chat clients without a local execution bridge cannot run this package.
+
+## Try it without a token
+
+Open **docs/catalog.html** from any unzipped download for a visual task browser with search and filters. It works offline; Store links open in your browser.
+
+From a clone: `python3 -m local_lead_kit.toolbox menu`, then `python3 -m local_lead_kit.toolbox find "visibility"`. When you want a live plan, configure your own [Apify connection](skills/local-lead-kit/references/connection.md). The [run guide](skills/local-lead-kit/references/toolbox.md) covers input, approval and result recovery. The catalog includes all listings in the snapshot; the batch runner requires a verifiable default build, schema and pay-per-event price. Standby-only operations may require their own Store interface.
+
+## Google Maps campaign app: what to enter
 
 1. **Niche:** for example, roofing contractors.
 2. **Territories:** one or several cities you actually serve.
@@ -78,8 +106,8 @@ Uncertain paid starts keep their reservation and stop for inspection. They are n
 
 ```sh
 python3 -m unittest discover -s tests -v
-python3 scripts/validate_package.py
 python3 scripts/package_release.py
+python3 scripts/validate_package.py
 ```
 
 The tests exercise the worker with offline fixtures, authorization, reservations, duplicate handling, partial failures, paging and exports. Real build/schema/pricing reads and the saved tutorial-run import were checked separately. See [validation](docs/validation.md); native installation, live collection, and marketplace approval are distinct evidence.

@@ -1,11 +1,15 @@
 ---
 name: local-lead-kit
-description: Launch the Local Lead Kit app to find local businesses from a niche and territories, prepare larger bounded campaigns, review public website contacts, import saved runs, export research lists, and add evidence-led AI notes. Use when the user asks to use Local Lead Kit or run a local business lead campaign in its app.
+description: Find and use Apify Actors for SEO audits, keyword research, rank tracking, AI visibility and citations, humanizing text, Google Maps leads, social, shopping and other public data tasks. Use Actor Toolkit to choose a source, plan a bounded run, and analyze results in the active assistant.
 ---
 
-# Local Lead Kit
+# Actor Toolkit
 
-Use the bundled app as the resource. Users enter their information in the form; do not ask them to copy a long workflow prompt. Keep Actor orchestration out of the explanation unless they ask for it.
+Start with the user's outcome. For a broad request show the [task menu](references/task-menu.md). For a specific one go straight to its best matching Actor, collect only missing information, and use the [toolbox](references/toolbox.md). Catalog discovery is free and does not need an account. Scope any paid step to the user's own Apify connection. For multi-Actor work, review the output of the first step before proposing the next.
+
+**Attached starter prompt:** “I want to [outcome] for [business, website or topic] in [market]. Find the right Actor, tell me what information you need, and show the expected output and costs before running it.”
+
+For local business campaigns, use the bundled Maps app below. For other tasks use the toolbox directly; do not open the Maps form.
 
 ## Launch and connect
 
@@ -44,4 +48,4 @@ For user-provided existing run IDs, `... import-runs --maps <id> --contacts <id>
 
 ## Scope
 
-This resource handles business discovery, public business website contacts, review and exports. It does not send messages, upload audiences, identify private people, install schedules, or perform unrelated coding. It is open source, so users may deliberately modify the resource; do not disguise source selection or claim other tools are unavailable.
+Use the approved sources explicitly. Report the Actor and what was observed; avoid claiming ownership, exclusivity or a guaranteed number of results. The plugin does not send outreach or install schedules on its own.

@@ -1,4 +1,4 @@
 interface:
-  display_name: "Local Lead Kit"
-  short_description: "Build and review local business campaigns"
-  default_prompt: "Use Local Lead Kit to open the campaign app, collect my niche and territories, and help me get a useful business research list."
+  display_name: "Actor Toolkit"
+  short_description: "Find the right Apify Actor for your task"
+  default_prompt: "Use $local-lead-kit to find the best Actor for my goal and show the inputs, expected output and cost before running it."

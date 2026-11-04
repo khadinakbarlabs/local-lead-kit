@@ -11,3 +11,5 @@ Campaign inputs, results, source context, run IDs, allowance reservations and op
 Optional AI review uses the active assistant you selected. The assistant may process the bounded business sample, your offer and permitted source pages under that host's settings and policies. No additional model API service is hidden in this app. Without an active capable assistant, AI review stays pending.
 
 CSV exports can contain business contact details and source URLs. Review them before sharing. Do not post real contact datasets, runtime access files, launch links or credentials in GitHub issues. Source code and synthetic tests are public; your live workspace is not uploaded by the app.
+
+For other toolbox tasks, discovery searches the bundled catalog locally. A live preview sends read-only metadata requests; exact Actor inputs (such as a domain, keywords or writing sample) go to that Actor only on an approved start. Private plan and result files may contain the full input and output. Use only material you are authorized to share with the selected Actor and its providers.

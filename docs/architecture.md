@@ -9,3 +9,5 @@ The worker discovers companies, deduplicates website hosts for bounded extractio
 The UI keeps actual counts and partial states, paginates results, and exports spreadsheet-safe CSV files. Optional AI review is supplied by the active assistant using a bounded sample and evidence URLs. Its attribution is checked before notes are attached, but source and semantic truth still require review.
 
 Local access uses a private session cookie, request key, strict Host/Origin checks and content policy. Runtime access data and campaign files are excluded from source and release packages. No account credential or customer dataset is shipped.
+
+Version 0.2 adds one shared task router, an offline Store index, the toolbox CLI and four packaging formats (Claude, Codex, Cursor and portable Agent Plugins). To extend coverage, run `python3 scripts/refresh_catalog.py`, regenerate the directory with `python3 scripts/catalog_guide.py`, and review the catalog diff and curated task menu. Refresh uses only the public Store. The original Maps campaign keeps its three verified stages.

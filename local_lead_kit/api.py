@@ -36,6 +36,7 @@ def validate_input(value,schema,path='input'):
             if isinstance(schema.get('items'),dict):validate_input(item,schema['items'],path+f'[{i}]')
 
 class ApifyClient:
+    sources = ACTORS
     def __init__(self,token=None,transport=None):
         self.token=token or os.environ.get('APIFY_TOKEN','')
         if not self.token:raise ApiError('Connect your Apify account through secure APIFY_TOKEN configuration first.')
@@ -48,7 +49,7 @@ class ApifyClient:
         if not path or path.startswith('/') or '..' in path or '://' in path:raise ValueError('Unsupported API path.')
         request=urllib.request.Request('https://api.apify.com/v2/'+path,
             data=None if payload is None else json.dumps(payload,allow_nan=False).encode(),
-            headers={'Authorization':'Bearer '+self.token,'Content-Type':'application/json','User-Agent':'local-lead-kit/0.1.0'})
+            headers={'Authorization':'Bearer '+self.token,'Content-Type':'application/json','User-Agent':'local-lead-kit/0.2.0'})
         if self.transport:return self.transport(request)
         try:
             with self.opener.open(request,timeout=40) as response:
@@ -75,9 +76,12 @@ class ApifyClient:
         return response['data']
 
     def metadata(self,stage):
-        spec=ACTORS[stage];actor=self.data('acts/'+spec['id'])
-        if actor.get('id')!=spec['id'] or not actor.get('isPublic'):raise ApiError('The configured Actor is unavailable for public use.')
-        build=actor.get('taggedBuilds',{}).get('latest',{})
+        spec=self.sources[stage];actor=self.data('acts/'+spec['id'])
+        if (actor.get('id')!=spec['id'] or not actor.get('isPublic') or
+                f"{actor.get('username')}/{actor.get('name')}"!=spec['slug']):raise ApiError('The configured Actor is unavailable for public use.')
+        tag=actor.get('defaultRunOptions',{}).get('build','latest')
+        build=actor.get('taggedBuilds',{}).get(tag,{})
+        if not build:raise ApiError('The default published build could not be verified; inspect the Actor in the Store.')
         bid=self.identity(build.get('buildId'))
         detail=self.data('actor-builds/'+bid)
         if detail.get('actId')!=spec['id'] or detail.get('status')!='SUCCEEDED':raise ApiError('The current Actor build is not ready.')
@@ -101,7 +105,7 @@ class ApifyClient:
                 'store_url':'https://apify.com/'+spec['slug']}
 
     def start(self,actor,payload,options):
-        if actor not in {s['id'] for s in ACTORS.values()}:raise ValueError('Actor is outside this resource’s configured sources.')
+        if actor not in {s['id'] for s in self.sources.values()}:raise ValueError('Actor is outside this resource’s configured sources.')
         allowed={'build','memory','timeout','maxTotalChargeUsd','restartOnError'}
         if set(options)-allowed or not options.get('maxTotalChargeUsd',0)>0:raise ValueError('A bounded run allowance is required.')
         params=urllib.parse.urlencode({k:str(v).lower() if isinstance(v,bool) else v for k,v in options.items()})

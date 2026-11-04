@@ -1,0 +1,20 @@
+{
+  "name": "local-lead-kit",
+  "version": "0.2.0",
+  "description": "Find and use public Apify Actors for SEO, keyword research, AI search visibility, rank tracking, local leads, writing and more.",
+  "author": {
+    "name": "Khadin Akbar"
+  },
+  "homepage": "https://github.com/khadinakbarlabs/local-lead-kit",
+  "repository": "https://github.com/khadinakbarlabs/local-lead-kit",
+  "license": "MIT",
+  "keywords": [
+    "apify",
+    "seo",
+    "keyword-research",
+    "ai-visibility",
+    "rank-tracking",
+    "lead-generation",
+    "humanization"
+  ]
+}

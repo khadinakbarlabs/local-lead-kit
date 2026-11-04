@@ -1,10 +1,12 @@
 {
   "name": "local-lead-kit",
-  "version": "0.1.0",
-  "description": "An app and skill for bounded local business campaigns, public website contacts, evidence-led AI review and private CSV exports.",
-  "author": {"name": "Khadin Akbar"},
+  "version": "0.2.0",
+  "description": "Find and use public Apify Actors for SEO, keyword research, AI search visibility, rank tracking, local leads, writing and more.",
+  "author": {
+    "name": "Khadin Akbar"
+  },
   "license": "MIT",
-  "displayName": "Local Lead Kit",
+  "displayName": "Actor Toolkit",
   "homepage": "https://github.com/khadinakbarlabs/local-lead-kit",
   "repository": "https://github.com/khadinakbarlabs/local-lead-kit",
   "privacyPolicyUrl": "https://github.com/khadinakbarlabs/local-lead-kit/blob/main/PRIVACY.md",

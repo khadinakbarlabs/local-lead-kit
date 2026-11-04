@@ -1,6 +1,16 @@
 {
   "name": "local-lead-kit-marketplace",
-  "metadata": {"description": "Install Local Lead Kit for local business campaign research, public contacts and evidence-led AI review."},
-  "owner": {"name": "Khadin Akbar"},
-  "plugins": [{"name": "local-lead-kit", "source": "./", "description": "A local campaign app with Apify research and optional AI review."}]
+  "metadata": {
+    "description": "Find and use public Apify Actors for SEO, keyword research, AI search visibility, rank tracking, local leads, writing and more."
+  },
+  "owner": {
+    "name": "Khadin Akbar"
+  },
+  "plugins": [
+    {
+      "name": "local-lead-kit",
+      "source": "./",
+      "description": "Find and use public Apify Actors for SEO, keyword research, AI search visibility, rank tracking, local leads, writing and more."
+    }
+  ]
 }
