@@ -5,7 +5,8 @@ from collections import defaultdict
 import sys
 ROOT=Path(__file__).resolve().parents[1]
 sys.path.insert(0,str(ROOT))
-from looksy.tasks import library,tree
+from looksy.workflows import areas,recipes,WORKFLOW_ANCHORS
+from looksy.tasks import library,tree,search_index,ROUTING,STOP,ALIASES
 
 def main():
     data=json.loads((ROOT/'looksy/catalog.json').read_text()); shelves=defaultdict(list)
@@ -14,11 +15,15 @@ def main():
     cards=list(library().values())
     actors={c['actor']:{'description':c['description'],'source':c['source']} for c in cards}
     ordered=sorted(cards,key=lambda c:(not bool(c['aliases']),bool(c['preset']),c['category'],c['task']))
-    tasks=[dict(id=c['id'],actor=c['actor'],category=c['category'],family=c['subcategory'],task=c['task'],report=c['report'],
+    documents,weights=search_index()
+    tasks=[dict(id=c['id'],actor=c['actor'],category=c['category'],family=c['subcategory'],task=c['task'],report=c['report'],guided=bool(c['aliases']),preset=bool(c['preset']),
+                primary=sorted(documents[c['id']][0]),facets=sorted(documents[c['id']][1]),described=sorted(documents[c['id']][2]),
                 search=' '.join([c['task'],c['actor'],c['category'],c['subcategory'],c['aliases'],c['description']]).lower().replace('-',' ')) for c in ordered]
-    safe=json.dumps({'actors':actors,'tasks':tasks},ensure_ascii=True,separators=(',',':')).replace('<',r'\u003c')
-    (ROOT/'docs/catalog.html').write_text(template.replace('__INVENTORY__',safe).replace('__MARK__',(ROOT/'docs/brand/mark.svg').read_text()))
-    outline=['# Looksy task library',f"{len(cards):,} task entries from {len(actors)} public Actors. Expand a category to see its subcategories and individual tasks. The Field Guide adds search, saved tasks and copyable requests."]
+    safe=json.dumps({'actors':actors,'tasks':tasks,'routing':ROUTING,'stop':sorted(STOP),'aliases':ALIASES,'weights':weights,'areas':areas(),'recipes':recipes(),'workflow_anchors':sorted(WORKFLOW_ANCHORS)},ensure_ascii=True,separators=(',',':')).replace('<',r'\u003c')
+    page=template.replace('__INVENTORY__',safe).replace('__MARK__',(ROOT/'docs/brand/mark.svg').read_text())
+    for name in ('catalog.html','index.html'):
+        (ROOT/'docs'/name).write_text(page)
+    outline=['# Looksy Agent task library',f"{len(cards):,} task entries from {len(actors)} public Actors. Expand a category to see its subcategories and individual tasks. The Field Guide adds research areas, workflow recipes, saved templates and copyable requests."]
     for category,families in tree().items():
         outline.extend(['<details>','<summary>'+category+'</summary>',''])
         for family,count in families.items():
@@ -29,7 +34,7 @@ def main():
                 outline.append(f"- [{title}]({c['source']})")
         outline.append('</details>')
     (ROOT/'docs/tasks.md').write_text('\n'.join(outline)+'\n')
-    sections=[f"# Looksy · Actor directory\n\n{len(data['actors'])} public [Store listings]({data['source']}) on {data['updated']}. Each Actor appears once below. The agent’s search also uses secondary shelves and Store categories. A listing is discovery evidence, not a successful test run."]
+    sections=[f"# Looksy Agent · Actor directory\n\n{len(data['actors'])} public [Store listings]({data['source']}) on {data['updated']}. Each Actor appears once below. The agent’s search also uses secondary shelves and Store categories. A listing is discovery evidence, not a successful test run."]
     sections+=[' · '.join(f'[{k} ({len(rows)})](#{k})' for k,rows in sorted(shelves.items()))]
     for k,rows in sorted(shelves.items()):
         sections.append('## '+k+'\n\n'+'\n'.join('- ['+r['title'].replace('[','\\[').replace(']','\\]')+'](https://apify.com/'+r['slug']+')' for r in rows))

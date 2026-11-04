@@ -1,51 +1,98 @@
-![Looksy. Web research for AI agents.](docs/brand/cover.png)
+![Looksy Agent — web research in your AI assistant](docs/brand/cover.svg)
 
-# Looksy
+# Looksy Agent
 
-Ask Claude Code, Codex, or Cursor to find local businesses, research keywords, check search rankings, or see where AI answers cite your website. **Looksy is free to install and browse. Running a task requires your own Apify API key and may incur Apify charges.**
+Find public data, research a market, analyze an export, and turn the results into a useful report with the AI assistant you already use. Looksy Agent connects Claude Code, Codex and Cursor to a categorized directory of Apify Actors and reusable research workflows.
 
-## 1. Install Looksy
+**36 research areas · 45 workflow recipes · 1,091 task entries · 659 cataloged Actors**
 
-Choose the agent you already use. You’ll need Python 3.11 or newer for the bundled tools.
+**Start with your goal.** Ask for a prospect spreadsheet, an SEO action plan, a product comparison, a content brief or a research report. Looksy Agent helps choose the sources, preserve your scope, preview charges, inspect the actual results and prepare the deliverable.
 
-| Agent | Install |
+[Explore the research guide](https://khadinakbarlabs.github.io/looksy/) · [Browse all tasks](docs/tasks.md) · [Actor directory](docs/directory.md)
+
+## Three ways to start
+
+| What you need | Ask your assistant |
 | --- | --- |
-| **Claude Code** | In Claude Code, enter `/plugin marketplace add khadinakbarlabs/looksy`, then `/plugin install looksy@looksy-marketplace`. Open a fresh session. |
-| **Codex** | In a terminal, run `codex plugin marketplace add khadinakbarlabs/looksy`, then `codex plugin add looksy@looksy-marketplace`. Open a fresh session. |
-| **Cursor** | Download [Looksy for Cursor](https://github.com/khadinakbarlabs/looksy/releases/download/v0.3.0/looksy-cursor-0.3.0.zip). Extract the contents into `~/.cursor/plugins/local/looksy/`, with `.cursor-plugin/plugin.json` directly inside. Reload Cursor. |
-| **Other local agents** | Download the [portable plugin](https://github.com/khadinakbarlabs/looksy/releases/download/v0.3.0/looksy-portable-0.3.0.zip) and import the complete folder into a compatible Agent Plugins client. |
+| Find new data | “Use Looksy Agent to find up to 25 roofers in Austin. Show the fields and costs before starting.” |
+| Analyze data you have | “Use Looksy Agent to analyze my Apify CSV and prepare a competitor report. Ask which question the report should answer.” |
+| Open recent research | “Use Looksy Agent to reopen my last research brief and show its saved results.” |
 
-[Open the interactive Task Guide](https://khadinakbarlabs.github.io/looksy/) to explore category → subcategory → task. Each task has a ready-to-copy request. Task instructions, sources and saved tasks are available without running an Actor.
+The guide takes three steps — your goal, a workflow starting point, and an editable assistant handoff. It includes labeled example deliverables, research areas, reusable workflows, an editable request for your assistant, and browser bookmarks for task templates. Your original request stays in the handoff.
 
-Try it immediately without a key. Ask **“Use Looksy to show me three tools for keyword research.”**
+## Research areas
 
-## 2. Connect Apify once
-
-1. Get your API key from [Apify Settings → API & Integrations](https://console.apify.com/settings/integrations).
-2. Ask your agent **“Help me connect Looksy to Apify.”** It will give you a setup command for your own terminal.
-3. Run that command, paste the key when prompted, and press Enter. The input is hidden. Return to the agent when you see **Key saved for Looksy**.
-
-Looksy saves the key in a private file on your device. If your agent already has `APIFY_TOKEN` configured, skip this step. Keep the key out of chat.
-
-## 3. Ask for a result
-
-**Try this first:** “Use Looksy to find up to 25 roofing companies in Austin, Texas. Show me what data I’ll get and what it costs before you start.”
-
-Looksy opens **Local Leads** for this request. Review the target, sources and price, then approve the run. When it finishes, inspect the businesses it actually found and download the CSV. Coverage varies by location.
-
-| To do this | Ask Looksy |
+| Area | Example outcomes |
 | --- | --- |
-| Research keywords | “Find US keywords for emergency roof repair. Show me the available search-volume data.” |
-| Check search rankings | “Check these five keywords for my domain on US mobile and save a baseline.” |
-| Measure AI visibility | “Check whether AI answers mention my brand and which sites they cite.” |
-| Improve writing | “Make this introduction sound more natural and preserve its factual claims.” |
+| Ecommerce and products | Product discovery, supplier research, marketplace comparisons, eBay and Shopify catalog research, observed prices and availability |
+| SEO and search | Website audits, keyword demand, ranking baselines, backlinks, search results and search traffic estimates with their coverage limits |
+| AI visibility and writing | Brand mentions, AI citations, reported content-detection signals and humanization of authorized drafts |
+| Advertising | Meta, Facebook, Instagram, TikTok, LinkedIn and other supported ad-library research, creative and landing-page comparisons |
+| B2B, startups and leads | Local businesses, company research, Product Hunt, hiring signals, public contact details and enrichment |
+| Social and content | Facebook, Instagram, TikTok, Reddit and other supported social sources, content planning, newsletters and social intelligence |
+| Conversations and video | Authorized Discord/community research, discussion themes, YouTube questions, transcripts, video-analysis modes and OCR |
+| Travel and hospitality | Flights, hotels, activities, guest reviews, Maps places and directions |
+| Careers and property | Job hunting, posted compensation, housing, rentals, Zillow and market-specific real-estate listings |
+| Markets and public records | Crypto, supported stocks/forex lookups, financial events, company filings, government sources and source-backed research |
+| Contact checks | Supported email and phone lookups with explicit uncertainty and source context |
 
-## Pick up where you left off
+Each task card links to its advertised source and inputs. Coverage depends on the selected Actor, geography, source access and current contract. Private sources require your authorization and a supported connection. Named alternatives to Apollo, Lusha or another service have their own contracts and data sources.
 
-Ask **“Save this as a Looksy brief and include the next step.”** Later, ask **“Reopen my last Looksy brief.”** Another supported agent on the same computer can continue from the same private workspace. For repeat research, ask it to compare two saved observations. Viewing a saved result starts no new run.
+## Build a workflow around the outcome
 
-[Browse the task hierarchy](docs/tasks.md) · [Browse the Actor directory](docs/directory.md) · [Download the offline Field Guide](https://github.com/khadinakbarlabs/looksy/releases/latest/download/catalog.html) · [Connection help](skills/looksy/references/connection.md)
+Ask **“Use Looksy Agent to design a workflow for [goal], using [market and scope], and deliver [format].”**
 
-**Already using the earlier plugin?** Install Looksy under its new name using step 1. Existing local campaigns are picked up automatically from the previous default workspace when no new Looksy workspace exists. An explicitly selected workspace can still be opened with `--workspace`.
+Looksy Agent uses research templates as a starting point, gathers missing inputs, checks source fit and plans the steps. It carries actual observed identifiers and URLs between steps, analyzes the evidence, then prepares the requested output and a saved next step.
 
-[Privacy](PRIVACY.md) · [Support](SUPPORT.md) · [License](LICENSE)
+| Outcome | Research sequence | Deliverable |
+| --- | --- | --- |
+| Find relevant local clients | Business discovery → public website contacts → address checks → review | Prospect spreadsheet with sources and missing fields |
+| Prepare an SEO roadmap | Site/keyword research → observed rankings → prioritized findings | Keyword-to-page plan and audit backlog |
+| Measure AI visibility | Fixed buyer prompts → supported provider results → mentions and cited URLs | Dated evidence matrix and reusable baseline |
+| Research a product market | Comparable listings → exact variants/prices → buyer reviews | Product comparison and buyer-needs brief |
+| Plan content | Relevant posts/videos → available transcripts and discussion → original analysis | Source-linked topic plan and content brief |
+| Analyze community discussions | Authorized messages/threads → preserved context → themes and questions | Conversation research report with sampling coverage |
+
+[Workflow design and research coverage](skills/looksy/references/workflows.md) · [Example deliverables](skills/looksy/references/examples.md)
+
+## Install Looksy Agent
+
+Use Python 3.11 or newer and choose your assistant. The install identifier remains `looksy`.
+
+| Assistant | Install |
+| --- | --- |
+| **Claude Code** | Enter `/plugin marketplace add khadinakbarlabs/looksy`, then `/plugin install looksy@looksy-marketplace`. Open a fresh session. |
+| **Codex** | Run `codex plugin marketplace add khadinakbarlabs/looksy`, then `codex plugin add looksy@looksy-marketplace`. Open a fresh session. |
+| **Cursor** | Download [Looksy Agent for Cursor](https://github.com/khadinakbarlabs/looksy/releases/download/v0.4.0/looksy-cursor-0.4.0.zip). Extract into `~/.cursor/plugins/local/looksy/` with `.cursor-plugin/plugin.json` directly inside. Reload Cursor. |
+| **Other local agents** | Download the [portable plugin](https://github.com/khadinakbarlabs/looksy/releases/download/v0.4.0/looksy-portable-0.4.0.zip) and import the complete folder into a compatible Agent Plugins client. |
+
+Try discovery immediately by asking **“Use Looksy Agent to show me workflows for ecommerce research.”** Browsing, examples and local saved results are available before connecting Apify.
+
+## Connect when you need a live source
+
+1. Get your key from [Apify settings](https://console.apify.com/settings/integrations).
+2. Ask **“Help me connect Looksy Agent to Apify.”** Your assistant supplies the command for your installed plugin.
+3. Run it in your own terminal and paste the key into the hidden prompt.
+4. Return to your assistant for a live source preview. Apify access is checked during that preview.
+
+The key is saved privately on your device. Existing `APIFY_TOKEN` configuration takes precedence. Keep credentials out of chat. [Connection instructions](skills/looksy/references/connection.md)
+
+## Review scope and costs
+
+Installation and catalog browsing are free. Collecting new data through Actors can incur charges. Before a paid start, review the exact source, build, inputs, requested output and Actor event-charge limit. **Platform usage may be billed separately.** Actual coverage may be lower than your requested target.
+
+Local Leads uses four steps — business and location, research options, cost review, and results. Looksy Agent preserves your requested business type, territories and count in the form. You can edit them before starting. Useful partial results remain available for review and export.
+
+## Prepare data for your other tools
+
+Local Leads exports a research CSV. Its Contacts view also previews and exports **Instantly, Smartlead and HubSpot** import formats. The toolbox supports flat CSV/JSON files, explicit field mapping and an optional email exclusion list. Export receipts show included, duplicate and missing/invalid-email counts. Unknown personal names remain blank and source/check context is preserved where available.
+
+Review the file and confirm field mapping in your destination. Destination API actions use the authorized tools available in your assistant and require an explicit destination and action. [Export formats and integration process](skills/looksy/references/export-formats.md)
+
+## Return to your work
+
+Ask **“Save this as a Looksy brief with the next step.”** Later, ask **“Open my recent research.”** Briefs and cached results stay in your private local workspace, which another supported assistant on the same device can reopen. A fresh observation gets a separate preview.
+
+Existing campaigns from the earlier workspace are picked up when the new default workspace is absent. You can select a workspace explicitly with `--workspace`.
+
+[Privacy](PRIVACY.md) · [Support](SUPPORT.md) · [Validation evidence](docs/validation.md) · [License](LICENSE)

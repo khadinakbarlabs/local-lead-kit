@@ -11,7 +11,9 @@ import urllib.parse
 
 STATIC=Path(__file__).parent/'static'
 
-def make_server(service,port=8765):
+def make_server(service,port=8765,draft=None):
+    from .core import validate_request
+    draft = validate_request(draft) if draft is not None else None
     class Handler(BaseHTTPRequestHandler):
         def log_message(self,*args):pass
 
@@ -51,7 +53,7 @@ def make_server(service,port=8765):
             try:
                 if path=='/':
                     if not self.authenticated():return self.respond(200,b'<!doctype html><title>Looksy</title><h1>Looksy</h1><p>Open the private launcher link from your assistant or terminal to connect this browser.</p>','text/html; charset=utf-8')
-                    page=(STATIC/'index.html').read_text().replace('__BOOTSTRAP__',json.dumps({'session':self.server.session_key})).replace('__NONCE__',self.server.nonce)
+                    page=(STATIC/'index.html').read_text().replace('__BOOTSTRAP__',json.dumps({'session':self.server.session_key,'draft':draft}).replace('<', r'\u003c')).replace('__NONCE__',self.server.nonce)
                     return self.respond(200,page.encode(),'text/html; charset=utf-8')
                 if path=='/connect':
                     ticket=urllib.parse.parse_qs(parsed.query).get('ticket',[''])[0]
@@ -66,9 +68,17 @@ def make_server(service,port=8765):
                 if path=='/api/jobs':return self.respond(200,{'jobs':service.list_jobs(),'configured':bool(getattr(service,'_client',None) or os.environ.get('APIFY_TOKEN'))})
                 query=urllib.parse.parse_qs(parsed.query)
                 ident=query.get('id',[''])[0]
-                if path in ['/api/job','/api/export']:
+                if path in ['/api/job','/api/export','/api/export-preview']:
                     job=service.load(ident);kind=query.get('kind',['businesses'])[0]
                     if kind not in ['businesses','contacts','analysis']:raise ValueError('Choose a result table.')
+                    destination=query.get('destination',['research'])[0]
+                    if path in ['/api/export','/api/export-preview'] and destination!='research':
+                        from .exports import prepare
+                        if kind!='contacts':raise ValueError('Choose Contacts for a destination import.')
+                        content,receipt=prepare((job.get('results') or {}).get('contacts',[]),destination)
+                        if path=='/api/export-preview':return self.respond(200,receipt)
+                        return self.respond(200,content.encode(),'text/csv; charset=utf-8','looksy-'+destination+'.csv')
+                    if path=='/api/export-preview':raise ValueError('Choose a destination format.')
                     if path=='/api/export':return self.respond(200,service.export_csv(ident,kind).encode(),'text/csv; charset=utf-8','looksy-'+kind+'.csv')
                     result=job.get('results') or {};rows=result.get(kind,[]);q=query.get('q',[''])[0][:200].casefold()
                     if q:rows=[r for r in rows if q in json.dumps(r,ensure_ascii=False).casefold()]

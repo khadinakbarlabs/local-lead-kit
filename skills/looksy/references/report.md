@@ -18,3 +18,7 @@ Use the same private toolbox workspace across Claude Code, Codex, Cursor or anot
 - `compare <first-plan> <second-plan>` compares distinct cached runs for the same Actor and input. It reports scope, completeness and exact row-value differences. For a business conclusion, compare the relevant fields by entity, language, currency and date, and label different build versions.
 
 For a cross-agent handoff, provide the brief ID, requested deliverable, evidence location and outstanding question. Do not start a new run to reopen a brief. If a fresh observation is requested, prepare a separately approved, date-labelled plan.
+
+Use `reopen latest` when the user asks for the latest brief. For a named client or topic inspect `history` and choose the matching ID. If several match, ask which one. Templates bookmarked in the public guide are separate from private saved briefs.
+
+For existing CSV/JSON inspection and destination-specific files use [export formats](export-formats.md). For multi-source outcomes use [workflow design](workflows.md).

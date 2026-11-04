@@ -8,6 +8,7 @@ import re
 from urllib.parse import quote
 
 ROOT = Path(__file__).parent
+ROUTING = json.loads((ROOT / 'routing.json').read_text())
 # Rules classify the subject of the request; the public listing and default build
 # supply the actual task, required inputs and any documented operation selectors.
 GROUPS = [
@@ -112,7 +113,7 @@ FAMILY_BRIEFS = {
 STOP=set('the a an me us our i we my of on for with at in by from please show find tell how do does is to and get can you use give want would could should an set unrelated research compare give that this about what where which it more some up as be have has their they them into looksy'.split())
 ALIASES={'customers':'leads','clients':'leads','citations':'cited','rankings':'rank','ranking':'rank','prices':'price','websites':'website','channels':'channel','companies':'business','keywords':'keyword','reviews':'review','jobs':'job','cryptocurrency':'crypto','cryptocurrencies':'crypto','releases':'release','issues':'issue','stocks':'stock','emails':'email','flights':'flight','fares':'price','fare':'price','airfare':'flight','transcripts':'transcript','sources':'source','properties':'property','rentals':'rental','comments':'comment','journalists':'journalist','cites':'cited','citations':'cited'}
 def terms(text):
-    return {ALIASES.get(w,w) for w in re.findall(r'[a-z0-9]+',text.lower()) if w not in STOP}
+    return {ALIASES.get(w,w) for w in re.findall(r'[a-z0-9]+',text.lower()) if w not in STOP and not w.isdigit()}
 def group(row):
     slug=row['slug'].split('/')[1]
     for category,family,pattern in GROUPS:
@@ -188,8 +189,17 @@ def search_index():
 def browse(query='',category=None,family=None,limit=6):
     all_cards=library()
     if query in all_cards:return [all_cards[query]]
+    if action_for(query):
+        return []
     words=terms(query); candidates=[]
+    if query.strip() and not words:
+        return []
+    preferred = next((rule['task'] for rule in ROUTING['preferred']
+                      if re.search(rule['pattern'], query, re.I)), None)
     docs,weights=search_index()
+    requested_sources = words & {'github','youtube','instagram','linkedin','amazon','tiktok','facebook','reddit','crypto','flight','apify','ebay','airbnb','zillow','pinterest','shopify','telegram'}
+    if preferred and not requested_sources.issubset(set().union(*docs[preferred])):
+        preferred = None
     for card in all_cards.values():
         if category and card['category']!=category or family and card['subcategory']!=family:continue
         primary,facets,described=docs[card['id']]
@@ -205,5 +215,26 @@ def browse(query='',category=None,family=None,limit=6):
             operation=terms(card['task'].split(' · ')[0])
             score+=sum(weights.get(w,1) for w in words&operation)-0.75
         candidates.append((score,card))
+    if preferred in all_cards:
+        card = all_cards[preferred]
+        if (not category or card['category'] == category) and (not family or card['subcategory'] == family):
+            candidates = [(score, item) for score, item in candidates if item['id'] != preferred]
+            candidates.append((1000000, card))
     candidates.sort(key=lambda t:(-t[0],t[1]['id']))
     return [card for _,card in candidates[:limit]]
+
+
+def action_for(query):
+    """Recognize operations on existing work before searching collection tools."""
+    return next((rule for rule in ROUTING['actions']
+                 if re.search(rule['pattern'], query, re.I)), None)
+
+
+def route(query, limit=3):
+    action = action_for(query)
+    return {
+        'request': query,
+        'intent': action['intent'] if action else 'new_collection',
+        'instruction': action['instruction'] if action else 'Inspect candidate fit, preserve the request, then preview scope and costs.',
+        'tasks': browse(query, limit=limit),
+    }

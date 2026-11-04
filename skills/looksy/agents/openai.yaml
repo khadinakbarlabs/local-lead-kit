@@ -1,6 +1,6 @@
 interface:
-  display_name: "Looksy"
-  short_description: "Find the right Apify Actor for your task"
+  display_name: "Looksy Agent"
+  short_description: "Find data, analyze results and resume research"
   icon_small: "./assets/mark.svg"
   icon_large: "./assets/mark.svg"
   brand_color: "#6451C9"

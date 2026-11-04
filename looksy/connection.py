@@ -56,4 +56,4 @@ def connect():
         os.replace(temporary, path)
     finally:
         Path(temporary).unlink(missing_ok=True)
-    print('Key saved for Looksy. Return to your agent and ask for a preview.')
+    print('Key saved for Looksy Agent. Apify access will be checked on your first live preview. Return to your assistant to continue.')

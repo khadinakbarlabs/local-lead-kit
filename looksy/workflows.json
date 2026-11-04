@@ -1,0 +1,2441 @@
+{
+  "version": 1,
+  "composition_instruction": "Preserve the complete goal and adapt templates to the actual question. Intake: reuse supplied entities, market, dates, count, requested artifact and budget; ask only for missing critical fields. Select exact task cards and inspect advertised inputs. Validate live schemas, provider/access and input mappings; omit unsupported branches. Preview scope, prices, platform usage and a total spending cap and obtain bounded approval before collection. Collect only approved scope; inspect actual returned rows, OUTPUT and coverage. Join verified identifiers/URLs with provenance and unmatched-row accounting. Analyze the original question, export the requested evidence table/report and reopen the saved artifact to verify it. Save a private brief/checkpoint when requested; reuse cached evidence on return. Do not treat advertised inputs, templates, detector scores or a successful run status as proof of useful outputs. No automatic paid work or private-access bypass.",
+  "areas": [
+    {
+      "id": "products",
+      "label": "Products and marketplaces",
+      "description": "Product, seller, assortment and marketplace discovery, including eBay and vehicle listings.",
+      "patterns": [
+        "1688|alibaba|aliexpress|amazon|avito|costco|coupang|craigslist|depop|douyin-product|ean-gtin|ebay|ecommerce|emag|etsy|facebook-marketplace|flipkart|fragrantica|goofish|gumroad|home-depot|jd-com|jumia|junglescout|lazada|leboncoin|mercado|mercari|milanuncios|myntra|offerup|ozon|playstation|poshmark|sephora|shein|shopee|shopify|steam|taobao|target-product|tiktok-shop|tokopedia|trendyol|vinted|walmart|wayfair|wildberries|woocommerce|yandex-market|zara|autotrader|cargurus|carfax|la-centrale|mobile-de"
+      ]
+    },
+    {
+      "id": "prices",
+      "label": "Price and stock research",
+      "description": "Comparable dated prices, currency, availability and seller evidence.",
+      "patterns": [
+        "price|pricing|stock-monitor|wiser|shopping|airbnb-occupancy"
+      ]
+    },
+    {
+      "id": "competitors",
+      "label": "Competitor and market intelligence",
+      "description": "Competitor product, traffic, stack and advertising evidence.",
+      "patterns": [
+        "competitor|similarweb|semrush|spyfu|wappalyzer|website-tech|website-stack|brandwatch|meltwater|sprinklr|buzzsumo|motion-ads|junglescout|amazon-product-intelligence"
+      ]
+    },
+    {
+      "id": "keywords",
+      "label": "SEO keywords and demand",
+      "description": "Keyword ideas, demand, difficulty and topic clusters.",
+      "patterns": [
+        "keyword|longtail|autocomplete|answerthepublic|google-trends|ahrefs|ubersuggest|mangools|serpstat"
+      ]
+    },
+    {
+      "id": "backlinks",
+      "label": "Backlinks and link opportunities",
+      "description": "Referring sources, broken links, authority and outreach evidence.",
+      "patterns": [
+        "backlink|broken-link|domain-authority|ahrefs|moz-alternative|semrush|majestic"
+      ]
+    },
+    {
+      "id": "serps",
+      "label": "SERPs and rank tracking",
+      "description": "Observed search results and dated rank comparisons by market/device.",
+      "patterns": [
+        "serp|rank-tracker|accuranker|bing-search|scrape-google|scrape-baidu|search-naver|local-pack|serpapi|sistrix|brightedge|google-images|google-forums"
+      ]
+    },
+    {
+      "id": "ai_visibility",
+      "label": "AI visibility and citations",
+      "description": "Brand mentions, AI answer citations and answer engine observations.",
+      "patterns": [
+        "ai-citation|ai-overview|ai-search|ai-seo|llm-visibility|profound|peec|google-ai|naver-ai"
+      ]
+    },
+    {
+      "id": "ai_detection",
+      "label": "AI content detection",
+      "description": "Detector observations for authorized text, with uncertainty.",
+      "patterns": [
+        "ai-content-detector|turnitin-ai-detector"
+      ]
+    },
+    {
+      "id": "humanization",
+      "label": "Humanization and writing",
+      "description": "Authorized text revision with factual review and preserved meaning.",
+      "patterns": [
+        "humanizer|frase|surfer-seo"
+      ]
+    },
+    {
+      "id": "content_planning",
+      "label": "Newsletter and content planning",
+      "description": "Evidence-led newsletter, topic, social and editorial planning.",
+      "patterns": [
+        "beehiiv|substack|buzzsumo|feedly|google-trends|answerthepublic|frase|surfer-seo|google-alerts|x-article"
+      ]
+    },
+    {
+      "id": "ads",
+      "label": "Advertising intelligence",
+      "description": "Public creatives across Meta, TikTok, LinkedIn, Pinterest, Google and Snapchat.",
+      "patterns": [
+        "ad-library|ads-library|ads-scraper|ads-transparency|motion-ads|google-local-services"
+      ]
+    },
+    {
+      "id": "b2b",
+      "label": "B2B company research",
+      "description": "Company/account discovery and business evidence; named alternatives require provider checks.",
+      "patterns": [
+        "apollo|lusha|b2b-|clearbit|cognism|dnb-|kompass|lead-finder|leadfeeder|linkedin-company|linkedin-sales|rocketreach|seamless|zoominfo|clutch|thomasnet|importyeti|heyreach|phantombuster|universal-lead"
+      ]
+    },
+    {
+      "id": "startups",
+      "label": "Startups, funding and launches",
+      "description": "Product Hunt launches, funding, investors and acquisition listings.",
+      "patterns": [
+        "startup|producthunt|crunchbase|pitchbook|ycombinator|acquire-com|bizbuysell|kickstarter"
+      ]
+    },
+    {
+      "id": "contacts",
+      "label": "Contact discovery and enrichment",
+      "description": "Provenance-aware public/authorized business email and phone research.",
+      "patterns": [
+        "contact|email|phone|apollo|lusha|clearbit|cognism|rocketreach|seamless|snov|zoominfo|b2b-|lead-finder|universal-lead|skip-trace|spokeo|truthfinder|theharvester"
+      ]
+    },
+    {
+      "id": "validation",
+      "label": "Email, phone and identity checks",
+      "description": "Permitted validation and identity checks; confidence and missing fields remain explicit.",
+      "patterns": [
+        "validator|verifier|verify|neverbounce|zerobounce|username|osint|breach|ransomware|socialscan|gmail|temp-email"
+      ]
+    },
+    {
+      "id": "local_business",
+      "label": "Local business research",
+      "description": "Local prospects, directories, place details and review evidence.",
+      "patterns": [
+        "google-maps|apple-maps|yellow-pages|gelbe-seiten|naver-map|yandex-map|google-local|bbb-|angi-|checkatrade|practo|houzz|yext|podium|yelp"
+      ]
+    },
+    {
+      "id": "directions",
+      "label": "Maps, geocoding and directions",
+      "description": "Address resolution and bounded routes using advertised inputs.",
+      "patterns": [
+        "geocoding|directions|google-maps|apple-maps|naver-map|yandex-map"
+      ]
+    },
+    {
+      "id": "social",
+      "label": "Public social intelligence",
+      "description": "Public Facebook, TikTok, Reddit, LinkedIn and other platform content; bounded samples.",
+      "patterns": [
+        "facebook|tiktok|reddit|linkedin|instagram|twitter|(?:^|-)x-|threads|pinterest|bluesky|snapchat|douyin|weibo|xiaohongshu|truth-social|vk-|social-media|brandwatch|sprinklr|meltwater"
+      ]
+    },
+    {
+      "id": "creators",
+      "label": "Creator and influencer research",
+      "description": "Channel discovery, audience evidence and creator comparisons.",
+      "patterns": [
+        "influencer|grin-|heepsy|modash|socialblade|instagram|youtube-channel|tiktok-profile|twitch|soundcloud-artists|spotify-artist|patreon"
+      ]
+    },
+    {
+      "id": "communities",
+      "label": "Community conversation analysis",
+      "description": "Authorized Discord, Telegram, Facebook group and forum conversation samples.",
+      "patterns": [
+        "discord|telegram|skool|facebook-group|reddit|quora|whatsapp-group|x-community|google-forums|vk-groups"
+      ]
+    },
+    {
+      "id": "video",
+      "label": "Video and YouTube analysis",
+      "description": "Video discovery, transcripts, comments and observed media analysis.",
+      "patterns": [
+        "youtube|video|transcript|subtitle|slideshow|loom|reels|shorts|douyin|twitch|dailymotion|terabox|all-in-one-media|reddit-media|telegram-media|x-media|snapchat-spotlight|tiktok-live"
+      ]
+    },
+    {
+      "id": "images",
+      "label": "Images, OCR and visual evidence",
+      "description": "OCR, visual search and authorized image evidence.",
+      "patterns": [
+        "ocr|lens|image|unsplash|photos|ean-gtin|screenshot"
+      ]
+    },
+    {
+      "id": "news_events",
+      "label": "News, events and publications",
+      "description": "Dated public news, events, publications and scholarly sources.",
+      "patterns": [
+        "news|events|eventbrite|meetup|luma|10times|google-alerts|feedly|scholar|podcast|x-article|financial-times|bloomberg|reuters|nytimes"
+      ]
+    },
+    {
+      "id": "jobs",
+      "label": "Jobs and career markets",
+      "description": "Job and pay observations with location, posting dates and deduplication.",
+      "patterns": [
+        "jobs?|career|glassdoor|salary|internship|ats-|workday|workable|lever-|greenhouse|ashby-|monitor-jobbank|linkedin-recruiter|indeed"
+      ]
+    },
+    {
+      "id": "reviews",
+      "label": "Reviews and reputation",
+      "description": "Sampled customer, employer and product feedback with source context.",
+      "patterns": [
+        "review|trustpilot|sentiment|reputation|podium|bbb-|glassdoor|kununu"
+      ]
+    },
+    {
+      "id": "seo_audits",
+      "label": "SEO and site audits",
+      "description": "Technical site evidence, page health and prioritized issues.",
+      "patterns": [
+        "seo-audit|seo-spider|screamingfrog|pagespeed|broken-link|pingdom|uptime|website-stack|brightedge|sistrix|seo-domain|semrush|moz-|ahrefs|surfer-seo|frase"
+      ]
+    },
+    {
+      "id": "web_technology",
+      "label": "Website and technology research",
+      "description": "Technology, domain, metadata, uptime and website evidence.",
+      "patterns": [
+        "website|wappalyzer|whois|dns|metascraper|firecrawl|scrapingbee|domain-|pingdom|url-extractor"
+      ]
+    },
+    {
+      "id": "developer",
+      "label": "Developer and application ecosystems",
+      "description": "Repository, app-store, software marketplace and model research.",
+      "patterns": [
+        "github|huggingface|apify-store|app-store|appstore|google-play|salesforce-appexchange|software-reviews|udemy|g2-|capterra|gartner|trustradius"
+      ]
+    },
+    {
+      "id": "finance",
+      "label": "Finance, forex and financial events",
+      "description": "Equity, filings, market news and earnings evidence; forex/event support requires contract validation.",
+      "patterns": [
+        "stock|finance|financial|earnings|finviz|nasdaq|tradingview|sec-edgar|congress|fuel-prices|bloomberg|reuters|pitchbook"
+      ]
+    },
+    {
+      "id": "crypto",
+      "label": "Crypto and on-chain intelligence",
+      "description": "Observed crypto, exchange, wallet and prediction-market data.",
+      "patterns": [
+        "crypto|coinmarketcap|dexscreener|gmgn|polymarket|tradingview"
+      ]
+    },
+    {
+      "id": "hospitality",
+      "label": "Hotels and hospitality",
+      "description": "Hotel, short-stay availability, occupancy and guest-review research.",
+      "patterns": [
+        "hotel|airbnb|airdna|booking-|agoda|expedia|vrbo|tripadvisor|rentometer"
+      ]
+    },
+    {
+      "id": "travel",
+      "label": "Travel, transport and dining",
+      "description": "Flights, car rental, attractions, dining and delivery observations.",
+      "patterns": [
+        "flight|kayak|skyscanner|car-rental|tripadvisor|getyourguide|opentable|just-eat|uber-eats|fuel-prices"
+      ]
+    },
+    {
+      "id": "real_estate",
+      "label": "Housing and real estate",
+      "description": "Zillow and regional residential/commercial property comparisons.",
+      "patterns": [
+        "real-estate|property|zillow|redfin|rightmove|realtor|fsbo|apartments|homes-|rentals|airdna|bayut|cian-|crexi|domain-com-au|fotocasa|funda-|housing-com|idealista|immobil|immowelt|loopnet|rentometer|zoopla|zumper|vrbo|pararius"
+      ]
+    },
+    {
+      "id": "public_records",
+      "label": "Government and public databases",
+      "description": "Jurisdiction-bound public filings, tenders, patents and registries.",
+      "patterns": [
+        "government|public-record|court|legislation|patent|tenders?|procurement|congress|companies-house|sec-edgar|sam-gov|uspto|monitor-jobbank"
+      ]
+    },
+    {
+      "id": "authorized_private",
+      "label": "Authorized private sources",
+      "description": "Only supported, user-authorized authenticated sources; no access-bypass promises.",
+      "patterns": [
+        "private|discord|skool|linkedin-sales-navigator|mercadolibre-exodus|dark-web|telegram-members|facebook-group|whatsapp-group"
+      ]
+    },
+    {
+      "id": "culture",
+      "label": "Culture, music, sports and specialist sources",
+      "description": "Books, entertainment, music and sports observations; other specialist tools require fit checks.",
+      "patterns": [
+        "goodreads|fandom|imdb|spotify|soundcloud|flashscore|tennis|prizepicks|draftkings|playstation|steam|fragrantica|udemy|patreon|analyze-spotify"
+      ]
+    }
+  ],
+  "recipes": [
+    {
+      "id": "product-market",
+      "area": "products",
+      "title": "Product and marketplace landscape",
+      "goal": "Compare products, sellers, positioning and assortment in a chosen market.",
+      "intake": [
+        "marketplace",
+        "category or product URLs",
+        "country/currency",
+        "sample size"
+      ],
+      "steps": [
+        {
+          "id": "s1",
+          "task_id": "amazon-product-search-scraper",
+          "purpose": "Discover candidate product listings",
+          "depends_on": [],
+          "handoff": "Map the intake to live-schema fields; preserve subject, geography, dates, count and requested output. Never guess required fields."
+        },
+        {
+          "id": "s2",
+          "task_id": "amazon-product-details-scraper",
+          "purpose": "Inspect selected products",
+          "depends_on": [
+            "s1"
+          ],
+          "handoff": "Pass only observed product identifiers/URLs that the next schema accepts; retain seller and marketplace."
+        }
+      ],
+      "queries": "ecommerce products marketplace assortment amazon product research",
+      "match_patterns": [],
+      "artifact": {
+        "format": "CSV evidence table and Markdown research brief",
+        "contents": "Product and marketplace landscape: answer the stated goal, include observed records and source URLs, collection date, verified join keys, coverage/missingness, supported findings and next questions."
+      },
+      "quality_rules": [
+        "Inspect actual returned fields and samples before claiming support or passing values to the next step.",
+        "Join only verified identifiers or normalized URLs; report unmatched rows, duplicates, currency/timezone and source-date differences.",
+        "Distinguish a bounded sample from platform-wide coverage; disclose caps, failed routes, missing values and stale records.",
+        "Do not infer causation, sensitive attributes, verified contact ownership or live availability from advertised capability."
+      ],
+      "access_constraints": [
+        "Planning only. Validate the live schema, supported authentication, source permissions and source-specific limits.",
+        "Present exact inputs, limits, current price/usage and total spending cap; obtain bounded approval before any paid collection.",
+        "Use public data or user-authorized supported access; never bypass login, membership, private-source restrictions or rate limits."
+      ]
+    },
+    {
+      "id": "ebay-comparison",
+      "area": "products",
+      "title": "eBay listing comparison",
+      "goal": "Compare eBay listings and sellers with dated asking-price evidence.",
+      "intake": [
+        "eBay query or listing URLs",
+        "market",
+        "condition",
+        "item cap"
+      ],
+      "steps": [
+        {
+          "id": "s1",
+          "task_id": "ebay-product-listing-scraper",
+          "purpose": "Collect relevant listings",
+          "depends_on": [],
+          "handoff": "Map the intake to live-schema fields; preserve subject, geography, dates, count and requested output. Never guess required fields."
+        },
+        {
+          "id": "s2",
+          "task_id": "ebay-all-in-one-scraper",
+          "purpose": "Inspect supported listing operations",
+          "depends_on": [
+            "s1"
+          ],
+          "handoff": "Choose an operation from the live schema; pass observed listing IDs only when supported."
+        }
+      ],
+      "queries": "ebay used product sellers marketplace compare",
+      "match_patterns": [
+        "\\bebay\\b"
+      ],
+      "artifact": {
+        "format": "CSV evidence table and Markdown research brief",
+        "contents": "eBay listing comparison: answer the stated goal, include observed records and source URLs, collection date, verified join keys, coverage/missingness, supported findings and next questions."
+      },
+      "quality_rules": [
+        "Inspect actual returned fields and samples before claiming support or passing values to the next step.",
+        "Join only verified identifiers or normalized URLs; report unmatched rows, duplicates, currency/timezone and source-date differences.",
+        "Distinguish a bounded sample from platform-wide coverage; disclose caps, failed routes, missing values and stale records.",
+        "Do not infer causation, sensitive attributes, verified contact ownership or live availability from advertised capability."
+      ],
+      "access_constraints": [
+        "Planning only. Validate the live schema, supported authentication, source permissions and source-specific limits.",
+        "Present exact inputs, limits, current price/usage and total spending cap; obtain bounded approval before any paid collection.",
+        "Use public data or user-authorized supported access; never bypass login, membership, private-source restrictions or rate limits."
+      ]
+    },
+    {
+      "id": "price-comparison",
+      "area": "prices",
+      "title": "Competitor price comparison",
+      "goal": "Compare matched competitor products with currency and availability context.",
+      "intake": [
+        "product identifiers",
+        "seller URLs",
+        "market/currency",
+        "observation date"
+      ],
+      "steps": [
+        {
+          "id": "s1",
+          "task_id": "amazon-competitor-price-tracker",
+          "purpose": "Collect competitor price observations",
+          "depends_on": [],
+          "handoff": "Map the intake to live-schema fields; preserve subject, geography, dates, count and requested output. Never guess required fields."
+        },
+        {
+          "id": "s2",
+          "task_id": "price-from-url-api",
+          "purpose": "Inspect permitted comparison URLs",
+          "depends_on": [
+            "s1"
+          ],
+          "handoff": "Use actual seller URLs and validate supported domains; match variant, size, taxes and shipping before comparison."
+        }
+      ],
+      "queries": "competitor prices price tracking stock availability amazon sku compare",
+      "match_patterns": [
+        "competitor.*pric|pric.*competitor"
+      ],
+      "artifact": {
+        "format": "CSV evidence table and Markdown research brief",
+        "contents": "Competitor price comparison: answer the stated goal, include observed records and source URLs, collection date, verified join keys, coverage/missingness, supported findings and next questions."
+      },
+      "quality_rules": [
+        "Inspect actual returned fields and samples before claiming support or passing values to the next step.",
+        "Join only verified identifiers or normalized URLs; report unmatched rows, duplicates, currency/timezone and source-date differences.",
+        "Distinguish a bounded sample from platform-wide coverage; disclose caps, failed routes, missing values and stale records.",
+        "Do not infer causation, sensitive attributes, verified contact ownership or live availability from advertised capability."
+      ],
+      "access_constraints": [
+        "Planning only. Validate the live schema, supported authentication, source permissions and source-specific limits.",
+        "Present exact inputs, limits, current price/usage and total spending cap; obtain bounded approval before any paid collection.",
+        "Use public data or user-authorized supported access; never bypass login, membership, private-source restrictions or rate limits."
+      ]
+    },
+    {
+      "id": "competitor-landscape",
+      "area": "competitors",
+      "title": "Competitor landscape",
+      "goal": "Build a sourced competitor brief from traffic and technology observations.",
+      "intake": [
+        "company/domain",
+        "competitor list",
+        "market",
+        "date window"
+      ],
+      "steps": [
+        {
+          "id": "s1",
+          "task_id": "similarweb-traffic-rank-scraper",
+          "purpose": "Collect advertised traffic observations",
+          "depends_on": [],
+          "handoff": "Map the intake to live-schema fields; preserve subject, geography, dates, count and requested output. Never guess required fields."
+        },
+        {
+          "id": "s2",
+          "task_id": "website-tech-stack-detector",
+          "purpose": "Inspect competitor technology",
+          "depends_on": [
+            "s1"
+          ],
+          "handoff": "Use normalized domains from the approved competitor list, not inferred company matches."
+        }
+      ],
+      "queries": "competitor analysis market intelligence website traffic tech stack",
+      "match_patterns": [],
+      "artifact": {
+        "format": "CSV evidence table and Markdown research brief",
+        "contents": "Competitor landscape: answer the stated goal, include observed records and source URLs, collection date, verified join keys, coverage/missingness, supported findings and next questions."
+      },
+      "quality_rules": [
+        "Inspect actual returned fields and samples before claiming support or passing values to the next step.",
+        "Join only verified identifiers or normalized URLs; report unmatched rows, duplicates, currency/timezone and source-date differences.",
+        "Distinguish a bounded sample from platform-wide coverage; disclose caps, failed routes, missing values and stale records.",
+        "Do not infer causation, sensitive attributes, verified contact ownership or live availability from advertised capability."
+      ],
+      "access_constraints": [
+        "Planning only. Validate the live schema, supported authentication, source permissions and source-specific limits.",
+        "Present exact inputs, limits, current price/usage and total spending cap; obtain bounded approval before any paid collection.",
+        "Use public data or user-authorized supported access; never bypass login, membership, private-source restrictions or rate limits."
+      ]
+    },
+    {
+      "id": "keyword-plan",
+      "area": "keywords",
+      "title": "Keyword and topic opportunity plan",
+      "goal": "Cluster relevant keywords by intent and observed demand.",
+      "intake": [
+        "seed topics",
+        "country/language",
+        "domain",
+        "keyword cap"
+      ],
+      "steps": [
+        {
+          "id": "s1",
+          "task_id": "dataforseo-keyword-research",
+          "purpose": "Collect keyword ideas and demand",
+          "depends_on": [],
+          "handoff": "Map the intake to live-schema fields; preserve subject, geography, dates, count and requested output. Never guess required fields."
+        },
+        {
+          "id": "s2",
+          "task_id": "keyword-search-volume-api",
+          "purpose": "Check selected keyword demand",
+          "depends_on": [
+            "s1"
+          ],
+          "handoff": "Pass returned keyword strings with the same country/language; preserve unsupported metrics as missing."
+        }
+      ],
+      "queries": "seo keyword research keywords search volume demand topics",
+      "match_patterns": [
+        "keyword|search volume"
+      ],
+      "artifact": {
+        "format": "CSV evidence table and Markdown research brief",
+        "contents": "Keyword and topic opportunity plan: answer the stated goal, include observed records and source URLs, collection date, verified join keys, coverage/missingness, supported findings and next questions."
+      },
+      "quality_rules": [
+        "Inspect actual returned fields and samples before claiming support or passing values to the next step.",
+        "Join only verified identifiers or normalized URLs; report unmatched rows, duplicates, currency/timezone and source-date differences.",
+        "Distinguish a bounded sample from platform-wide coverage; disclose caps, failed routes, missing values and stale records.",
+        "Do not infer causation, sensitive attributes, verified contact ownership or live availability from advertised capability."
+      ],
+      "access_constraints": [
+        "Planning only. Validate the live schema, supported authentication, source permissions and source-specific limits.",
+        "Present exact inputs, limits, current price/usage and total spending cap; obtain bounded approval before any paid collection.",
+        "Use public data or user-authorized supported access; never bypass login, membership, private-source restrictions or rate limits."
+      ]
+    },
+    {
+      "id": "backlink-audit",
+      "area": "backlinks",
+      "title": "Backlink and outreach evidence",
+      "goal": "Inspect referring links and prioritize supported link opportunities.",
+      "intake": [
+        "domain",
+        "competitors",
+        "market",
+        "link cap"
+      ],
+      "steps": [
+        {
+          "id": "s1",
+          "task_id": "website-backlink-checker",
+          "purpose": "Collect backlink evidence",
+          "depends_on": [],
+          "handoff": "Map the intake to live-schema fields; preserve subject, geography, dates, count and requested output. Never guess required fields."
+        },
+        {
+          "id": "s2",
+          "task_id": "backlink-opportunity-finder",
+          "purpose": "Inspect relevant opportunities",
+          "depends_on": [
+            "s1"
+          ],
+          "handoff": "Use verified referring/competitor domains; do not treat an inferred opportunity as a confirmed placement."
+        }
+      ],
+      "queries": "backlinks referring domains link building outreach authority",
+      "match_patterns": [
+        "backlink|referring domain"
+      ],
+      "artifact": {
+        "format": "CSV evidence table and Markdown research brief",
+        "contents": "Backlink and outreach evidence: answer the stated goal, include observed records and source URLs, collection date, verified join keys, coverage/missingness, supported findings and next questions."
+      },
+      "quality_rules": [
+        "Inspect actual returned fields and samples before claiming support or passing values to the next step.",
+        "Join only verified identifiers or normalized URLs; report unmatched rows, duplicates, currency/timezone and source-date differences.",
+        "Distinguish a bounded sample from platform-wide coverage; disclose caps, failed routes, missing values and stale records.",
+        "Do not infer causation, sensitive attributes, verified contact ownership or live availability from advertised capability."
+      ],
+      "access_constraints": [
+        "Planning only. Validate the live schema, supported authentication, source permissions and source-specific limits.",
+        "Present exact inputs, limits, current price/usage and total spending cap; obtain bounded approval before any paid collection.",
+        "Use public data or user-authorized supported access; never bypass login, membership, private-source restrictions or rate limits."
+      ]
+    },
+    {
+      "id": "serp-baseline",
+      "area": "serps",
+      "title": "SERP and rank baseline",
+      "goal": "Measure search positions with a reproducible market and device context.",
+      "intake": [
+        "domain",
+        "queries",
+        "country/language",
+        "device",
+        "observation date"
+      ],
+      "steps": [
+        {
+          "id": "s1",
+          "task_id": "keyword-rank-tracker",
+          "purpose": "Observe keyword positions",
+          "depends_on": [],
+          "handoff": "Map the intake to live-schema fields; preserve subject, geography, dates, count and requested output. Never guess required fields."
+        },
+        {
+          "id": "s2",
+          "task_id": "scrape-google-serp",
+          "purpose": "Inspect selected result pages",
+          "depends_on": [
+            "s1"
+          ],
+          "handoff": "Pass the same observed queries and search context; separate independently collected snapshots."
+        }
+      ],
+      "queries": "serp rank tracking google rankings search positions",
+      "match_patterns": [
+        "rank|serp"
+      ],
+      "artifact": {
+        "format": "CSV evidence table and Markdown research brief",
+        "contents": "SERP and rank baseline: answer the stated goal, include observed records and source URLs, collection date, verified join keys, coverage/missingness, supported findings and next questions."
+      },
+      "quality_rules": [
+        "Inspect actual returned fields and samples before claiming support or passing values to the next step.",
+        "Join only verified identifiers or normalized URLs; report unmatched rows, duplicates, currency/timezone and source-date differences.",
+        "Distinguish a bounded sample from platform-wide coverage; disclose caps, failed routes, missing values and stale records.",
+        "Do not infer causation, sensitive attributes, verified contact ownership or live availability from advertised capability."
+      ],
+      "access_constraints": [
+        "Planning only. Validate the live schema, supported authentication, source permissions and source-specific limits.",
+        "Present exact inputs, limits, current price/usage and total spending cap; obtain bounded approval before any paid collection.",
+        "Use public data or user-authorized supported access; never bypass login, membership, private-source restrictions or rate limits."
+      ]
+    },
+    {
+      "id": "ai-citation-brief",
+      "area": "ai_visibility",
+      "title": "AI visibility and citation brief",
+      "goal": "Compare brand mentions and cited sources across requested AI queries.",
+      "intake": [
+        "brand/domain",
+        "competitors",
+        "prompt set",
+        "supported platforms",
+        "market"
+      ],
+      "steps": [
+        {
+          "id": "s1",
+          "task_id": "ai-search-visibility-tracker",
+          "purpose": "Observe brand visibility",
+          "depends_on": [],
+          "handoff": "Map the intake to live-schema fields; preserve subject, geography, dates, count and requested output. Never guess required fields."
+        },
+        {
+          "id": "s2",
+          "task_id": "ai-citations-tracker",
+          "purpose": "Inspect cited sources",
+          "depends_on": [
+            "s1"
+          ],
+          "handoff": "Reuse approved prompts and tracked domains where supported; preserve platform, prompt and observation time."
+        }
+      ],
+      "queries": "ai visibility citations chatgpt mentions ai search brand answer engine",
+      "match_patterns": [
+        "ai.*(visibility|citation|mention)|citation"
+      ],
+      "artifact": {
+        "format": "CSV evidence table and Markdown research brief",
+        "contents": "AI visibility and citation brief: answer the stated goal, include observed records and source URLs, collection date, verified join keys, coverage/missingness, supported findings and next questions."
+      },
+      "quality_rules": [
+        "Inspect actual returned fields and samples before claiming support or passing values to the next step.",
+        "Join only verified identifiers or normalized URLs; report unmatched rows, duplicates, currency/timezone and source-date differences.",
+        "Distinguish a bounded sample from platform-wide coverage; disclose caps, failed routes, missing values and stale records.",
+        "Do not infer causation, sensitive attributes, verified contact ownership or live availability from advertised capability."
+      ],
+      "access_constraints": [
+        "Planning only. Validate the live schema, supported authentication, source permissions and source-specific limits.",
+        "Present exact inputs, limits, current price/usage and total spending cap; obtain bounded approval before any paid collection.",
+        "Use public data or user-authorized supported access; never bypass login, membership, private-source restrictions or rate limits."
+      ]
+    },
+    {
+      "id": "detector-review",
+      "area": "ai_detection",
+      "title": "AI content detection review",
+      "goal": "Review detector observations for supplied authorized text without treating scores as proof.",
+      "intake": [
+        "authorized text",
+        "language",
+        "purpose",
+        "sample scope"
+      ],
+      "steps": [
+        {
+          "id": "s1",
+          "task_id": "ai-content-detector",
+          "purpose": "Collect supported detector observations",
+          "depends_on": [],
+          "handoff": "Map the intake to live-schema fields; preserve subject, geography, dates, count and requested output. Never guess required fields."
+        }
+      ],
+      "queries": "ai content detection detector turnitin detect generated text",
+      "match_patterns": [
+        "detect|detector"
+      ],
+      "artifact": {
+        "format": "CSV evidence table and Markdown research brief",
+        "contents": "AI content detection review: answer the stated goal, include observed records and source URLs, collection date, verified join keys, coverage/missingness, supported findings and next questions."
+      },
+      "quality_rules": [
+        "Inspect actual returned fields and samples before claiming support or passing values to the next step.",
+        "Join only verified identifiers or normalized URLs; report unmatched rows, duplicates, currency/timezone and source-date differences.",
+        "Distinguish a bounded sample from platform-wide coverage; disclose caps, failed routes, missing values and stale records.",
+        "Do not infer causation, sensitive attributes, verified contact ownership or live availability from advertised capability.",
+        "A detector score is not proof of authorship, misconduct or originality; report false-positive uncertainty and avoid consequential judgments."
+      ],
+      "access_constraints": [
+        "Planning only. Validate the live schema, supported authentication, source permissions and source-specific limits.",
+        "Present exact inputs, limits, current price/usage and total spending cap; obtain bounded approval before any paid collection.",
+        "Use public data or user-authorized supported access; never bypass login, membership, private-source restrictions or rate limits."
+      ]
+    },
+    {
+      "id": "humanize-copy",
+      "area": "humanization",
+      "title": "Humanize and fact-check copy",
+      "goal": "Revise authorized copy for audience and tone while preserving factual meaning.",
+      "intake": [
+        "authorized text",
+        "audience",
+        "tone",
+        "facts and quotations to preserve"
+      ],
+      "steps": [
+        {
+          "id": "s1",
+          "task_id": "ai-text-humanizer",
+          "purpose": "Draft a natural revision",
+          "depends_on": [],
+          "handoff": "Map the intake to live-schema fields; preserve subject, geography, dates, count and requested output. Never guess required fields."
+        }
+      ],
+      "queries": "humanize humanization rewrite copy natural tone",
+      "match_patterns": [
+        "humaniz|rewrite"
+      ],
+      "artifact": {
+        "format": "CSV evidence table and Markdown research brief",
+        "contents": "Humanize and fact-check copy: answer the stated goal, include observed records and source URLs, collection date, verified join keys, coverage/missingness, supported findings and next questions."
+      },
+      "quality_rules": [
+        "Inspect actual returned fields and samples before claiming support or passing values to the next step.",
+        "Join only verified identifiers or normalized URLs; report unmatched rows, duplicates, currency/timezone and source-date differences.",
+        "Distinguish a bounded sample from platform-wide coverage; disclose caps, failed routes, missing values and stale records.",
+        "Do not infer causation, sensitive attributes, verified contact ownership or live availability from advertised capability.",
+        "Compare revised text to the original for factual drift; do not promise detector evasion or conceal required attribution."
+      ],
+      "access_constraints": [
+        "Planning only. Validate the live schema, supported authentication, source permissions and source-specific limits.",
+        "Present exact inputs, limits, current price/usage and total spending cap; obtain bounded approval before any paid collection.",
+        "Use public data or user-authorized supported access; never bypass login, membership, private-source restrictions or rate limits."
+      ]
+    },
+    {
+      "id": "newsletter-plan",
+      "area": "content_planning",
+      "title": "Newsletter and editorial plan",
+      "goal": "Turn dated source themes into a sourced newsletter outline and publishing calendar.",
+      "intake": [
+        "audience",
+        "newsletter topic",
+        "reference publications",
+        "date window",
+        "cadence"
+      ],
+      "steps": [
+        {
+          "id": "s1",
+          "task_id": "substack-posts-scraper",
+          "purpose": "Sample relevant publication content",
+          "depends_on": [],
+          "handoff": "Map the intake to live-schema fields; preserve subject, geography, dates, count and requested output. Never guess required fields."
+        },
+        {
+          "id": "s2",
+          "task_id": "google-trends-scraper",
+          "purpose": "Check related topic interest",
+          "depends_on": [
+            "s1"
+          ],
+          "handoff": "Use observed topic names from the sample and intake geography; trend interest is not absolute search volume."
+        },
+        {
+          "id": "s3",
+          "task_id": "dataforseo-keyword-research",
+          "purpose": "Assess search questions for the plan",
+          "depends_on": [
+            "s2"
+          ],
+          "handoff": "Use validated audience-relevant topic seeds; combine sources by topic and date, not unverified readership claims."
+        }
+      ],
+      "queries": "newsletter content planning editorial calendar substack beehiiv topics",
+      "match_patterns": [
+        "newsletter|editorial|content plan"
+      ],
+      "artifact": {
+        "format": "CSV evidence table and Markdown research brief",
+        "contents": "Newsletter and editorial plan: answer the stated goal, include observed records and source URLs, collection date, verified join keys, coverage/missingness, supported findings and next questions."
+      },
+      "quality_rules": [
+        "Inspect actual returned fields and samples before claiming support or passing values to the next step.",
+        "Join only verified identifiers or normalized URLs; report unmatched rows, duplicates, currency/timezone and source-date differences.",
+        "Distinguish a bounded sample from platform-wide coverage; disclose caps, failed routes, missing values and stale records.",
+        "Do not infer causation, sensitive attributes, verified contact ownership or live availability from advertised capability."
+      ],
+      "access_constraints": [
+        "Planning only. Validate the live schema, supported authentication, source permissions and source-specific limits.",
+        "Present exact inputs, limits, current price/usage and total spending cap; obtain bounded approval before any paid collection.",
+        "Use public data or user-authorized supported access; never bypass login, membership, private-source restrictions or rate limits."
+      ]
+    },
+    {
+      "id": "meta-ads",
+      "area": "ads",
+      "title": "Meta ad creative research",
+      "goal": "Compare public Meta advertiser creatives and messaging themes.",
+      "intake": [
+        "advertiser/page",
+        "country",
+        "date window",
+        "creative cap"
+      ],
+      "steps": [
+        {
+          "id": "s1",
+          "task_id": "meta-ad-library-scraper",
+          "purpose": "Collect public advertiser creative evidence",
+          "depends_on": [],
+          "handoff": "Map the intake to live-schema fields; preserve subject, geography, dates, count and requested output. Never guess required fields."
+        }
+      ],
+      "queries": "meta facebook instagram advertising ads ad library competitor creative",
+      "match_patterns": [
+        "meta.*ad|facebook.*ad"
+      ],
+      "artifact": {
+        "format": "CSV evidence table and Markdown research brief",
+        "contents": "Meta ad creative research: answer the stated goal, include observed records and source URLs, collection date, verified join keys, coverage/missingness, supported findings and next questions."
+      },
+      "quality_rules": [
+        "Inspect actual returned fields and samples before claiming support or passing values to the next step.",
+        "Join only verified identifiers or normalized URLs; report unmatched rows, duplicates, currency/timezone and source-date differences.",
+        "Distinguish a bounded sample from platform-wide coverage; disclose caps, failed routes, missing values and stale records.",
+        "Do not infer causation, sensitive attributes, verified contact ownership or live availability from advertised capability.",
+        "An observed ad or active flag does not establish advertiser spend, conversions, targeting, profitability or complete creative coverage."
+      ],
+      "access_constraints": [
+        "Planning only. Validate the live schema, supported authentication, source permissions and source-specific limits.",
+        "Present exact inputs, limits, current price/usage and total spending cap; obtain bounded approval before any paid collection.",
+        "Use public data or user-authorized supported access; never bypass login, membership, private-source restrictions or rate limits."
+      ]
+    },
+    {
+      "id": "tiktok-ads",
+      "area": "ads",
+      "title": "TikTok advertising research",
+      "goal": "Summarize observed TikTok ad creative themes and landing-page evidence.",
+      "intake": [
+        "advertiser/query",
+        "market",
+        "dates",
+        "ad cap"
+      ],
+      "steps": [
+        {
+          "id": "s1",
+          "task_id": "tiktok-ads-library-scraper",
+          "purpose": "Collect supported TikTok ads",
+          "depends_on": [],
+          "handoff": "Map the intake to live-schema fields; preserve subject, geography, dates, count and requested output. Never guess required fields."
+        }
+      ],
+      "queries": "tiktok advertising ads creative library",
+      "match_patterns": [
+        "tiktok.*ad"
+      ],
+      "artifact": {
+        "format": "CSV evidence table and Markdown research brief",
+        "contents": "TikTok advertising research: answer the stated goal, include observed records and source URLs, collection date, verified join keys, coverage/missingness, supported findings and next questions."
+      },
+      "quality_rules": [
+        "Inspect actual returned fields and samples before claiming support or passing values to the next step.",
+        "Join only verified identifiers or normalized URLs; report unmatched rows, duplicates, currency/timezone and source-date differences.",
+        "Distinguish a bounded sample from platform-wide coverage; disclose caps, failed routes, missing values and stale records.",
+        "Do not infer causation, sensitive attributes, verified contact ownership or live availability from advertised capability.",
+        "An observed ad or active flag does not establish advertiser spend, conversions, targeting, profitability or complete creative coverage."
+      ],
+      "access_constraints": [
+        "Planning only. Validate the live schema, supported authentication, source permissions and source-specific limits.",
+        "Present exact inputs, limits, current price/usage and total spending cap; obtain bounded approval before any paid collection.",
+        "Use public data or user-authorized supported access; never bypass login, membership, private-source restrictions or rate limits."
+      ]
+    },
+    {
+      "id": "linkedin-ads",
+      "area": "ads",
+      "title": "LinkedIn ad research",
+      "goal": "Review supported public LinkedIn ad observations for B2B messaging.",
+      "intake": [
+        "advertiser",
+        "market",
+        "dates",
+        "ad cap"
+      ],
+      "steps": [
+        {
+          "id": "s1",
+          "task_id": "linkedin-ad-library-search-scraper",
+          "purpose": "Find supported public LinkedIn ad evidence",
+          "depends_on": [],
+          "handoff": "Map the intake to live-schema fields; preserve subject, geography, dates, count and requested output. Never guess required fields."
+        }
+      ],
+      "queries": "linkedin b2b advertising ads library",
+      "match_patterns": [
+        "linkedin.*ad"
+      ],
+      "artifact": {
+        "format": "CSV evidence table and Markdown research brief",
+        "contents": "LinkedIn ad research: answer the stated goal, include observed records and source URLs, collection date, verified join keys, coverage/missingness, supported findings and next questions."
+      },
+      "quality_rules": [
+        "Inspect actual returned fields and samples before claiming support or passing values to the next step.",
+        "Join only verified identifiers or normalized URLs; report unmatched rows, duplicates, currency/timezone and source-date differences.",
+        "Distinguish a bounded sample from platform-wide coverage; disclose caps, failed routes, missing values and stale records.",
+        "Do not infer causation, sensitive attributes, verified contact ownership or live availability from advertised capability.",
+        "An observed ad or active flag does not establish advertiser spend, conversions, targeting, profitability or complete creative coverage."
+      ],
+      "access_constraints": [
+        "Planning only. Validate the live schema, supported authentication, source permissions and source-specific limits.",
+        "Present exact inputs, limits, current price/usage and total spending cap; obtain bounded approval before any paid collection.",
+        "Use public data or user-authorized supported access; never bypass login, membership, private-source restrictions or rate limits."
+      ]
+    },
+    {
+      "id": "pinterest-ads",
+      "area": "ads",
+      "title": "Pinterest ad research",
+      "goal": "Compare public Pinterest creatives for an approved advertiser/topic sample.",
+      "intake": [
+        "advertiser/query",
+        "market",
+        "dates",
+        "ad cap"
+      ],
+      "steps": [
+        {
+          "id": "s1",
+          "task_id": "pinterest-ads-library-scraper",
+          "purpose": "Collect supported Pinterest creative evidence",
+          "depends_on": [],
+          "handoff": "Map the intake to live-schema fields; preserve subject, geography, dates, count and requested output. Never guess required fields."
+        }
+      ],
+      "queries": "pinterest advertising ads creative library",
+      "match_patterns": [
+        "pinterest.*ad"
+      ],
+      "artifact": {
+        "format": "CSV evidence table and Markdown research brief",
+        "contents": "Pinterest ad research: answer the stated goal, include observed records and source URLs, collection date, verified join keys, coverage/missingness, supported findings and next questions."
+      },
+      "quality_rules": [
+        "Inspect actual returned fields and samples before claiming support or passing values to the next step.",
+        "Join only verified identifiers or normalized URLs; report unmatched rows, duplicates, currency/timezone and source-date differences.",
+        "Distinguish a bounded sample from platform-wide coverage; disclose caps, failed routes, missing values and stale records.",
+        "Do not infer causation, sensitive attributes, verified contact ownership or live availability from advertised capability.",
+        "An observed ad or active flag does not establish advertiser spend, conversions, targeting, profitability or complete creative coverage."
+      ],
+      "access_constraints": [
+        "Planning only. Validate the live schema, supported authentication, source permissions and source-specific limits.",
+        "Present exact inputs, limits, current price/usage and total spending cap; obtain bounded approval before any paid collection.",
+        "Use public data or user-authorized supported access; never bypass login, membership, private-source restrictions or rate limits."
+      ]
+    },
+    {
+      "id": "google-ads",
+      "area": "ads",
+      "title": "Google ad transparency research",
+      "goal": "Review public Google advertiser creative observations.",
+      "intake": [
+        "advertiser/domain",
+        "region",
+        "dates",
+        "ad cap"
+      ],
+      "steps": [
+        {
+          "id": "s1",
+          "task_id": "google-ads-transparency-scraper",
+          "purpose": "Collect advertiser transparency evidence",
+          "depends_on": [],
+          "handoff": "Map the intake to live-schema fields; preserve subject, geography, dates, count and requested output. Never guess required fields."
+        }
+      ],
+      "queries": "google advertising transparency search ads",
+      "match_patterns": [
+        "google.*ad"
+      ],
+      "artifact": {
+        "format": "CSV evidence table and Markdown research brief",
+        "contents": "Google ad transparency research: answer the stated goal, include observed records and source URLs, collection date, verified join keys, coverage/missingness, supported findings and next questions."
+      },
+      "quality_rules": [
+        "Inspect actual returned fields and samples before claiming support or passing values to the next step.",
+        "Join only verified identifiers or normalized URLs; report unmatched rows, duplicates, currency/timezone and source-date differences.",
+        "Distinguish a bounded sample from platform-wide coverage; disclose caps, failed routes, missing values and stale records.",
+        "Do not infer causation, sensitive attributes, verified contact ownership or live availability from advertised capability.",
+        "An observed ad or active flag does not establish advertiser spend, conversions, targeting, profitability or complete creative coverage."
+      ],
+      "access_constraints": [
+        "Planning only. Validate the live schema, supported authentication, source permissions and source-specific limits.",
+        "Present exact inputs, limits, current price/usage and total spending cap; obtain bounded approval before any paid collection.",
+        "Use public data or user-authorized supported access; never bypass login, membership, private-source restrictions or rate limits."
+      ]
+    },
+    {
+      "id": "b2b-account-list",
+      "area": "b2b",
+      "title": "B2B account and Apollo alternative research",
+      "goal": "Build a bounded company/account list with verified provider and contact provenance.",
+      "intake": [
+        "industry",
+        "region",
+        "company criteria",
+        "requested fields",
+        "record cap"
+      ],
+      "steps": [
+        {
+          "id": "s1",
+          "task_id": "apollo-alternative",
+          "purpose": "Inspect supported account/company discovery",
+          "depends_on": [],
+          "handoff": "Map the intake to live-schema fields; preserve subject, geography, dates, count and requested output. Never guess required fields."
+        },
+        {
+          "id": "s2",
+          "task_id": "bulk-website-contact-extractor",
+          "purpose": "Check selected company websites",
+          "depends_on": [
+            "s1"
+          ],
+          "handoff": "Pass only verified company website URLs and supported public contact fields; do not assume direct Apollo or Lusha access."
+        }
+      ],
+      "queries": "b2b company account prospects apollo lusha lead list",
+      "match_patterns": [
+        "apollo|lusha|b2b"
+      ],
+      "artifact": {
+        "format": "CSV evidence table and Markdown research brief",
+        "contents": "B2B account and Apollo alternative research: answer the stated goal, include observed records and source URLs, collection date, verified join keys, coverage/missingness, supported findings and next questions."
+      },
+      "quality_rules": [
+        "Inspect actual returned fields and samples before claiming support or passing values to the next step.",
+        "Join only verified identifiers or normalized URLs; report unmatched rows, duplicates, currency/timezone and source-date differences.",
+        "Distinguish a bounded sample from platform-wide coverage; disclose caps, failed routes, missing values and stale records.",
+        "Do not infer causation, sensitive attributes, verified contact ownership or live availability from advertised capability."
+      ],
+      "access_constraints": [
+        "Planning only. Validate the live schema, supported authentication, source permissions and source-specific limits.",
+        "Present exact inputs, limits, current price/usage and total spending cap; obtain bounded approval before any paid collection.",
+        "Use public data or user-authorized supported access; never bypass login, membership, private-source restrictions or rate limits."
+      ]
+    },
+    {
+      "id": "startup-launches",
+      "area": "startups",
+      "title": "Startup and Product Hunt landscape",
+      "goal": "Find relevant startup launches and triangulate reported company facts.",
+      "intake": [
+        "sector",
+        "launch period",
+        "region",
+        "company cap"
+      ],
+      "steps": [
+        {
+          "id": "s1",
+          "task_id": "producthunt-scraper-pro",
+          "purpose": "Discover launches",
+          "depends_on": [],
+          "handoff": "Map the intake to live-schema fields; preserve subject, geography, dates, count and requested output. Never guess required fields."
+        },
+        {
+          "id": "s2",
+          "task_id": "crunchbase-company-api",
+          "purpose": "Check supported company facts",
+          "depends_on": [
+            "s1"
+          ],
+          "handoff": "Use observed company names/domains, disambiguate matches and mark unavailable funding fields unknown."
+        }
+      ],
+      "queries": "startup startups producthunt product hunt funding venture launches",
+      "match_patterns": [
+        "product.?hunt|startup|funding"
+      ],
+      "artifact": {
+        "format": "CSV evidence table and Markdown research brief",
+        "contents": "Startup and Product Hunt landscape: answer the stated goal, include observed records and source URLs, collection date, verified join keys, coverage/missingness, supported findings and next questions."
+      },
+      "quality_rules": [
+        "Inspect actual returned fields and samples before claiming support or passing values to the next step.",
+        "Join only verified identifiers or normalized URLs; report unmatched rows, duplicates, currency/timezone and source-date differences.",
+        "Distinguish a bounded sample from platform-wide coverage; disclose caps, failed routes, missing values and stale records.",
+        "Do not infer causation, sensitive attributes, verified contact ownership or live availability from advertised capability."
+      ],
+      "access_constraints": [
+        "Planning only. Validate the live schema, supported authentication, source permissions and source-specific limits.",
+        "Present exact inputs, limits, current price/usage and total spending cap; obtain bounded approval before any paid collection.",
+        "Use public data or user-authorized supported access; never bypass login, membership, private-source restrictions or rate limits."
+      ]
+    },
+    {
+      "id": "contact-research",
+      "area": "contacts",
+      "title": "Public business contact research",
+      "goal": "Find source-backed business contacts and report field-level uncertainty.",
+      "intake": [
+        "authorized business URLs or accounts",
+        "permitted email/phone fields",
+        "region",
+        "record cap"
+      ],
+      "steps": [
+        {
+          "id": "s1",
+          "task_id": "bulk-website-contact-extractor",
+          "purpose": "Extract supported public business contacts",
+          "depends_on": [],
+          "handoff": "Map the intake to live-schema fields; preserve subject, geography, dates, count and requested output. Never guess required fields."
+        },
+        {
+          "id": "s2",
+          "task_id": "email-address-validator",
+          "purpose": "Check permitted email observations",
+          "depends_on": [
+            "s1"
+          ],
+          "handoff": "Pass only actually returned addresses; preserve original source, verification method and uncertainty."
+        }
+      ],
+      "queries": "contact email phone lookup enrichment business emails",
+      "match_patterns": [
+        "contact|email.*(find|lookup)|phone.*lookup"
+      ],
+      "artifact": {
+        "format": "CSV evidence table and Markdown research brief",
+        "contents": "Public business contact research: answer the stated goal, include observed records and source URLs, collection date, verified join keys, coverage/missingness, supported findings and next questions."
+      },
+      "quality_rules": [
+        "Inspect actual returned fields and samples before claiming support or passing values to the next step.",
+        "Join only verified identifiers or normalized URLs; report unmatched rows, duplicates, currency/timezone and source-date differences.",
+        "Distinguish a bounded sample from platform-wide coverage; disclose caps, failed routes, missing values and stale records.",
+        "Do not infer causation, sensitive attributes, verified contact ownership or live availability from advertised capability."
+      ],
+      "access_constraints": [
+        "Planning only. Validate the live schema, supported authentication, source permissions and source-specific limits.",
+        "Present exact inputs, limits, current price/usage and total spending cap; obtain bounded approval before any paid collection.",
+        "Use public data or user-authorized supported access; never bypass login, membership, private-source restrictions or rate limits."
+      ]
+    },
+    {
+      "id": "phone-validation",
+      "area": "validation",
+      "title": "Email and phone validation",
+      "goal": "Review supplied addresses or numbers with source-specific validation limits.",
+      "intake": [
+        "authorized email/phone list",
+        "country format",
+        "allowed checks",
+        "count"
+      ],
+      "steps": [
+        {
+          "id": "s1",
+          "task_id": "phone-number-lookup-api",
+          "purpose": "Inspect supported phone attributes",
+          "depends_on": [],
+          "handoff": "Map the intake to live-schema fields; preserve subject, geography, dates, count and requested output. Never guess required fields."
+        },
+        {
+          "id": "s2",
+          "task_id": "email-address-validator",
+          "purpose": "Check supplied email list",
+          "depends_on": [
+            "s1"
+          ],
+          "handoff": "Use a separate supplied email list; do not invent phone-to-email relationships or subscriber identity."
+        }
+      ],
+      "queries": "validate email phone number verification check addresses",
+      "match_patterns": [
+        "validat|verif"
+      ],
+      "artifact": {
+        "format": "CSV evidence table and Markdown research brief",
+        "contents": "Email and phone validation: answer the stated goal, include observed records and source URLs, collection date, verified join keys, coverage/missingness, supported findings and next questions."
+      },
+      "quality_rules": [
+        "Inspect actual returned fields and samples before claiming support or passing values to the next step.",
+        "Join only verified identifiers or normalized URLs; report unmatched rows, duplicates, currency/timezone and source-date differences.",
+        "Distinguish a bounded sample from platform-wide coverage; disclose caps, failed routes, missing values and stale records.",
+        "Do not infer causation, sensitive attributes, verified contact ownership or live availability from advertised capability."
+      ],
+      "access_constraints": [
+        "Planning only. Validate the live schema, supported authentication, source permissions and source-specific limits.",
+        "Present exact inputs, limits, current price/usage and total spending cap; obtain bounded approval before any paid collection.",
+        "Use public data or user-authorized supported access; never bypass login, membership, private-source restrictions or rate limits."
+      ]
+    },
+    {
+      "id": "local-lead-map",
+      "area": "local_business",
+      "title": "Local business prospect brief",
+      "goal": "Find local businesses and enrich their public website contacts.",
+      "intake": [
+        "business type",
+        "cities or boundaries",
+        "count",
+        "requested fields"
+      ],
+      "steps": [
+        {
+          "id": "s1",
+          "task_id": "google-maps-leads-scraper",
+          "purpose": "Collect local business candidates",
+          "depends_on": [],
+          "handoff": "Map the intake to live-schema fields; preserve subject, geography, dates, count and requested output. Never guess required fields."
+        },
+        {
+          "id": "s2",
+          "task_id": "bulk-website-contact-extractor",
+          "purpose": "Inspect business websites",
+          "depends_on": [
+            "s1"
+          ],
+          "handoff": "Pass only observed business website URLs; join on normalized URL/place identity and disclose contact coverage."
+        }
+      ],
+      "queries": "local leads maps roofing businesses prospects directories near me roofers roofing plumbers dentists salons restaurants contractors find businesses in city",
+      "match_patterns": [
+        "local.*(lead|business)|business.*city|roofing",
+        "\\b(roofers?|roofing|plumbers?|dentists?|salons?|contractors?)\\b",
+        "\\bfind\\b.*\\b(businesses|companies|shops)\\b.*\\b(in|near|around)\\b"
+      ],
+      "artifact": {
+        "format": "CSV evidence table and Markdown research brief",
+        "contents": "Local business prospect brief: answer the stated goal, include observed records and source URLs, collection date, verified join keys, coverage/missingness, supported findings and next questions."
+      },
+      "quality_rules": [
+        "Inspect actual returned fields and samples before claiming support or passing values to the next step.",
+        "Join only verified identifiers or normalized URLs; report unmatched rows, duplicates, currency/timezone and source-date differences.",
+        "Distinguish a bounded sample from platform-wide coverage; disclose caps, failed routes, missing values and stale records.",
+        "Do not infer causation, sensitive attributes, verified contact ownership or live availability from advertised capability."
+      ],
+      "access_constraints": [
+        "Planning only. Validate the live schema, supported authentication, source permissions and source-specific limits.",
+        "Present exact inputs, limits, current price/usage and total spending cap; obtain bounded approval before any paid collection.",
+        "Use public data or user-authorized supported access; never bypass login, membership, private-source restrictions or rate limits."
+      ]
+    },
+    {
+      "id": "route-planning",
+      "area": "directions",
+      "title": "Map and directions brief",
+      "goal": "Resolve approved locations and compare supported routes.",
+      "intake": [
+        "origin/destination or addresses",
+        "travel mode",
+        "departure context",
+        "route cap"
+      ],
+      "steps": [
+        {
+          "id": "s1",
+          "task_id": "geocoding-api-byok",
+          "purpose": "Resolve addresses when supported",
+          "depends_on": [],
+          "handoff": "Map the intake to live-schema fields; preserve subject, geography, dates, count and requested output. Never guess required fields."
+        },
+        {
+          "id": "s2",
+          "task_id": "google-maps-directions-api",
+          "purpose": "Collect supported route options",
+          "depends_on": [
+            "s1"
+          ],
+          "handoff": "Pass observed coordinates or formatted addresses only if the live directions schema accepts them; disclose unresolved locations and BYOK requirements."
+        }
+      ],
+      "queries": "maps directions route distance driving geocoding addresses",
+      "match_patterns": [
+        "direction|driving|route distance"
+      ],
+      "artifact": {
+        "format": "CSV evidence table and Markdown research brief",
+        "contents": "Map and directions brief: answer the stated goal, include observed records and source URLs, collection date, verified join keys, coverage/missingness, supported findings and next questions."
+      },
+      "quality_rules": [
+        "Inspect actual returned fields and samples before claiming support or passing values to the next step.",
+        "Join only verified identifiers or normalized URLs; report unmatched rows, duplicates, currency/timezone and source-date differences.",
+        "Distinguish a bounded sample from platform-wide coverage; disclose caps, failed routes, missing values and stale records.",
+        "Do not infer causation, sensitive attributes, verified contact ownership or live availability from advertised capability."
+      ],
+      "access_constraints": [
+        "Planning only. Validate the live schema, supported authentication, source permissions and source-specific limits.",
+        "Present exact inputs, limits, current price/usage and total spending cap; obtain bounded approval before any paid collection.",
+        "Use public data or user-authorized supported access; never bypass login, membership, private-source restrictions or rate limits."
+      ]
+    },
+    {
+      "id": "facebook-social",
+      "area": "social",
+      "title": "Public Facebook conversation brief",
+      "goal": "Summarize sampled public Facebook posts and discussion themes.",
+      "intake": [
+        "public page/query",
+        "date window",
+        "language",
+        "post/comment cap"
+      ],
+      "steps": [
+        {
+          "id": "s1",
+          "task_id": "facebook-post-search-scraper",
+          "purpose": "Discover public posts",
+          "depends_on": [],
+          "handoff": "Map the intake to live-schema fields; preserve subject, geography, dates, count and requested output. Never guess required fields."
+        },
+        {
+          "id": "s2",
+          "task_id": "facebook-comments-scraper",
+          "purpose": "Inspect sampled comments",
+          "depends_on": [
+            "s1"
+          ],
+          "handoff": "Pass returned post URLs/IDs supported by the comments schema; avoid assuming private group access."
+        }
+      ],
+      "queries": "facebook public posts comments social intelligence",
+      "match_patterns": [
+        "facebook.*(post|comment|conversation|social)"
+      ],
+      "artifact": {
+        "format": "CSV evidence table and Markdown research brief",
+        "contents": "Public Facebook conversation brief: answer the stated goal, include observed records and source URLs, collection date, verified join keys, coverage/missingness, supported findings and next questions."
+      },
+      "quality_rules": [
+        "Inspect actual returned fields and samples before claiming support or passing values to the next step.",
+        "Join only verified identifiers or normalized URLs; report unmatched rows, duplicates, currency/timezone and source-date differences.",
+        "Distinguish a bounded sample from platform-wide coverage; disclose caps, failed routes, missing values and stale records.",
+        "Do not infer causation, sensitive attributes, verified contact ownership or live availability from advertised capability."
+      ],
+      "access_constraints": [
+        "Planning only. Validate the live schema, supported authentication, source permissions and source-specific limits.",
+        "Present exact inputs, limits, current price/usage and total spending cap; obtain bounded approval before any paid collection.",
+        "Use public data or user-authorized supported access; never bypass login, membership, private-source restrictions or rate limits."
+      ]
+    },
+    {
+      "id": "tiktok-social",
+      "area": "social",
+      "title": "TikTok audience and topic brief",
+      "goal": "Analyze a bounded TikTok topic and comment sample.",
+      "intake": [
+        "query/accounts",
+        "market",
+        "date window",
+        "video/comment cap"
+      ],
+      "steps": [
+        {
+          "id": "s1",
+          "task_id": "tiktok-search-scraper",
+          "purpose": "Discover videos",
+          "depends_on": [],
+          "handoff": "Map the intake to live-schema fields; preserve subject, geography, dates, count and requested output. Never guess required fields."
+        },
+        {
+          "id": "s2",
+          "task_id": "tiktok-comments-scraper",
+          "purpose": "Inspect audience discussion",
+          "depends_on": [
+            "s1"
+          ],
+          "handoff": "Pass observed video identifiers/URLs; preserve video and comment timestamps and sampling limits."
+        }
+      ],
+      "queries": "tiktok social audience trends comments topic videos",
+      "match_patterns": [
+        "tiktok.*(trend|comment|audience|social)"
+      ],
+      "artifact": {
+        "format": "CSV evidence table and Markdown research brief",
+        "contents": "TikTok audience and topic brief: answer the stated goal, include observed records and source URLs, collection date, verified join keys, coverage/missingness, supported findings and next questions."
+      },
+      "quality_rules": [
+        "Inspect actual returned fields and samples before claiming support or passing values to the next step.",
+        "Join only verified identifiers or normalized URLs; report unmatched rows, duplicates, currency/timezone and source-date differences.",
+        "Distinguish a bounded sample from platform-wide coverage; disclose caps, failed routes, missing values and stale records.",
+        "Do not infer causation, sensitive attributes, verified contact ownership or live availability from advertised capability."
+      ],
+      "access_constraints": [
+        "Planning only. Validate the live schema, supported authentication, source permissions and source-specific limits.",
+        "Present exact inputs, limits, current price/usage and total spending cap; obtain bounded approval before any paid collection.",
+        "Use public data or user-authorized supported access; never bypass login, membership, private-source restrictions or rate limits."
+      ]
+    },
+    {
+      "id": "reddit-social",
+      "area": "social",
+      "title": "Reddit audience research",
+      "goal": "Analyze public Reddit questions and discussion patterns.",
+      "intake": [
+        "topic/subreddits",
+        "time window",
+        "post/comment cap",
+        "language"
+      ],
+      "steps": [
+        {
+          "id": "s1",
+          "task_id": "reddit-posts-search-scraper",
+          "purpose": "Discover relevant threads",
+          "depends_on": [],
+          "handoff": "Map the intake to live-schema fields; preserve subject, geography, dates, count and requested output. Never guess required fields."
+        },
+        {
+          "id": "s2",
+          "task_id": "reddit-comments-scraper",
+          "purpose": "Inspect conversation samples",
+          "depends_on": [
+            "s1"
+          ],
+          "handoff": "Pass observed thread URLs/IDs and retain reply relationships when returned; exclude removed or unavailable content."
+        }
+      ],
+      "queries": "reddit public social questions discussion audience pain points",
+      "match_patterns": [
+        "reddit"
+      ],
+      "artifact": {
+        "format": "CSV evidence table and Markdown research brief",
+        "contents": "Reddit audience research: answer the stated goal, include observed records and source URLs, collection date, verified join keys, coverage/missingness, supported findings and next questions."
+      },
+      "quality_rules": [
+        "Inspect actual returned fields and samples before claiming support or passing values to the next step.",
+        "Join only verified identifiers or normalized URLs; report unmatched rows, duplicates, currency/timezone and source-date differences.",
+        "Distinguish a bounded sample from platform-wide coverage; disclose caps, failed routes, missing values and stale records.",
+        "Do not infer causation, sensitive attributes, verified contact ownership or live availability from advertised capability."
+      ],
+      "access_constraints": [
+        "Planning only. Validate the live schema, supported authentication, source permissions and source-specific limits.",
+        "Present exact inputs, limits, current price/usage and total spending cap; obtain bounded approval before any paid collection.",
+        "Use public data or user-authorized supported access; never bypass login, membership, private-source restrictions or rate limits."
+      ]
+    },
+    {
+      "id": "creator-shortlist",
+      "area": "creators",
+      "title": "Creator and influencer shortlist",
+      "goal": "Compare relevant creators using observed audience and content evidence.",
+      "intake": [
+        "niche",
+        "platform",
+        "market/language",
+        "creator count",
+        "criteria"
+      ],
+      "steps": [
+        {
+          "id": "s1",
+          "task_id": "social-media-influencer-scraper",
+          "purpose": "Discover supported creator candidates",
+          "depends_on": [],
+          "handoff": "Map the intake to live-schema fields; preserve subject, geography, dates, count and requested output. Never guess required fields."
+        },
+        {
+          "id": "s2",
+          "task_id": "youtube-channel-statistics-scraper",
+          "purpose": "Check applicable YouTube candidates",
+          "depends_on": [
+            "s1"
+          ],
+          "handoff": "Only pass observed YouTube channel identifiers; leave other platforms unmatched instead of inventing equivalent metrics."
+        }
+      ],
+      "queries": "creator influencer shortlist audience channels youtube",
+      "match_patterns": [],
+      "artifact": {
+        "format": "CSV evidence table and Markdown research brief",
+        "contents": "Creator and influencer shortlist: answer the stated goal, include observed records and source URLs, collection date, verified join keys, coverage/missingness, supported findings and next questions."
+      },
+      "quality_rules": [
+        "Inspect actual returned fields and samples before claiming support or passing values to the next step.",
+        "Join only verified identifiers or normalized URLs; report unmatched rows, duplicates, currency/timezone and source-date differences.",
+        "Distinguish a bounded sample from platform-wide coverage; disclose caps, failed routes, missing values and stale records.",
+        "Do not infer causation, sensitive attributes, verified contact ownership or live availability from advertised capability."
+      ],
+      "access_constraints": [
+        "Planning only. Validate the live schema, supported authentication, source permissions and source-specific limits.",
+        "Present exact inputs, limits, current price/usage and total spending cap; obtain bounded approval before any paid collection.",
+        "Use public data or user-authorized supported access; never bypass login, membership, private-source restrictions or rate limits."
+      ]
+    },
+    {
+      "id": "discord-conversations",
+      "area": "communities",
+      "title": "Authorized Discord conversation analysis",
+      "goal": "Analyze themes and questions in a permitted Discord sample.",
+      "intake": [
+        "authorized server/channel",
+        "supported access route",
+        "date window",
+        "message cap",
+        "privacy scope"
+      ],
+      "steps": [
+        {
+          "id": "s1",
+          "task_id": "discord-message-scraper",
+          "purpose": "Collect supported authorized message evidence",
+          "depends_on": [],
+          "handoff": "Map the intake to live-schema fields; preserve subject, geography, dates, count and requested output. Never guess required fields."
+        }
+      ],
+      "queries": "discord conversations community messages themes support questions",
+      "match_patterns": [
+        "discord"
+      ],
+      "artifact": {
+        "format": "CSV evidence table and Markdown research brief",
+        "contents": "Authorized Discord conversation analysis: answer the stated goal, include observed records and source URLs, collection date, verified join keys, coverage/missingness, supported findings and next questions."
+      },
+      "quality_rules": [
+        "Inspect actual returned fields and samples before claiming support or passing values to the next step.",
+        "Join only verified identifiers or normalized URLs; report unmatched rows, duplicates, currency/timezone and source-date differences.",
+        "Distinguish a bounded sample from platform-wide coverage; disclose caps, failed routes, missing values and stale records.",
+        "Do not infer causation, sensitive attributes, verified contact ownership or live availability from advertised capability."
+      ],
+      "access_constraints": [
+        "Planning only. Validate the live schema, supported authentication, source permissions and source-specific limits.",
+        "Present exact inputs, limits, current price/usage and total spending cap; obtain bounded approval before any paid collection.",
+        "Use public data or user-authorized supported access; never bypass login, membership, private-source restrictions or rate limits.",
+        "Confirm server/channel permission and supported credential handling before collecting; minimize personal data and omit unauthorized channels."
+      ]
+    },
+    {
+      "id": "youtube-analysis",
+      "area": "video",
+      "title": "YouTube video and audience analysis",
+      "goal": "Combine transcripts and comments into a sourced video/audience brief.",
+      "intake": [
+        "video/channel URLs",
+        "language",
+        "date window",
+        "video/comment cap"
+      ],
+      "steps": [
+        {
+          "id": "s1",
+          "task_id": "youtube-channel-videos-scraper",
+          "purpose": "Select channel videos",
+          "depends_on": [],
+          "handoff": "Map the intake to live-schema fields; preserve subject, geography, dates, count and requested output. Never guess required fields."
+        },
+        {
+          "id": "s2",
+          "task_id": "youtube-transcript-extractor",
+          "purpose": "Read supported transcript text",
+          "depends_on": [
+            "s1"
+          ],
+          "handoff": "Pass observed video URLs, preserve language/timestamps and mark unavailable transcripts."
+        },
+        {
+          "id": "s3",
+          "task_id": "youtube-comments-scraper",
+          "purpose": "Sample discussion",
+          "depends_on": [
+            "s2"
+          ],
+          "handoff": "Use the original verified video URLs; comments are a parallel evidence source, not transcript output."
+        }
+      ],
+      "queries": "youtube video analysis transcript transcripts comments audience",
+      "match_patterns": [
+        "youtube|video analy"
+      ],
+      "artifact": {
+        "format": "CSV evidence table and Markdown research brief",
+        "contents": "YouTube video and audience analysis: answer the stated goal, include observed records and source URLs, collection date, verified join keys, coverage/missingness, supported findings and next questions."
+      },
+      "quality_rules": [
+        "Inspect actual returned fields and samples before claiming support or passing values to the next step.",
+        "Join only verified identifiers or normalized URLs; report unmatched rows, duplicates, currency/timezone and source-date differences.",
+        "Distinguish a bounded sample from platform-wide coverage; disclose caps, failed routes, missing values and stale records.",
+        "Do not infer causation, sensitive attributes, verified contact ownership or live availability from advertised capability."
+      ],
+      "access_constraints": [
+        "Planning only. Validate the live schema, supported authentication, source permissions and source-specific limits.",
+        "Present exact inputs, limits, current price/usage and total spending cap; obtain bounded approval before any paid collection.",
+        "Use public data or user-authorized supported access; never bypass login, membership, private-source restrictions or rate limits."
+      ]
+    },
+    {
+      "id": "ocr-evidence",
+      "area": "images",
+      "title": "OCR and visual evidence review",
+      "goal": "Extract supported text and inspect images against the research question.",
+      "intake": [
+        "authorized image URLs/files in supported format",
+        "language",
+        "image cap",
+        "target fields"
+      ],
+      "steps": [
+        {
+          "id": "s1",
+          "task_id": "google-lens-ocr-api",
+          "purpose": "Collect supported OCR observations",
+          "depends_on": [],
+          "handoff": "Map the intake to live-schema fields; preserve subject, geography, dates, count and requested output. Never guess required fields."
+        },
+        {
+          "id": "s2",
+          "task_id": "google-lens-visual-search",
+          "purpose": "Inspect visual matches",
+          "depends_on": [
+            "s1"
+          ],
+          "handoff": "Pass original authorized images/URLs in supported format; keep OCR text separate from visual-match claims."
+        }
+      ],
+      "queries": "ocr image text screenshot visual search",
+      "match_patterns": [
+        "ocr|visual search"
+      ],
+      "artifact": {
+        "format": "CSV evidence table and Markdown research brief",
+        "contents": "OCR and visual evidence review: answer the stated goal, include observed records and source URLs, collection date, verified join keys, coverage/missingness, supported findings and next questions."
+      },
+      "quality_rules": [
+        "Inspect actual returned fields and samples before claiming support or passing values to the next step.",
+        "Join only verified identifiers or normalized URLs; report unmatched rows, duplicates, currency/timezone and source-date differences.",
+        "Distinguish a bounded sample from platform-wide coverage; disclose caps, failed routes, missing values and stale records.",
+        "Do not infer causation, sensitive attributes, verified contact ownership or live availability from advertised capability."
+      ],
+      "access_constraints": [
+        "Planning only. Validate the live schema, supported authentication, source permissions and source-specific limits.",
+        "Present exact inputs, limits, current price/usage and total spending cap; obtain bounded approval before any paid collection.",
+        "Use public data or user-authorized supported access; never bypass login, membership, private-source restrictions or rate limits."
+      ]
+    },
+    {
+      "id": "news-events-brief",
+      "area": "news_events",
+      "title": "News and event research brief",
+      "goal": "Assemble dated news and relevant event evidence.",
+      "intake": [
+        "topic",
+        "market",
+        "date range",
+        "publication/event scope",
+        "cap"
+      ],
+      "steps": [
+        {
+          "id": "s1",
+          "task_id": "google-news-scraper",
+          "purpose": "Collect relevant news",
+          "depends_on": [],
+          "handoff": "Map the intake to live-schema fields; preserve subject, geography, dates, count and requested output. Never guess required fields."
+        },
+        {
+          "id": "s2",
+          "task_id": "10times-events-scraper",
+          "purpose": "Inspect relevant trade events",
+          "depends_on": [
+            "s1"
+          ],
+          "handoff": "Use intake industry/geography; event search is an independent evidence branch and must not inherit unsupported news fields."
+        }
+      ],
+      "queries": "news events conferences publications newsletter research",
+      "match_patterns": [
+        "news|conference|events"
+      ],
+      "artifact": {
+        "format": "CSV evidence table and Markdown research brief",
+        "contents": "News and event research brief: answer the stated goal, include observed records and source URLs, collection date, verified join keys, coverage/missingness, supported findings and next questions."
+      },
+      "quality_rules": [
+        "Inspect actual returned fields and samples before claiming support or passing values to the next step.",
+        "Join only verified identifiers or normalized URLs; report unmatched rows, duplicates, currency/timezone and source-date differences.",
+        "Distinguish a bounded sample from platform-wide coverage; disclose caps, failed routes, missing values and stale records.",
+        "Do not infer causation, sensitive attributes, verified contact ownership or live availability from advertised capability."
+      ],
+      "access_constraints": [
+        "Planning only. Validate the live schema, supported authentication, source permissions and source-specific limits.",
+        "Present exact inputs, limits, current price/usage and total spending cap; obtain bounded approval before any paid collection.",
+        "Use public data or user-authorized supported access; never bypass login, membership, private-source restrictions or rate limits."
+      ]
+    },
+    {
+      "id": "jobs-market",
+      "area": "jobs",
+      "title": "Jobs and hiring market brief",
+      "goal": "Compare role demand, employers and advertised pay from a bounded sample.",
+      "intake": [
+        "role",
+        "locations",
+        "seniority",
+        "date range",
+        "job cap"
+      ],
+      "steps": [
+        {
+          "id": "s1",
+          "task_id": "google-jobs-scraper",
+          "purpose": "Discover job listings",
+          "depends_on": [],
+          "handoff": "Map the intake to live-schema fields; preserve subject, geography, dates, count and requested output. Never guess required fields."
+        },
+        {
+          "id": "s2",
+          "task_id": "linkedin-jobs-scraper",
+          "purpose": "Compare supported listing evidence",
+          "depends_on": [
+            "s1"
+          ],
+          "handoff": "Reuse intake role/location; deduplicate by employer, role, location and canonical listing URL; missing pay is unknown."
+        }
+      ],
+      "queries": "jobs careers salary hiring labour market openings",
+      "match_patterns": [
+        "jobs?|hiring|salary"
+      ],
+      "artifact": {
+        "format": "CSV evidence table and Markdown research brief",
+        "contents": "Jobs and hiring market brief: answer the stated goal, include observed records and source URLs, collection date, verified join keys, coverage/missingness, supported findings and next questions."
+      },
+      "quality_rules": [
+        "Inspect actual returned fields and samples before claiming support or passing values to the next step.",
+        "Join only verified identifiers or normalized URLs; report unmatched rows, duplicates, currency/timezone and source-date differences.",
+        "Distinguish a bounded sample from platform-wide coverage; disclose caps, failed routes, missing values and stale records.",
+        "Do not infer causation, sensitive attributes, verified contact ownership or live availability from advertised capability."
+      ],
+      "access_constraints": [
+        "Planning only. Validate the live schema, supported authentication, source permissions and source-specific limits.",
+        "Present exact inputs, limits, current price/usage and total spending cap; obtain bounded approval before any paid collection.",
+        "Use public data or user-authorized supported access; never bypass login, membership, private-source restrictions or rate limits."
+      ]
+    },
+    {
+      "id": "review-themes",
+      "area": "reviews",
+      "title": "Review and reputation audit",
+      "goal": "Identify review themes with supporting source examples and sample limits.",
+      "intake": [
+        "company/product URLs",
+        "platforms",
+        "language",
+        "date range",
+        "review cap"
+      ],
+      "steps": [
+        {
+          "id": "s1",
+          "task_id": "trustpilot-reviews-scraper",
+          "purpose": "Sample review evidence",
+          "depends_on": [],
+          "handoff": "Map the intake to live-schema fields; preserve subject, geography, dates, count and requested output. Never guess required fields."
+        },
+        {
+          "id": "s2",
+          "task_id": "brand-sentiment-analyzer",
+          "purpose": "Analyze supported review inputs",
+          "depends_on": [
+            "s1"
+          ],
+          "handoff": "Use observed review text/URLs only if the analyzer accepts them; otherwise analyze the collected data with authorized local tools."
+        }
+      ],
+      "queries": "reviews reputation customer sentiment complaints audit",
+      "match_patterns": [
+        "review|reputation|sentiment"
+      ],
+      "artifact": {
+        "format": "CSV evidence table and Markdown research brief",
+        "contents": "Review and reputation audit: answer the stated goal, include observed records and source URLs, collection date, verified join keys, coverage/missingness, supported findings and next questions."
+      },
+      "quality_rules": [
+        "Inspect actual returned fields and samples before claiming support or passing values to the next step.",
+        "Join only verified identifiers or normalized URLs; report unmatched rows, duplicates, currency/timezone and source-date differences.",
+        "Distinguish a bounded sample from platform-wide coverage; disclose caps, failed routes, missing values and stale records.",
+        "Do not infer causation, sensitive attributes, verified contact ownership or live availability from advertised capability."
+      ],
+      "access_constraints": [
+        "Planning only. Validate the live schema, supported authentication, source permissions and source-specific limits.",
+        "Present exact inputs, limits, current price/usage and total spending cap; obtain bounded approval before any paid collection.",
+        "Use public data or user-authorized supported access; never bypass login, membership, private-source restrictions or rate limits."
+      ]
+    },
+    {
+      "id": "site-audit",
+      "area": "seo_audits",
+      "title": "Technical SEO and performance audit",
+      "goal": "Prioritize site issues supported by page and performance evidence.",
+      "intake": [
+        "domain",
+        "page cap",
+        "crawl boundaries",
+        "device/market"
+      ],
+      "steps": [
+        {
+          "id": "s1",
+          "task_id": "complete-seo-audit",
+          "purpose": "Collect site audit evidence",
+          "depends_on": [],
+          "handoff": "Map the intake to live-schema fields; preserve subject, geography, dates, count and requested output. Never guess required fields."
+        },
+        {
+          "id": "s2",
+          "task_id": "google-pagespeed-insights",
+          "purpose": "Inspect selected page performance",
+          "depends_on": [
+            "s1"
+          ],
+          "handoff": "Pass only observed canonical page URLs and supported settings; distinguish lab measurements from field data."
+        }
+      ],
+      "queries": "seo site audit technical pages performance website health",
+      "match_patterns": [
+        "seo.*audit|technical.*seo|site.*audit"
+      ],
+      "artifact": {
+        "format": "CSV evidence table and Markdown research brief",
+        "contents": "Technical SEO and performance audit: answer the stated goal, include observed records and source URLs, collection date, verified join keys, coverage/missingness, supported findings and next questions."
+      },
+      "quality_rules": [
+        "Inspect actual returned fields and samples before claiming support or passing values to the next step.",
+        "Join only verified identifiers or normalized URLs; report unmatched rows, duplicates, currency/timezone and source-date differences.",
+        "Distinguish a bounded sample from platform-wide coverage; disclose caps, failed routes, missing values and stale records.",
+        "Do not infer causation, sensitive attributes, verified contact ownership or live availability from advertised capability."
+      ],
+      "access_constraints": [
+        "Planning only. Validate the live schema, supported authentication, source permissions and source-specific limits.",
+        "Present exact inputs, limits, current price/usage and total spending cap; obtain bounded approval before any paid collection.",
+        "Use public data or user-authorized supported access; never bypass login, membership, private-source restrictions or rate limits."
+      ]
+    },
+    {
+      "id": "website-evidence",
+      "area": "web_technology",
+      "title": "Website technology and evidence audit",
+      "goal": "Check advertised website technology and supporting evidence.",
+      "intake": [
+        "approved domains",
+        "requested technology fields",
+        "page cap"
+      ],
+      "steps": [
+        {
+          "id": "s1",
+          "task_id": "website-tech-stack-detector",
+          "purpose": "Collect technology candidates",
+          "depends_on": [],
+          "handoff": "Map the intake to live-schema fields; preserve subject, geography, dates, count and requested output. Never guess required fields."
+        },
+        {
+          "id": "s2",
+          "task_id": "website-stack-evidence-audit",
+          "purpose": "Inspect supporting technology evidence",
+          "depends_on": [
+            "s1"
+          ],
+          "handoff": "Reuse approved domains and check observed evidence; detected software does not establish an active paid subscription."
+        }
+      ],
+      "queries": "website tech technology stack domain evidence audit",
+      "match_patterns": [],
+      "artifact": {
+        "format": "CSV evidence table and Markdown research brief",
+        "contents": "Website technology and evidence audit: answer the stated goal, include observed records and source URLs, collection date, verified join keys, coverage/missingness, supported findings and next questions."
+      },
+      "quality_rules": [
+        "Inspect actual returned fields and samples before claiming support or passing values to the next step.",
+        "Join only verified identifiers or normalized URLs; report unmatched rows, duplicates, currency/timezone and source-date differences.",
+        "Distinguish a bounded sample from platform-wide coverage; disclose caps, failed routes, missing values and stale records.",
+        "Do not infer causation, sensitive attributes, verified contact ownership or live availability from advertised capability."
+      ],
+      "access_constraints": [
+        "Planning only. Validate the live schema, supported authentication, source permissions and source-specific limits.",
+        "Present exact inputs, limits, current price/usage and total spending cap; obtain bounded approval before any paid collection.",
+        "Use public data or user-authorized supported access; never bypass login, membership, private-source restrictions or rate limits."
+      ]
+    },
+    {
+      "id": "repository-brief",
+      "area": "developer",
+      "title": "Repository and app ecosystem brief",
+      "goal": "Summarize supported repository activity and relevant software evidence.",
+      "intake": [
+        "repository URLs",
+        "requested operation",
+        "date range",
+        "record cap"
+      ],
+      "steps": [
+        {
+          "id": "s1",
+          "task_id": "github-deep-scraper",
+          "purpose": "Collect supported repository observations",
+          "depends_on": [],
+          "handoff": "Map the intake to live-schema fields; preserve subject, geography, dates, count and requested output. Never guess required fields."
+        }
+      ],
+      "queries": "github repository issues releases developer apps software ecosystem",
+      "match_patterns": [
+        "github|repository"
+      ],
+      "artifact": {
+        "format": "CSV evidence table and Markdown research brief",
+        "contents": "Repository and app ecosystem brief: answer the stated goal, include observed records and source URLs, collection date, verified join keys, coverage/missingness, supported findings and next questions."
+      },
+      "quality_rules": [
+        "Inspect actual returned fields and samples before claiming support or passing values to the next step.",
+        "Join only verified identifiers or normalized URLs; report unmatched rows, duplicates, currency/timezone and source-date differences.",
+        "Distinguish a bounded sample from platform-wide coverage; disclose caps, failed routes, missing values and stale records.",
+        "Do not infer causation, sensitive attributes, verified contact ownership or live availability from advertised capability."
+      ],
+      "access_constraints": [
+        "Planning only. Validate the live schema, supported authentication, source permissions and source-specific limits.",
+        "Present exact inputs, limits, current price/usage and total spending cap; obtain bounded approval before any paid collection.",
+        "Use public data or user-authorized supported access; never bypass login, membership, private-source restrictions or rate limits."
+      ]
+    },
+    {
+      "id": "finance-events",
+      "area": "finance",
+      "title": "Financial, forex and earnings research",
+      "goal": "Build a dated asset and financial-event brief with explicit supported coverage.",
+      "intake": [
+        "ticker/pair",
+        "exchange",
+        "time window",
+        "currency",
+        "event types",
+        "record cap"
+      ],
+      "steps": [
+        {
+          "id": "s1",
+          "task_id": "yahoo-finance-scraper",
+          "purpose": "Inspect supported asset observations",
+          "depends_on": [],
+          "handoff": "Map the intake to live-schema fields; preserve subject, geography, dates, count and requested output. Never guess required fields."
+        },
+        {
+          "id": "s2",
+          "task_id": "earnings-call-transcript-api",
+          "purpose": "Inspect applicable company earnings evidence",
+          "depends_on": [
+            "s1"
+          ],
+          "handoff": "Only query verified equity/company identifiers accepted by the schema; forex pairs have no implied earnings-call route."
+        }
+      ],
+      "queries": "finance forex financial events economic calendar earnings stock equity currency",
+      "match_patterns": [
+        "forex|financial|earnings|stock market"
+      ],
+      "artifact": {
+        "format": "CSV evidence table and Markdown research brief",
+        "contents": "Financial, forex and earnings research: answer the stated goal, include observed records and source URLs, collection date, verified join keys, coverage/missingness, supported findings and next questions."
+      },
+      "quality_rules": [
+        "Inspect actual returned fields and samples before claiming support or passing values to the next step.",
+        "Join only verified identifiers or normalized URLs; report unmatched rows, duplicates, currency/timezone and source-date differences.",
+        "Distinguish a bounded sample from platform-wide coverage; disclose caps, failed routes, missing values and stale records.",
+        "Do not infer causation, sensitive attributes, verified contact ownership or live availability from advertised capability.",
+        "Retain exchange, currency, timezone and observation time; stale prices and source gaps preclude live-trading or investment-performance claims."
+      ],
+      "access_constraints": [
+        "Planning only. Validate the live schema, supported authentication, source permissions and source-specific limits.",
+        "Present exact inputs, limits, current price/usage and total spending cap; obtain bounded approval before any paid collection.",
+        "Use public data or user-authorized supported access; never bypass login, membership, private-source restrictions or rate limits."
+      ]
+    },
+    {
+      "id": "crypto-market",
+      "area": "crypto",
+      "title": "Crypto market and wallet brief",
+      "goal": "Compare bounded crypto observations with exchange and timestamp context.",
+      "intake": [
+        "assets/contracts",
+        "chain/exchange",
+        "time window",
+        "count"
+      ],
+      "steps": [
+        {
+          "id": "s1",
+          "task_id": "coinmarketcap-crypto-scraper",
+          "purpose": "Collect supported asset observations",
+          "depends_on": [],
+          "handoff": "Map the intake to live-schema fields; preserve subject, geography, dates, count and requested output. Never guess required fields."
+        },
+        {
+          "id": "s2",
+          "task_id": "dexscreener-realtime-monitor",
+          "purpose": "Inspect applicable trading pairs",
+          "depends_on": [
+            "s1"
+          ],
+          "handoff": "Pass verified chain and contract/pair identifiers only; do not join ticker symbols without disambiguation."
+        }
+      ],
+      "queries": "crypto bitcoin ethereum wallet onchain cryptocurrency dex",
+      "match_patterns": [
+        "crypto|bitcoin|ethereum"
+      ],
+      "artifact": {
+        "format": "CSV evidence table and Markdown research brief",
+        "contents": "Crypto market and wallet brief: answer the stated goal, include observed records and source URLs, collection date, verified join keys, coverage/missingness, supported findings and next questions."
+      },
+      "quality_rules": [
+        "Inspect actual returned fields and samples before claiming support or passing values to the next step.",
+        "Join only verified identifiers or normalized URLs; report unmatched rows, duplicates, currency/timezone and source-date differences.",
+        "Distinguish a bounded sample from platform-wide coverage; disclose caps, failed routes, missing values and stale records.",
+        "Do not infer causation, sensitive attributes, verified contact ownership or live availability from advertised capability.",
+        "Retain exchange, currency, timezone and observation time; stale prices and source gaps preclude live-trading or investment-performance claims."
+      ],
+      "access_constraints": [
+        "Planning only. Validate the live schema, supported authentication, source permissions and source-specific limits.",
+        "Present exact inputs, limits, current price/usage and total spending cap; obtain bounded approval before any paid collection.",
+        "Use public data or user-authorized supported access; never bypass login, membership, private-source restrictions or rate limits."
+      ]
+    },
+    {
+      "id": "hotel-comparison",
+      "area": "hospitality",
+      "title": "Hotel and short-stay comparison",
+      "goal": "Compare dated stays and guest feedback for approved destinations.",
+      "intake": [
+        "destination",
+        "dates",
+        "guests",
+        "budget/currency",
+        "property cap"
+      ],
+      "steps": [
+        {
+          "id": "s1",
+          "task_id": "booking-scraper-pro",
+          "purpose": "Find supported stay candidates",
+          "depends_on": [],
+          "handoff": "Map the intake to live-schema fields; preserve subject, geography, dates, count and requested output. Never guess required fields."
+        },
+        {
+          "id": "s2",
+          "task_id": "booking-reviews-scraper",
+          "purpose": "Inspect guest feedback",
+          "depends_on": [
+            "s1"
+          ],
+          "handoff": "Pass observed property identifiers/URLs; keep stay dates, fees, cancellation conditions and review dates separate."
+        }
+      ],
+      "queries": "hotels hospitality booking accommodation stays availability",
+      "match_patterns": [
+        "hotel|hospitality|accommodation"
+      ],
+      "artifact": {
+        "format": "CSV evidence table and Markdown research brief",
+        "contents": "Hotel and short-stay comparison: answer the stated goal, include observed records and source URLs, collection date, verified join keys, coverage/missingness, supported findings and next questions."
+      },
+      "quality_rules": [
+        "Inspect actual returned fields and samples before claiming support or passing values to the next step.",
+        "Join only verified identifiers or normalized URLs; report unmatched rows, duplicates, currency/timezone and source-date differences.",
+        "Distinguish a bounded sample from platform-wide coverage; disclose caps, failed routes, missing values and stale records.",
+        "Do not infer causation, sensitive attributes, verified contact ownership or live availability from advertised capability."
+      ],
+      "access_constraints": [
+        "Planning only. Validate the live schema, supported authentication, source permissions and source-specific limits.",
+        "Present exact inputs, limits, current price/usage and total spending cap; obtain bounded approval before any paid collection.",
+        "Use public data or user-authorized supported access; never bypass login, membership, private-source restrictions or rate limits."
+      ]
+    },
+    {
+      "id": "travel-options",
+      "area": "travel",
+      "title": "Flight and destination options",
+      "goal": "Compare supported fares and destination activities with dated availability.",
+      "intake": [
+        "origin/destination",
+        "travel dates",
+        "passengers",
+        "currency",
+        "option cap"
+      ],
+      "steps": [
+        {
+          "id": "s1",
+          "task_id": "google-flights-scraper",
+          "purpose": "Collect route/fare observations",
+          "depends_on": [],
+          "handoff": "Map the intake to live-schema fields; preserve subject, geography, dates, count and requested output. Never guess required fields."
+        },
+        {
+          "id": "s2",
+          "task_id": "getyourguide-scraper",
+          "purpose": "Inspect destination activities",
+          "depends_on": [
+            "s1"
+          ],
+          "handoff": "Use intake destination and dates as a separate branch; observed fares do not establish bookable inventory."
+        }
+      ],
+      "queries": "travel flights airfare destination attractions vacation",
+      "match_patterns": [
+        "flight|travel|airfare"
+      ],
+      "artifact": {
+        "format": "CSV evidence table and Markdown research brief",
+        "contents": "Flight and destination options: answer the stated goal, include observed records and source URLs, collection date, verified join keys, coverage/missingness, supported findings and next questions."
+      },
+      "quality_rules": [
+        "Inspect actual returned fields and samples before claiming support or passing values to the next step.",
+        "Join only verified identifiers or normalized URLs; report unmatched rows, duplicates, currency/timezone and source-date differences.",
+        "Distinguish a bounded sample from platform-wide coverage; disclose caps, failed routes, missing values and stale records.",
+        "Do not infer causation, sensitive attributes, verified contact ownership or live availability from advertised capability."
+      ],
+      "access_constraints": [
+        "Planning only. Validate the live schema, supported authentication, source permissions and source-specific limits.",
+        "Present exact inputs, limits, current price/usage and total spending cap; obtain bounded approval before any paid collection.",
+        "Use public data or user-authorized supported access; never bypass login, membership, private-source restrictions or rate limits."
+      ]
+    },
+    {
+      "id": "property-comparison",
+      "area": "real_estate",
+      "title": "Zillow and real estate comparison",
+      "goal": "Compare bounded residential listings with location and asking-price evidence.",
+      "intake": [
+        "market/area",
+        "property type",
+        "budget/currency",
+        "features",
+        "listing cap"
+      ],
+      "steps": [
+        {
+          "id": "s1",
+          "task_id": "zillow-search-scraper",
+          "purpose": "Discover relevant properties",
+          "depends_on": [],
+          "handoff": "Map the intake to live-schema fields; preserve subject, geography, dates, count and requested output. Never guess required fields."
+        },
+        {
+          "id": "s2",
+          "task_id": "zillow-all-in-one-scraper",
+          "purpose": "Inspect supported listing details",
+          "depends_on": [
+            "s1"
+          ],
+          "handoff": "Pass observed listing URLs/IDs, validate operation and preserve sale/rent distinctions; asking price is not transaction value."
+        }
+      ],
+      "queries": "housing real estate property zillow home listings rent investment",
+      "match_patterns": [
+        "zillow|real estate|housing|property"
+      ],
+      "artifact": {
+        "format": "CSV evidence table and Markdown research brief",
+        "contents": "Zillow and real estate comparison: answer the stated goal, include observed records and source URLs, collection date, verified join keys, coverage/missingness, supported findings and next questions."
+      },
+      "quality_rules": [
+        "Inspect actual returned fields and samples before claiming support or passing values to the next step.",
+        "Join only verified identifiers or normalized URLs; report unmatched rows, duplicates, currency/timezone and source-date differences.",
+        "Distinguish a bounded sample from platform-wide coverage; disclose caps, failed routes, missing values and stale records.",
+        "Do not infer causation, sensitive attributes, verified contact ownership or live availability from advertised capability."
+      ],
+      "access_constraints": [
+        "Planning only. Validate the live schema, supported authentication, source permissions and source-specific limits.",
+        "Present exact inputs, limits, current price/usage and total spending cap; obtain bounded approval before any paid collection.",
+        "Use public data or user-authorized supported access; never bypass login, membership, private-source restrictions or rate limits."
+      ]
+    },
+    {
+      "id": "public-records",
+      "area": "public_records",
+      "title": "Government and public database brief",
+      "goal": "Research authorized public tenders and corporate-record evidence by jurisdiction.",
+      "intake": [
+        "jurisdiction",
+        "company/topic",
+        "date range",
+        "record type",
+        "cap"
+      ],
+      "steps": [
+        {
+          "id": "s1",
+          "task_id": "sam-gov-scraper",
+          "purpose": "Collect supported US public procurement evidence",
+          "depends_on": [],
+          "handoff": "Map the intake to live-schema fields; preserve subject, geography, dates, count and requested output. Never guess required fields."
+        },
+        {
+          "id": "s2",
+          "task_id": "companies-house-uk-scraper",
+          "purpose": "Inspect applicable UK company records",
+          "depends_on": [
+            "s1"
+          ],
+          "handoff": "Only use verified UK entities relevant to intake; jurisdiction-specific branches may be omitted rather than implying global record coverage."
+        }
+      ],
+      "queries": "government public databases records tenders procurement registry companies",
+      "match_patterns": [
+        "government|public database|public record|tender"
+      ],
+      "artifact": {
+        "format": "CSV evidence table and Markdown research brief",
+        "contents": "Government and public database brief: answer the stated goal, include observed records and source URLs, collection date, verified join keys, coverage/missingness, supported findings and next questions."
+      },
+      "quality_rules": [
+        "Inspect actual returned fields and samples before claiming support or passing values to the next step.",
+        "Join only verified identifiers or normalized URLs; report unmatched rows, duplicates, currency/timezone and source-date differences.",
+        "Distinguish a bounded sample from platform-wide coverage; disclose caps, failed routes, missing values and stale records.",
+        "Do not infer causation, sensitive attributes, verified contact ownership or live availability from advertised capability."
+      ],
+      "access_constraints": [
+        "Planning only. Validate the live schema, supported authentication, source permissions and source-specific limits.",
+        "Present exact inputs, limits, current price/usage and total spending cap; obtain bounded approval before any paid collection.",
+        "Use public data or user-authorized supported access; never bypass login, membership, private-source restrictions or rate limits."
+      ]
+    },
+    {
+      "id": "private-source-plan",
+      "area": "authorized_private",
+      "title": "Authorized private-source research plan",
+      "goal": "Check permission and supported access before analyzing private community evidence.",
+      "intake": [
+        "source/account",
+        "explicit user authority",
+        "supported authentication",
+        "permitted channels/fields",
+        "scope and retention"
+      ],
+      "steps": [
+        {
+          "id": "s1",
+          "task_id": "discord-message-scraper",
+          "purpose": "Validate a supported authorized collection route",
+          "depends_on": [],
+          "handoff": "Map the intake to live-schema fields; preserve subject, geography, dates, count and requested output. Never guess required fields."
+        }
+      ],
+      "queries": "authorized private sources internal discord authenticated community access",
+      "match_patterns": [
+        "private|authenticated|behind.*login"
+      ],
+      "artifact": {
+        "format": "CSV evidence table and Markdown research brief",
+        "contents": "Authorized private-source research plan: answer the stated goal, include observed records and source URLs, collection date, verified join keys, coverage/missingness, supported findings and next questions."
+      },
+      "quality_rules": [
+        "Inspect actual returned fields and samples before claiming support or passing values to the next step.",
+        "Join only verified identifiers or normalized URLs; report unmatched rows, duplicates, currency/timezone and source-date differences.",
+        "Distinguish a bounded sample from platform-wide coverage; disclose caps, failed routes, missing values and stale records.",
+        "Do not infer causation, sensitive attributes, verified contact ownership or live availability from advertised capability."
+      ],
+      "access_constraints": [
+        "Planning only. Validate the live schema, supported authentication, source permissions and source-specific limits.",
+        "Present exact inputs, limits, current price/usage and total spending cap; obtain bounded approval before any paid collection.",
+        "Use public data or user-authorized supported access; never bypass login, membership, private-source restrictions or rate limits.",
+        "Confirm server/channel permission and supported credential handling before collecting; minimize personal data and omit unauthorized channels."
+      ]
+    },
+    {
+      "id": "culture-brief",
+      "area": "culture",
+      "title": "Music, culture and sports research",
+      "goal": "Build a sourced specialist brief from a supported book, music or sports operation.",
+      "intake": [
+        "specific domain/source",
+        "entity/query",
+        "dates",
+        "requested fields",
+        "cap"
+      ],
+      "steps": [
+        {
+          "id": "s1",
+          "task_id": "spotify-all-in-one-scraper",
+          "purpose": "Inspect supported music observations",
+          "depends_on": [],
+          "handoff": "Map the intake to live-schema fields; preserve subject, geography, dates, count and requested output. Never guess required fields."
+        }
+      ],
+      "queries": "music culture spotify sports books entertainment specialist research",
+      "match_patterns": [
+        "spotify|music|culture"
+      ],
+      "artifact": {
+        "format": "CSV evidence table and Markdown research brief",
+        "contents": "Music, culture and sports research: answer the stated goal, include observed records and source URLs, collection date, verified join keys, coverage/missingness, supported findings and next questions."
+      },
+      "quality_rules": [
+        "Inspect actual returned fields and samples before claiming support or passing values to the next step.",
+        "Join only verified identifiers or normalized URLs; report unmatched rows, duplicates, currency/timezone and source-date differences.",
+        "Distinguish a bounded sample from platform-wide coverage; disclose caps, failed routes, missing values and stale records.",
+        "Do not infer causation, sensitive attributes, verified contact ownership or live availability from advertised capability."
+      ],
+      "access_constraints": [
+        "Planning only. Validate the live schema, supported authentication, source permissions and source-specific limits.",
+        "Present exact inputs, limits, current price/usage and total spending cap; obtain bounded approval before any paid collection.",
+        "Use public data or user-authorized supported access; never bypass login, membership, private-source restrictions or rate limits."
+      ]
+    },
+    {
+      "id": "instagram-social",
+      "area": "social",
+      "title": "Instagram content and audience analysis",
+      "goal": "Research sampled Instagram posts or Reels and their public audience discussion.",
+      "intake": [
+        "public profile or topic",
+        "market",
+        "date window",
+        "post and comment caps"
+      ],
+      "steps": [
+        {
+          "id": "s1",
+          "task_id": "instagram-posts-scraper",
+          "purpose": "Inspect supported public posts or Reels",
+          "depends_on": [],
+          "handoff": "Map the profile or query to supported live fields and inspect returned post URLs and content types."
+        },
+        {
+          "id": "s2",
+          "task_id": "instagram-comments-scraper",
+          "purpose": "Read sampled audience comments",
+          "depends_on": [
+            "s1"
+          ],
+          "handoff": "Pass only observed supported post IDs or URLs; preserve post relationships and comment coverage."
+        }
+      ],
+      "queries": "instagram posts reels comments audience content analysis",
+      "match_patterns": [
+        "instagram.*(reel|post|comment|analysis|audience)"
+      ],
+      "artifact": {
+        "format": "CSV evidence table and Markdown research brief",
+        "contents": "Instagram content and audience analysis with source-linked findings, sample coverage, observed dates and an original content or action plan adapted to the user goal."
+      },
+      "quality_rules": [
+        "Inspect actual returned fields and samples before claiming support or passing values to the next step.",
+        "Join only verified identifiers or normalized URLs; report unmatched rows, duplicates, currency/timezone and source-date differences.",
+        "Distinguish a bounded sample from platform-wide coverage; disclose caps, failed routes, missing values and stale records.",
+        "Do not infer causation, sensitive attributes, verified contact ownership or live availability from advertised capability."
+      ],
+      "access_constraints": [
+        "Planning only. Validate the live schema, supported authentication, source permissions and source-specific limits.",
+        "Present exact inputs, limits, current price/usage and total spending cap; obtain bounded approval before any paid collection.",
+        "Use public data or user-authorized supported access; never bypass login, membership, private-source restrictions or rate limits."
+      ]
+    },
+    {
+      "id": "telegram-discussions",
+      "area": "communities",
+      "title": "Public Telegram discussion research",
+      "goal": "Analyze themes, questions and links from an authorized public Telegram channel sample.",
+      "intake": [
+        "public channel or search topic",
+        "language",
+        "date window",
+        "message cap"
+      ],
+      "steps": [
+        {
+          "id": "s1",
+          "task_id": "telegram-keyword-search-scraper",
+          "purpose": "Discover relevant public channels",
+          "depends_on": [],
+          "handoff": "Inspect returned channel URLs, disambiguate names and select only permitted public sources."
+        },
+        {
+          "id": "s2",
+          "task_id": "telegram-channel-scraper",
+          "purpose": "Read supported public channel messages",
+          "depends_on": [
+            "s1"
+          ],
+          "handoff": "Pass verified public channel IDs or URLs; preserve message links, dates and the observed sample."
+        }
+      ],
+      "queries": "telegram channel messages discussion conversation content themes",
+      "match_patterns": [
+        "telegram"
+      ],
+      "artifact": {
+        "format": "CSV evidence table and Markdown research brief",
+        "contents": "Public Telegram discussion research with source-linked findings, sample coverage, observed dates and an original content or action plan adapted to the user goal."
+      },
+      "quality_rules": [
+        "Inspect actual returned fields and samples before claiming support or passing values to the next step.",
+        "Join only verified identifiers or normalized URLs; report unmatched rows, duplicates, currency/timezone and source-date differences.",
+        "Distinguish a bounded sample from platform-wide coverage; disclose caps, failed routes, missing values and stale records.",
+        "Do not infer causation, sensitive attributes, verified contact ownership or live availability from advertised capability."
+      ],
+      "access_constraints": [
+        "Planning only. Validate the live schema, supported authentication, source permissions and source-specific limits.",
+        "Present exact inputs, limits, current price/usage and total spending cap; obtain bounded approval before any paid collection.",
+        "Use public data or user-authorized supported access; never bypass login, membership, private-source restrictions or rate limits."
+      ]
+    }
+  ]
+}

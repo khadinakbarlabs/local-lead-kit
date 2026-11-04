@@ -1,8 +1,8 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="420" viewBox="0 0 1200 420"><title>Looksy — Web research for AI agents</title>
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="420" viewBox="0 0 1200 420"><title>Looksy Agent — Web research for AI agents</title>
 <rect width="1200" height="420" fill="#26223F"/><g font-family="Helvetica Neue,Arial,sans-serif">
 <text x="56" y="66" font-size="16" letter-spacing="2.4" font-weight="650" fill="#D0C8FF">KHADIN AKBAR LABS</text>
-<text x="50" y="202" fill="#FFF9EC" font-size="116" letter-spacing="-6" font-weight="750">Looksy</text>
-<g fill="#FFF9EC"><ellipse cx="149" cy="172" rx="22" ry="23"/><ellipse cx="213" cy="172" rx="22" ry="23"/></g><g fill="#26223F"><circle cx="156" cy="174" r="9"/><circle cx="220" cy="174" r="9"/></g>
+<text x="50" y="202" fill="#FFF9EC" font-size="90" letter-spacing="-6" font-weight="750">Looksy Agent</text>
+
 <text x="56" y="269" fill="#FFF9EC" font-size="37" letter-spacing="-1">Web research for AI agents.</text>
 <text x="57" y="361" fill="#DEFF89" font-size="18">Claude Code   /   Codex   /   Cursor</text>
 <g transform="translate(669 32)"><rect width="490" height="356" rx="24" fill="#D6CEFF"/>

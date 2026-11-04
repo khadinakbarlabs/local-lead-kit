@@ -11,3 +11,9 @@ The UI keeps actual counts and partial states, paginates results, and exports sp
 Local access uses a private session cookie, request key, strict Host/Origin checks and content policy. Runtime access data and campaign files are excluded from source and release packages. No account credential or customer dataset is shipped.
 
 Version 0.2 adds one shared task router, an offline Store index, the toolbox CLI and four packaging formats (Claude, Codex, Cursor and portable Agent Plugins). To extend coverage, run `python3 scripts/refresh_catalog.py`, regenerate the directory with `python3 scripts/catalog_guide.py`, and review the catalog diff and curated task menu. Refresh uses only the public Store. The original Maps campaign keeps its three verified stages.
+
+## Looksy Agent 0.4
+
+The shared task vocabulary and intent rules are exported into the static guide. Existing-data and saved-research requests are routed before collection discovery. A validated local draft preserves requested campaign fields in the launcher, with HTML-safe bootstrap serialization. Saved campaign editing restores every request field.
+
+Research areas classify the catalog across multiple purposes. Recipe templates bind exact task cards, ordered dependencies, intake and output contracts for the assistant to adapt. The assistant checks actual schemas and intermediate outputs before paid steps. Local exports prepare flat records for destination import screens with review counts and provenance columns. Destination writes depend on explicit authorization and available host connectors.

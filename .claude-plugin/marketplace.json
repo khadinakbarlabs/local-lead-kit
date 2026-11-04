@@ -1,7 +1,7 @@
 {
   "name": "looksy-marketplace",
   "metadata": {
-    "description": "Looksy brings web research into your AI agent. Explore keywords, search rankings, AI visibility and local leads with public Apify Actors."
+    "description": "Looksy Agent brings web research and saved results into your AI assistant."
   },
   "owner": {
     "name": "Khadin Akbar"
@@ -10,7 +10,7 @@
     {
       "name": "looksy",
       "source": "./",
-      "description": "Looksy brings web research into your AI agent. Explore keywords, search rankings, AI visibility and local leads with public Apify Actors."
+      "description": "Find public data, analyze existing results and resume research with Looksy Agent."
     }
   ]
 }

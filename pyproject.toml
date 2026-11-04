@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "looksy"
-version = "0.3.0"
+version = "0.4.0"
 description = "One agent plugin for discovering and using public Apify Actors"
 requires-python = ">=3.11"
 license = {text = "MIT"}
@@ -18,4 +18,4 @@ looksy = "looksy.__main__:main"
 include = ["looksy*"]
 
 [tool.setuptools.package-data]
-looksy = ["static/*", "catalog.json", "capabilities.json"]
+looksy = ["static/*", "catalog.json", "capabilities.json", "routing.json", "workflows.json"]

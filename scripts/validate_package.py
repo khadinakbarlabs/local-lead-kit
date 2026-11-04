@@ -42,6 +42,10 @@ def main():
                 assert result.returncode==0 and 'Looksy' in result.stdout
                 tool=subprocess.run([sys.executable,str(Path(folder)/'skills/looksy/scripts/toolbox.py'),'find','humanizer'],capture_output=True,text=True,check=True)
                 assert 'khadinakbar/ai-text-humanizer' in tool.stdout
+                areas=subprocess.run([sys.executable,str(Path(folder)/'skills/looksy/scripts/toolbox.py'),'areas'],capture_output=True,text=True,check=True)
+                assert len(json.loads(areas.stdout))==36
+                workflow=subprocess.run([sys.executable,str(Path(folder)/'skills/looksy/scripts/toolbox.py'),'workflow','Find roofers in Austin'],capture_output=True,text=True,check=True)
+                assert json.loads(workflow.stdout)['candidates'][0]['id']=='local-lead-map'
                 copied=json.loads((Path(folder)/manifest).read_text());assert copied['version']==__version__
             archives.append(path.name)
     print(json.dumps({'passed':True,'version':__version__,'public_files':len(files),'native_archives_checked':archives,'credentials_or_private_paths':0},indent=2))

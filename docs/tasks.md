@@ -1,5 +1,5 @@
-# Looksy task library
-1,091 task entries from 659 public Actors. Expand a category to see its subcategories and individual tasks. The Field Guide adds search, saved tasks and copyable requests.
+# Looksy Agent task library
+1,091 task entries from 659 public Actors. Expand a category to see its subcategories and individual tasks. The Field Guide adds research areas, workflow recipes, saved templates and copyable requests.
 <details>
 <summary>Business and leads</summary>
 

@@ -6,8 +6,14 @@ import time
 
 from .service import CampaignService
 from .server import make_server
-from .core import atomic_json
+from .core import atomic_json, validate_request
 from .connection import connect, load_token, workspace
+
+def load_draft(path):
+    if path.stat().st_size > 16384:
+        raise ValueError('Use a small campaign draft file.')
+    return validate_request(json.loads(path.read_text()))
+
 
 def main():
     parser=argparse.ArgumentParser(description='Looksy — private local business campaigns')
@@ -15,6 +21,7 @@ def main():
     parser.add_argument('--env-file',type=Path,help='Explicit private environment file containing APIFY_TOKEN')
     commands=parser.add_subparsers(dest='command',required=True)
     serve=commands.add_parser('serve');serve.add_argument('--port',type=int,default=8765)
+    serve.add_argument('--request-file',type=Path,help='Private JSON draft with the requested niche, locations and target')
     commands.add_parser('connect',help='Save your Apify key in your own terminal')
     commands.add_parser('list')
     status=commands.add_parser('status');status.add_argument('id')
@@ -28,12 +35,13 @@ def main():
         if args.command == 'connect':
             connect()
             return
+        draft = load_draft(args.request_file) if args.command == 'serve' and args.request_file else None
         load_token(args.env_file)
     except (OSError, ValueError) as exc:
         parser.exit(1, str(exc)+'\n')
     service=CampaignService(args.workspace)
     if args.command=='serve':
-        server=make_server(service,args.port)
+        server=make_server(service,args.port,draft=draft)
         atomic_json(service.workspace/'server-access.json',{'pid':os.getpid(),'port':server.server_port,'cookie':server.cookie_key,'csrf':server.session_key,'ticket':server.ticket})
         print('Open Looksy: http://127.0.0.1:'+str(server.server_port)+'/connect?ticket='+server.ticket,flush=True)
         try:server.serve_forever()

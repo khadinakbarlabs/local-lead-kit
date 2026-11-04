@@ -13,7 +13,7 @@ HOSTS['portable']='plugin.json'
 def public_paths():
     paths=[ROOT/name for name in PUBLIC_FILES]
     for name in PUBLIC_DIRS:
-        paths.extend(p for p in (ROOT/name).rglob('*') if p.is_file() and '__pycache__' not in p.parts and p.suffix!='.pyc')
+        paths.extend(p for p in (ROOT/name).rglob('*') if p.is_file() and '__pycache__' not in p.parts and p.suffix!='.pyc' and not set(p.relative_to(ROOT).parts).intersection({'research','superpowers'}))
     return sorted(paths)
 
 def main():

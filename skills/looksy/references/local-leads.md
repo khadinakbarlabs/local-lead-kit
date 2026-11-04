@@ -7,6 +7,10 @@
 3. Reuse secure `APIFY_TOKEN` environment configuration. If an explicit private environment file is needed, use `python3 <skill-dir>/scripts/launch.py --env-file <private-file> serve --port 8765`. Never inspect arbitrary credential files, print a token, ask for one in chat, or put it in a command argument or URL. A host MCP login does not automatically configure the local app's API credential. Follow the [connection guide](connection.md).
 4. User data defaults to a private local workspace under the user's home data directory. `--workspace <chosen-private-folder>` can select another location. Keep the folder out of public repositories and release archives.
 
+## Keep the user’s requested scope
+
+When the user supplies the business type, locations and count, write those exact fields into a private JSON draft with `niche`, `locations` (array of territory strings) and `target`. Include an explicitly supplied `budget_usd`, `include_contacts`, `analysis` and `offer` when available. Launch with `serve --port 8765 --request-file <private-draft.json>`. The launcher validates the draft and pre-fills the form. For omitted limits the app shows editable suggestions. Confirm the geographic ambiguity with the user when necessary. Opening the form remains separate from approval.
+
 ## Use the app
 
 The form takes a business niche, one or more territories, a target, a run allowance, and optional public website contact research. Targets of 250, 500 and 1,000 are available; the current Maps Actor schema allows up to 5,000. A target does not establish available market size or achieved coverage. For larger targets, use territories the business actually serves.

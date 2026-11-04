@@ -27,15 +27,16 @@ def save(ws, task, goal, deliverable, next_step, plan=None):
         if scope['slug']!=card['actor'] or any(scope['input'].get(k)!=v for k,v in card['preset'].items()):
             raise ValueError('The saved plan does not match the selected task and operation.')
     key=uuid4().hex[:12]
-    brief={'id':key,'created':datetime.now(timezone.utc).isoformat(timespec='seconds'),
+    brief={'id':key,'created':datetime.now(timezone.utc).isoformat(timespec='microseconds'),
            'task':task,'goal':goal,'deliverable':deliverable,'next_step':next_step,'plan':plan}
     atomic_json(brief_path(ws,key),brief)
     return brief
 
 
 def history(ws):
-    return sorted((json.loads(p.read_text()) for p in (ws/'briefs').glob('*.json')),
-                  key=lambda x:x['created'],reverse=True)
+    paths = sorted((ws / 'briefs').glob('*.json'), key=lambda path: path.stat().st_mtime_ns, reverse=True)
+    return sorted((json.loads(path.read_text()) for path in paths),
+                  key=lambda brief: brief['created'], reverse=True)
 
 
 def reopen(ws,key):
@@ -84,3 +85,10 @@ def report(ws, key):
             'returned_fields':fields,'sample_source_urls':urls[:8],'has_output':bool(data.get('output')),
             'has_run_summary':bool(data.get('run_summary')),'result_file':str(ws/key/'result.json'),
             'suggested_columns':task.get('report'),'guidance':'Answer the requested question first. Inspect the private evidence file for actual values, demo or partial flags, and coverage. Label missing values and cite a returned source or the exact run. Suggest one useful next observation.'}
+
+
+def latest(ws):
+    briefs = history(ws)
+    if not briefs:
+        raise ValueError('No saved research yet. Save a brief after choosing a task.')
+    return reopen(ws, briefs[0]['id'])

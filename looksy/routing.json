@@ -1,0 +1,30 @@
+{
+  "actions": [
+    {
+      "intent": "saved_research",
+      "pattern": "\\b(reopen|resume)\\b|\\b(open|show|view|continue)\\b.*\\b(last|previous|recent|saved)\\b",
+      "label": "Open recent research",
+      "instruction": "Use the private notebook history to find the requested research. Open the matching brief and cached result. Ask which one if several match."
+    },
+    {
+      "intent": "existing_data",
+      "pattern": "\\b(analy[sz]e|summari[sz]e|import|upload|turn|clean|merge|compare)\\s+(?:(?:my|this|the|these|an?|existing|saved|supplied|following|two|apify)\\s+){0,3}(csv|json|export|dataset|spreadsheet|data)\\b|\\b(my|existing|supplied|this)\\s+(apify\\s+)?(csv|json|export|dataset|spreadsheet|data)\\b",
+      "label": "Analyze data I have",
+      "instruction": "Ask for the authorized local file or existing result and the question the report should answer. Inspect it with the active assistant's file tools. Explain unsupported formats or access requirements."
+    }
+  ],
+  "preferred": [
+    {
+      "pattern": "\\b(local leads|local businesses|maps leads|business list|roofers?|roofing|plumbers?|dentists?|salons?|electricians?|contractors?)\\b",
+      "task": "google-maps-leads-scraper"
+    },
+    {
+      "pattern": "\\b(ai|chatgpt)\\b.*\\b(appears?|mentions?|mentioned|visibility)\\b|\\b(appears?|mentions?|mentioned)\\b.*\\b(ai|answers)\\b",
+      "task": "ai-search-visibility-tracker"
+    },
+    {
+      "pattern": "\\b(citations?|cites?|cited)\\b",
+      "task": "ai-citations-tracker"
+    }
+  ]
+}
