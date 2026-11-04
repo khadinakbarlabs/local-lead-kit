@@ -186,6 +186,12 @@
   $('ai-form').addEventListener('submit', event => {
     event.preventDefault();
     const key = $('ai-key').value.trim();
+    if (key.startsWith('apify_api_')) {
+      feedback('ai-error', 'This looks like an Apify key. Use your AI provider’s key or choose your current assistant.');
+      $('ai-key').value = '';
+      $('ai-key').focus();
+      return;
+    }
     if (!key) {
       feedback('ai-error', 'Enter a key for the selected provider.');
       $('ai-key').focus();

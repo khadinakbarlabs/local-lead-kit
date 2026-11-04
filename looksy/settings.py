@@ -174,7 +174,10 @@ class Connections:
                 provider = body.get('provider')
                 if not isinstance(provider, str) or provider not in PROVIDERS:
                     raise ValueError('Choose a supported AI provider.')
-                record['ai_key'] = valid_key(body.get('key'))
+                key = valid_key(body.get('key'))
+                if key == self._token(record) or key.startswith('apify_api_'):
+                    raise ValueError('Enter the selected provider’s key instead of an Apify key.')
+                record['ai_key'] = key
                 record['ai_provider'] = provider
             record['ai_decided'] = True
         return self.status()

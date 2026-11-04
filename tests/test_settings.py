@@ -35,6 +35,8 @@ class SettingsTests(unittest.TestCase):
 
     def test_rotation_and_provider_removal(self):
         self.settings.save_apify('valid-key')
+        with self.assertRaisesRegex(ValueError,'Apify key'):
+            self.settings.save_ai({'provider':'anthropic','key':'valid-key'})
         status=self.settings.save_ai({'provider':'anthropic','key':'provider-secret'})
         self.assertEqual(status['ai_provider'],'anthropic')
         self.assertNotIn('secret',str(status))
