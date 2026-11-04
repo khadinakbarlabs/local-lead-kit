@@ -14,3 +14,7 @@ A requested target is not a verified live campaign result. An offline worker tes
 Version 0.2: verified 659 unique public Store entries and read live default build, input schema and event pricing for complete-seo-audit, dataforseo-keyword-research, keyword-rank-tracker, ai-search-visibility-tracker, ai-citations-tracker, ai-text-humanizer and google-maps-leads-scraper on 2026-11-04. No paid run was used for these checks. All four archives are extracted and their discovery commands exercised by package validation. This is not evidence of an interactive launch in every host or a live execution of every listing.
 
 Seven example input sets also produced read-only, build-pinned plans without starting collection. A clean local Codex marketplace install reported 0.2.0 enabled, Claude validated both manifests, and headless Chrome rendered 659 matches in the visual catalog. Cursor and portable packages were verified after extraction, not through interactive installation.
+
+## Looksy 0.3.0
+
+Public Store descriptions and default-build OpenAPI input contracts were inspected for 659 Actors. The offline guide contains 1091 catalog and operation entries across 10 categories and 32 subcategories. Inputs are rechecked before paid execution. The task suite exercises portfolio coverage, routing, saved briefs, cached reports and same-scope comparisons. Browser checks exercised task selection, handoff, saved tasks, and mobile and desktop layouts. No paid Actor runs were used for this validation.

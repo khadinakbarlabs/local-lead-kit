@@ -1,12 +1,12 @@
 {
-  "name": "local-lead-kit",
-  "version": "0.2.2",
+  "name": "looksy",
+  "version": "0.3.0",
   "description": "Looksy brings web research into your AI agent. Explore keywords, search rankings, AI visibility and local leads with public Apify Actors.",
   "author": {
     "name": "Khadin Akbar"
   },
-  "homepage": "https://github.com/khadinakbarlabs/local-lead-kit",
-  "repository": "https://github.com/khadinakbarlabs/local-lead-kit",
+  "homepage": "https://github.com/khadinakbarlabs/looksy",
+  "repository": "https://github.com/khadinakbarlabs/looksy",
   "license": "MIT",
   "keywords": [
     "apify",
@@ -17,5 +17,5 @@
     "lead-generation",
     "humanization"
   ],
-  "logo": "./local_lead_kit/static/looksy.png"
+  "logo": "./looksy/static/looksy.png"
 }

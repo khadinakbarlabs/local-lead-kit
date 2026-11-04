@@ -2,8 +2,8 @@ import tempfile
 import unittest
 import csv
 import io
-from local_lead_kit.core import ACTORS
-from local_lead_kit.service import CampaignService
+from looksy.core import ACTORS
+from looksy.service import CampaignService
 
 class FakeApify:
     def __init__(self,partial=False):self.starts=[];self.runs={};self.partial=partial;self.drift=False

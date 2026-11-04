@@ -1,4 +1,4 @@
 {
-  "name": "local-lead-kit-marketplace",
-  "plugins": [{"name": "local-lead-kit", "version": "0.2.2", "source": {"source": "local", "path": "./"}, "policy": {"installation": "AVAILABLE"}, "category": "Productivity"}]
+  "name": "looksy-marketplace",
+  "plugins": [{"name": "looksy", "version": "0.3.0", "source": {"source": "local", "path": "./"}, "policy": {"installation": "AVAILABLE"}, "category": "Productivity"}]
 }

@@ -49,7 +49,7 @@ class ApifyClient:
         if not path or path.startswith('/') or '..' in path or '://' in path:raise ValueError('Unsupported API path.')
         request=urllib.request.Request('https://api.apify.com/v2/'+path,
             data=None if payload is None else json.dumps(payload,allow_nan=False).encode(),
-            headers={'Authorization':'Bearer '+self.token,'Content-Type':'application/json','User-Agent':'local-lead-kit/0.2.2'})
+            headers={'Authorization':'Bearer '+self.token,'Content-Type':'application/json','User-Agent':'looksy/0.3.0'})
         if self.transport:return self.transport(request)
         try:
             with self.opener.open(request,timeout=40) as response:

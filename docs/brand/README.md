@@ -1,6 +1,6 @@
 # Looksy
 
-**Web research for AI agents.** Use Looksy as the public product name and Khadin Akbar Labs as the publisher. Refer to the searchable catalog as the Field Guide and the Google Maps workspace as Local Leads. Keep `local-lead-kit` in install commands and links.
+**Web research for AI agents.** Use Looksy as the public product name and Khadin Akbar Labs as the publisher. Refer to the searchable catalog as the Field Guide and the Google Maps workspace as Local Leads. Keep `looksy` in install commands and links.
 
 Use the [cover](cover.png) for GitHub, the [editable cover](cover.svg) for a new layout, and the [mark](mark.svg) for an icon. The two eyes echo the double “o” in Looksy. Use the violet tile for the icon and lime to highlight a selected result.
 

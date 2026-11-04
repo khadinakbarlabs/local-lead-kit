@@ -1,6 +1,6 @@
 (() => {
   'use strict';
-  const key=window.localLeadBootstrap.session;
+  const key=window.looksyBootstrap.session;
   const $=id=>document.getElementById(id);
   const e=value=>String(value??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
   const safe=value=>{try{const url=new URL(value);return ['https:','http:'].includes(url.protocol)&&!url.username&&!url.password?url.href:'';}catch{return '';}};
@@ -15,7 +15,7 @@
 
   function message(text=''){$('message').textContent=text;$('message').hidden=!text;}
   async function api(path,body){
-    const options={headers:{'X-Local-Lead-Key':key}};
+    const options={headers:{'X-Looksy-Key':key}};
     if(body!==undefined){options.method='POST';options.headers['Content-Type']='application/json';options.body=JSON.stringify(body);}
     const response=await fetch(path,options);const result=await response.json();
     if(!response.ok)throw Error(result.error||'The action could not complete.');
@@ -92,7 +92,7 @@
   let searchTimer;$('search').addEventListener('input',()=>{clearTimeout(searchTimer);searchTimer=setTimeout(()=>action(async()=>{query=$('search').value;offset=0;rowIndex=0;await loadJob(selected,false);}),250);});
   $('previous').addEventListener('click',()=>action(async()=>{offset=Math.max(0,offset-50);rowIndex=0;await loadJob(selected,false);}));
   $('next').addEventListener('click',()=>action(async()=>{offset+=50;rowIndex=0;await loadJob(selected,false);}));
-  $('export-button').addEventListener('click',()=>action(async()=>{const response=await fetch('/api/export?id='+selected+'&kind='+kind,{headers:{'X-Local-Lead-Key':key}});if(!response.ok)throw Error('The export could not be read.');const url=URL.createObjectURL(await response.blob());const a=document.createElement('a');a.href=url;a.download='local-lead-kit-'+kind+'.csv';a.click();URL.revokeObjectURL(url);}));
+  $('export-button').addEventListener('click',()=>action(async()=>{const response=await fetch('/api/export?id='+selected+'&kind='+kind,{headers:{'X-Looksy-Key':key}});if(!response.ok)throw Error('The export could not be read.');const url=URL.createObjectURL(await response.blob());const a=document.createElement('a');a.href=url;a.download='looksy-'+kind+'.csv';a.click();URL.revokeObjectURL(url);}));
   $('request-analysis').addEventListener('click',()=>action(async()=>{await api('/api/analysis-request',{id:selected,offer:$('review-offer').value});await loadJob(selected,false);}));
   setInterval(()=>{if(selected&&!busy&&job&&(['RUNNING','QUEUED','WAITING'].includes(job.status)||job.analysis_status==='AWAITING_ASSISTANT'))action(()=>loadJob(selected,false));},3500);
   action(async()=>{const jobs=await listJobs();const hash=window.location.hash.slice(1);if(jobs.some(j=>j.id===hash))await loadJob(hash);else if(jobs.length)await loadJob(jobs[0].id);else show('create');});

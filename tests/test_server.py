@@ -4,7 +4,7 @@ import threading
 import unittest
 import urllib.error
 import urllib.request
-from local_lead_kit.server import make_server
+from looksy.server import make_server
 
 class StubService:
     _client=None
@@ -23,7 +23,7 @@ class ServerTests(unittest.TestCase):
         except urllib.error.HTTPError as e:return e.code,e.headers,e.read()
     def test_api_rejects_unauthenticated_reads_and_cross_origin_writes(self):
         self.assertEqual(self.request('/api/jobs')[0],403)
-        headers={'X-Local-Lead-Key':self.server.session_key,'Cookie':'llk_session='+self.server.cookie_key,'Origin':'https://unrelated.example','Content-Type':'application/json'}
+        headers={'X-Looksy-Key':self.server.session_key,'Cookie':'looksy_session='+self.server.cookie_key,'Origin':'https://unrelated.example','Content-Type':'application/json'}
         self.assertEqual(self.request('/api/plan',headers,b'{}')[0],403)
         headers['Origin']=self.base
         self.assertEqual(self.request('/api/jobs',headers)[0],200)
@@ -52,8 +52,8 @@ class ServerTests(unittest.TestCase):
         self.assertIn('HttpOnly',cookies[0]._rest)
         self.assertEqual(cookies[0]._rest.get('SameSite'),'Strict')
         self.assertEqual(self.request('/connect?ticket='+ticket)[0],403)
-        self.assertEqual(self.request('/api/jobs',{'Cookie':'llk_session='+cookies[0].value})[0],403)
-        request=urllib.request.Request(self.base+'/api/jobs',headers={'X-Local-Lead-Key':self.server.session_key})
+        self.assertEqual(self.request('/api/jobs',{'Cookie':'looksy_session='+cookies[0].value})[0],403)
+        request=urllib.request.Request(self.base+'/api/jobs',headers={'X-Looksy-Key':self.server.session_key})
         with opener.open(request,timeout=2) as response:self.assertEqual(response.status,200)
 
 if __name__=='__main__':unittest.main()

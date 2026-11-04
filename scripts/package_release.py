@@ -5,7 +5,7 @@ import zipfile
 
 ROOT=Path(__file__).resolve().parents[1]
 PUBLIC_FILES=['README.md','LICENSE','PRIVACY.md','SECURITY.md','TERMS.md','SUPPORT.md','.env.example']
-PUBLIC_DIRS=['local_lead_kit','skills','docs']
+PUBLIC_DIRS=['looksy','skills','docs']
 
 HOSTS={host: f'.{host}-plugin/plugin.json' for host in ('codex','claude','cursor')}
 HOSTS['portable']='plugin.json'
@@ -20,7 +20,7 @@ def main():
     output=ROOT/'dist';output.mkdir(exist_ok=True)
     receipts=[]
     for host,manifest in HOSTS.items():
-        version=json.loads((ROOT/manifest).read_text())['version'];target=output/f'local-lead-kit-{host}-{version}.zip'
+        version=json.loads((ROOT/manifest).read_text())['version'];target=output/f'looksy-{host}-{version}.zip'
         with zipfile.ZipFile(target,'w',zipfile.ZIP_DEFLATED) as archive:
             for path in public_paths()+[ROOT/manifest]:archive.write(path,path.relative_to(ROOT))
         receipts.append({'file':target.name,'bytes':target.stat().st_size,'host':host})

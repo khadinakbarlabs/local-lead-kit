@@ -1,5 +1,5 @@
 {
-  "name": "local-lead-kit-marketplace",
+  "name": "looksy-marketplace",
   "metadata": {
     "description": "Looksy brings web research into your AI agent. Explore keywords, search rankings, AI visibility and local leads with public Apify Actors."
   },
@@ -8,7 +8,7 @@
   },
   "plugins": [
     {
-      "name": "local-lead-kit",
+      "name": "looksy",
       "source": "./",
       "description": "Looksy brings web research into your AI agent. Explore keywords, search rankings, AI visibility and local leads with public Apify Actors."
     }

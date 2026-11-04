@@ -29,7 +29,7 @@ def make_server(service,port=8765):
         def authenticated(self):
             try:
                 cookies=SimpleCookie();cookies.load(self.headers.get('Cookie',''))
-                supplied=cookies.get('llk_session')
+                supplied=cookies.get('looksy_session')
                 return bool(supplied and hmac.compare_digest(supplied.value,self.server.cookie_key))
             except (ValueError,TypeError):return False
 
@@ -40,7 +40,7 @@ def make_server(service,port=8765):
             if (mutating and origin!='http://'+expected) or (origin and origin!='http://'+expected):return False
             if api:
                 if not self.authenticated():return False
-                supplied=self.headers.get('X-Local-Lead-Key','')
+                supplied=self.headers.get('X-Looksy-Key','')
                 try:return hmac.compare_digest(supplied,self.server.session_key)
                 except TypeError:return False
             return True
@@ -59,7 +59,7 @@ def make_server(service,port=8765):
                         if time.monotonic()>self.server.ticket_expires or not self.server.ticket or not hmac.compare_digest(ticket,self.server.ticket):
                             return self.respond(403,{'error':'This private launch link expired or was already used. Ask your assistant for a fresh link.'})
                         self.server.ticket=''
-                    return self.respond(303,{},headers={'Location':'/','Set-Cookie':'llk_session='+self.server.cookie_key+'; HttpOnly; SameSite=Strict; Path=/'})
+                    return self.respond(303,{},headers={'Location':'/','Set-Cookie':'looksy_session='+self.server.cookie_key+'; HttpOnly; SameSite=Strict; Path=/'})
                 if path in ['/app.js','/style.css','/neighborhood.png','/looksy.png']:
                     kind={'.js':'text/javascript; charset=utf-8','.css':'text/css; charset=utf-8','.png':'image/png'}[Path(path).suffix]
                     return self.respond(200,(STATIC/path[1:]).read_bytes(),kind)
@@ -69,7 +69,7 @@ def make_server(service,port=8765):
                 if path in ['/api/job','/api/export']:
                     job=service.load(ident);kind=query.get('kind',['businesses'])[0]
                     if kind not in ['businesses','contacts','analysis']:raise ValueError('Choose a result table.')
-                    if path=='/api/export':return self.respond(200,service.export_csv(ident,kind).encode(),'text/csv; charset=utf-8','local-lead-kit-'+kind+'.csv')
+                    if path=='/api/export':return self.respond(200,service.export_csv(ident,kind).encode(),'text/csv; charset=utf-8','looksy-'+kind+'.csv')
                     result=job.get('results') or {};rows=result.get(kind,[]);q=query.get('q',[''])[0][:200].casefold()
                     if q:rows=[r for r in rows if q in json.dumps(r,ensure_ascii=False).casefold()]
                     offset=max(0,int(query.get('offset',['0'])[0]));limit=min(100,max(1,int(query.get('limit',['50'])[0])))

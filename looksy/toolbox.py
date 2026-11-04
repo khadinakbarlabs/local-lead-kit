@@ -10,6 +10,8 @@ import os
 from pathlib import Path
 import re
 import sys
+from . import notebook, tasks
+from .connection import load_token, workspace
 from .api import ApifyClient, ApiError, validate_input
 from .core import atomic_json, Ledger, NeedsAttention, start_once
 
@@ -99,25 +101,44 @@ def result(client,ws,key,limit):
 
 def main():
     parser=argparse.ArgumentParser(description='Looksy: search, preview and use a public Apify Actor.')
-    parser.add_argument('--workspace',type=Path,default=Path.home()/'.local/share/local-lead-kit/toolbox')
+    parser.add_argument('--workspace',type=Path,default=workspace()/'toolbox')
     parser.add_argument('--env-file',type=Path)
     commands=parser.add_subparsers(dest='command',required=True)
     commands.add_parser('menu')
+    commands.add_parser('categories',help='Browse category → subcategory → task counts')
+    route=commands.add_parser('tasks',help='Find tasks by outcome or browse a category')
+    route.add_argument('goal',nargs='?',default='');route.add_argument('--category');route.add_argument('--subcategory');route.add_argument('--limit',type=int,default=6)
+    card=commands.add_parser('task');card.add_argument('id')
+    brief=commands.add_parser('save-brief')
+    for field in ('task','goal','deliverable','next-step'):brief.add_argument('--'+field,required=True)
+    brief.add_argument('--plan')
+    commands.add_parser('history')
+    report=commands.add_parser('report');report.add_argument('plan')
+    opened=commands.add_parser('reopen');opened.add_argument('id')
+    compare=commands.add_parser('compare');compare.add_argument('first');compare.add_argument('second')
     f=commands.add_parser('find');f.add_argument('query',nargs='?',default='');f.add_argument('--shelf');f.add_argument('--limit',type=int,default=12)
     s=commands.add_parser('schema');s.add_argument('slug')
     p=commands.add_parser('plan');p.add_argument('slug');p.add_argument('--input-file',type=Path,required=True);p.add_argument('--budget',required=True);p.add_argument('--observation',help='Date label for a separately approved snapshot (YYYY-MM-DD)')
     s=commands.add_parser('start');s.add_argument('plan');s.add_argument('--approve',required=True)
     r=commands.add_parser('result');r.add_argument('plan');r.add_argument('--limit',type=int,default=100)
     a=parser.parse_args()
+    if a.command=='categories':return tasks.tree()
+    if a.command=='tasks':
+        hits=tasks.browse(a.goal,a.category,a.subcategory,max(1,min(100,a.limit)))
+        return [{k:card[k] for k in ('id','category','subcategory','task','source')} for card in hits]
+    if a.command=='task':
+        if a.id not in tasks.library():raise ValueError('Unknown task. Search using tasks first.')
+        return tasks.library()[a.id]
+    if a.command=='save-brief':return notebook.save(a.workspace,a.task,a.goal,a.deliverable,a.next_step,a.plan)
+    if a.command=='report':return notebook.report(a.workspace,a.plan)
+    if a.command=='history':return notebook.history(a.workspace)
+    if a.command=='reopen':return notebook.reopen(a.workspace,a.id)
+    if a.command=='compare':return notebook.compare(a.workspace,a.first,a.second)
     if a.command=='menu':return dict(sorted(Counter(s for row in catalog() for s in row['shelves']).items()))
     if a.command=='find':
         matches=search(a.query,a.shelf)
         return {'matches':len(matches),'actors':matches[:max(1,min(1000,a.limit))]}
-    if a.env_file:
-        if a.env_file.stat().st_mode&0o077:raise ValueError('Choose an owner-readable private configuration file.')
-        for line in a.env_file.read_text().splitlines():
-            key,sep,value=line.partition('=')
-            if key.strip()=='APIFY_TOKEN' and sep:os.environ['APIFY_TOKEN']=value.strip().strip('"\'')
+    load_token(a.env_file)
     client=ToolboxClient()
     if a.command in ('plan','schema') and a.slug not in client.sources:raise ValueError('Unknown catalog Actor.')
     if a.command=='schema':return client.metadata(a.slug)

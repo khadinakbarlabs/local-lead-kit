@@ -1,7 +1,7 @@
 import tempfile
 import unittest
 from pathlib import Path
-from local_lead_kit.toolbox import catalog, search, plan, start, result
+from looksy.toolbox import catalog, search, plan, start, result
 
 SLUG = 'khadinakbar/keyword-rank-tracker'
 

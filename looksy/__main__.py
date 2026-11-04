@@ -7,13 +7,15 @@ import time
 from .service import CampaignService
 from .server import make_server
 from .core import atomic_json
+from .connection import connect, load_token, workspace
 
 def main():
     parser=argparse.ArgumentParser(description='Looksy — private local business campaigns')
-    parser.add_argument('--workspace',default=str(Path.home()/'.local/share/local-lead-kit'))
+    parser.add_argument('--workspace',default=str(workspace()))
     parser.add_argument('--env-file',type=Path,help='Explicit private environment file containing APIFY_TOKEN')
     commands=parser.add_subparsers(dest='command',required=True)
     serve=commands.add_parser('serve');serve.add_argument('--port',type=int,default=8765)
+    commands.add_parser('connect',help='Save your Apify key in your own terminal')
     commands.add_parser('list')
     status=commands.add_parser('status');status.add_argument('id')
     wait=commands.add_parser('wait');wait.add_argument('id');wait.add_argument('--seconds',type=int,default=45)
@@ -22,11 +24,13 @@ def main():
     analysis=commands.add_parser('analysis-input');analysis.add_argument('id');analysis.add_argument('--limit',type=int,default=25)
     apply=commands.add_parser('apply-analysis');apply.add_argument('id');apply.add_argument('--file',type=Path,required=True)
     args=parser.parse_args()
-    if args.env_file:
-        if args.env_file.stat().st_mode&0o077:parser.error('Use a private environment file readable only by your account.')
-        for line in args.env_file.read_text().splitlines():
-            key,separator,value=line.partition('=')
-            if key.strip()=='APIFY_TOKEN' and separator:os.environ['APIFY_TOKEN']=value.strip().strip('\"\'')
+    try:
+        if args.command == 'connect':
+            connect()
+            return
+        load_token(args.env_file)
+    except (OSError, ValueError) as exc:
+        parser.exit(1, str(exc)+'\n')
     service=CampaignService(args.workspace)
     if args.command=='serve':
         server=make_server(service,args.port)

@@ -2,7 +2,7 @@ import tempfile
 import unittest
 from pathlib import Path
 
-from local_lead_kit.core import (
+from looksy.core import (
     Ledger, NeedsAttention, build_plan, normalize_results, public_url,
     safe_csv, start_once, validate_request, validate_analysis,
 )

@@ -1,6 +1,6 @@
 import json
 import unittest
-from local_lead_kit.api import ApifyClient, ApiError, validate_input
+from looksy.api import ApifyClient, ApiError, validate_input
 
 class ApiTests(unittest.TestCase):
     def test_credentials_stay_in_headers_and_paid_start_is_not_retried(self):

@@ -45,7 +45,7 @@ def fetch():
                 raise ValueError('Unexpected Store identity')
             slug = item['name']
             labels = shelves(slug,item['title'],item.get('categories',[]))
-            rows[item['id']] = dict(id=item['id'], slug=f'{OWNER}/{slug}', title=item['title'],
+            rows[item['id']] = dict(id=item['id'], slug=f'{OWNER}/{slug}', title=item['title'], description=item.get('description',''),
                                      shelves=labels or ['other'], categories=item.get('categories', []))
         offset += len(page)
         if offset >= data['total']: break
@@ -56,5 +56,5 @@ def fetch():
 
 if __name__ == '__main__':
     data = fetch()
-    (ROOT/'local_lead_kit/catalog.json').write_text(json.dumps(data,indent=2,ensure_ascii=False)+'\n')
+    (ROOT/'looksy/catalog.json').write_text(json.dumps(data,indent=2,ensure_ascii=False)+'\n')
     print(len(data['actors']), 'public Store entries')
