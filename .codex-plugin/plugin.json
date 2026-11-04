@@ -1,16 +1,29 @@
 {
   "name": "local-lead-kit",
-  "version": "0.2.0",
-  "description": "Find and use public Apify Actors for SEO, keyword research, AI search visibility, rank tracking, local leads, writing and more.",
+  "version": "0.2.1",
+  "description": "Actorfield brings web research into your AI agent. Explore keywords, search rankings, AI visibility and local leads with public Apify Actors.",
   "author": {
     "name": "Khadin Akbar"
   },
   "license": "MIT",
-  "displayName": "Actor Toolkit",
+  "displayName": "Actorfield",
   "homepage": "https://github.com/khadinakbarlabs/local-lead-kit",
   "repository": "https://github.com/khadinakbarlabs/local-lead-kit",
   "privacyPolicyUrl": "https://github.com/khadinakbarlabs/local-lead-kit/blob/main/PRIVACY.md",
   "supportUrl": "https://github.com/khadinakbarlabs/local-lead-kit/issues",
   "termsOfServiceUrl": "https://github.com/khadinakbarlabs/local-lead-kit/blob/main/TERMS.md",
-  "documentationUrl": "https://github.com/khadinakbarlabs/local-lead-kit/blob/main/README.md"
+  "documentationUrl": "https://github.com/khadinakbarlabs/local-lead-kit/blob/main/README.md",
+  "interface": {
+    "displayName": "Actorfield",
+    "shortDescription": "Web research for AI agents",
+    "developerName": "Khadin Akbar Labs",
+    "brandColor": "#D9FF70",
+    "logo": "./local_lead_kit/static/actorfield.png",
+    "composerIcon": "./local_lead_kit/static/actorfield.png",
+    "defaultPrompt": [
+      "Find keywords for my business and show me what it would cost to check their rankings.",
+      "Find out which AI answers mention my website.",
+      "Build a list of local businesses in my city."
+    ]
+  }
 }

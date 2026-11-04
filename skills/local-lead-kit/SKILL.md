@@ -1,9 +1,11 @@
 ---
 name: local-lead-kit
-description: Find and use Apify Actors for SEO audits, keyword research, rank tracking, AI visibility and citations, humanizing text, Google Maps leads, social, shopping and other public data tasks. Use Actor Toolkit to choose a source, plan a bounded run, and analyze results in the active assistant.
+description: Find and use Apify Actors for SEO audits, keyword research, rank tracking, AI visibility and citations, humanizing text, Google Maps leads, social, shopping and other public data tasks. Use Actorfield to choose a source, plan a bounded run, and analyze results in the active assistant.
 ---
 
-# Actor Toolkit
+# Actorfield
+
+Treat “Actor Toolkit” and “Local Lead Kit” as earlier names for Actorfield. When a viewer follows the Maps tutorial, open the Local Leads workspace.
 
 Start with the user's outcome. For a broad request show the [task menu](references/task-menu.md). For a specific one go straight to its best matching Actor, collect only missing information, and use the [toolbox](references/toolbox.md). Catalog discovery is free and does not need an account. Scope any paid step to the user's own Apify connection. For multi-Actor work, review the output of the first step before proposing the next.
 

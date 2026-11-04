@@ -1,6 +1,6 @@
 # Privacy
 
-Local Lead Kit runs on your device. It has no publisher-hosted data service, analytics, telemetry or automatic outreach.
+Actorfield runs on your device. It has no publisher-hosted data service, analytics, telemetry or automatic outreach.
 
 Your niche, territories and approved limits are sent to the configured Apify Actors when you approve collection. Business website URLs go to the contact extractor; extracted addresses go to the validator. Apify processes and bills these requests under your own account and its policies.
 

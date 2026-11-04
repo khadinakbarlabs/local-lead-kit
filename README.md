@@ -1,6 +1,8 @@
-# Actor Toolkit
+![Actorfield. Web research for AI agents. By Khadin Akbar Labs.](docs/brand/cover.png)
 
-**Ask for an outcome. Your assistant finds the Apify Actor, shows what it will send and what it can cost, and helps you use the results.**
+# Actorfield
+
+Ask your AI agent where your site ranks, which sources AI search cites, or which businesses operate in a city. Actorfield finds the right Apify Actor and shows you the inputs and price before you run it.
 
 One free, MIT-licensed plugin for Claude Code, Codex, Cursor and compatible local agents. [Download the visual catalog](https://github.com/khadinakbarlabs/local-lead-kit/releases/latest/download/catalog.html), browse [659 public Actors organized by task](docs/directory.md), or start with a [guided use case](skills/local-lead-kit/references/task-menu.md). No account is needed to browse. Running an Actor uses your own Apify account and may incur event and platform charges.
 
@@ -14,22 +16,22 @@ One free, MIT-licensed plugin for Claude Code, Codex, Cursor and compatible loca
 | Humanization | “Make this product introduction sound like me. Keep every factual claim intact.” |
 | Everything else | “What can I research about YouTube, marketplaces, property, or job openings?” |
 
-**First prompt:** “Use Actor Toolkit. I want to **[outcome]** for **[business, website or topic]** in **[market]**. Find the right Actor, ask only for missing information, and show me an example of the output and the price before starting.”
+**First prompt:** “Use Actorfield. I want to **[outcome]** for **[business, website or topic]** in **[market]**. Find the right Actor, ask only for missing information, and show me an example of the output and the price before starting.”
 
 ### Install once
 
-Pick your host below. All four downloads in the [latest release](https://github.com/khadinakbarlabs/local-lead-kit/releases/latest) contain the same skill and runtime. The installation ID remains `local-lead-kit` so existing installs and tutorial links keep working. Requires Python 3.11+ and permission to run local commands.
+Pick your host below. All four downloads in the [latest release](https://github.com/khadinakbarlabs/local-lead-kit/releases/latest) contain the same skill and runtime. If you arrived from a Local Lead Kit tutorial, open **Local Leads** in Actorfield. The installation ID remains `local-lead-kit` so existing installs and tutorial links keep working. Requires Python 3.11+ and permission to run local commands.
 
 ## Use it in Codex
 
-Add `khadinakbarlabs/local-lead-kit` as a plugin marketplace in Codex, then install **Local Lead Kit**. The equivalent CLI commands are:
+Add `khadinakbarlabs/local-lead-kit` as a plugin marketplace in Codex, then install **Actorfield** (listed under `local-lead-kit`). The equivalent CLI commands are:
 
 ```sh
 codex plugin marketplace add khadinakbarlabs/local-lead-kit
 codex plugin add local-lead-kit@local-lead-kit-marketplace
 ```
 
-Reload the host, select Actor Toolkit (skill ID `local-lead-kit`) and describe your goal. The Maps campaign opens a local browser app; other tasks run inside your agent.
+Reload the host, select Actorfield (skill ID `local-lead-kit`) and describe your goal. The Maps campaign opens a local browser app; other tasks run inside your agent.
 
 ## Use it in Claude Code
 
@@ -38,11 +40,11 @@ Reload the host, select Actor Toolkit (skill ID `local-lead-kit`) and describe y
 /plugin install local-lead-kit@local-lead-kit-marketplace
 ```
 
-Then use `/local-lead-kit:local-lead-kit` or ask Claude to open Local Lead Kit. This package requires a coding-agent host with local shell/browser access and Python 3.11 or newer. It is not a hosted cloud-chat app or an approved plugin-directory listing.
+Then use `/local-lead-kit:local-lead-kit` or ask Claude to open Actorfield. This package requires a coding-agent host with local shell/browser access and Python 3.11 or newer. It is not a hosted cloud-chat app or an approved plugin-directory listing.
 
 ## Use it in Cursor
 
-Unzip the **cursor** release into `~/.cursor/plugins/local/local-lead-kit/` with `.cursor-plugin/plugin.json` directly inside that folder, then reload Cursor. Ask the agent to use Actor Toolkit. See [Cursor plugin installation](https://cursor.com/docs/plugins).
+Unzip the **cursor** release into `~/.cursor/plugins/local/local-lead-kit/` with `.cursor-plugin/plugin.json` directly inside that folder, then reload Cursor. Ask the agent to use Actorfield. See [Cursor plugin installation](https://cursor.com/docs/plugins).
 
 ## Other agents or no plugin installer
 
@@ -54,7 +56,7 @@ Open **docs/catalog.html** from any unzipped download for a visual task browser 
 
 From a clone: `python3 -m local_lead_kit.toolbox menu`, then `python3 -m local_lead_kit.toolbox find "visibility"`. When you want a live plan, configure your own [Apify connection](skills/local-lead-kit/references/connection.md). The [run guide](skills/local-lead-kit/references/toolbox.md) covers input, approval and result recovery. The catalog includes all listings in the snapshot; the batch runner requires a verifiable default build, schema and pay-per-event price. Standby-only operations may require their own Store interface.
 
-## Google Maps campaign app: what to enter
+## Local Leads · Google Maps workspace
 
 1. **Niche:** for example, roofing contractors.
 2. **Territories:** one or several cities you actually serve.

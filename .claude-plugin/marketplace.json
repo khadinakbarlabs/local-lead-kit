@@ -1,7 +1,7 @@
 {
   "name": "local-lead-kit-marketplace",
   "metadata": {
-    "description": "Find and use public Apify Actors for SEO, keyword research, AI search visibility, rank tracking, local leads, writing and more."
+    "description": "Actorfield brings web research into your AI agent. Explore keywords, search rankings, AI visibility and local leads with public Apify Actors."
   },
   "owner": {
     "name": "Khadin Akbar"
@@ -10,7 +10,7 @@
     {
       "name": "local-lead-kit",
       "source": "./",
-      "description": "Find and use public Apify Actors for SEO, keyword research, AI search visibility, rank tracking, local leads, writing and more."
+      "description": "Actorfield brings web research into your AI agent. Explore keywords, search rankings, AI visibility and local leads with public Apify Actors."
     }
   ]
 }

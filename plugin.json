@@ -1,8 +1,8 @@
 {
   "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
   "name": "local-lead-kit",
-  "version": "0.2.0",
-  "description": "Find and use public Apify Actors for SEO, keyword research, AI search visibility, rank tracking, local leads, writing and more.",
+  "version": "0.2.1",
+  "description": "Actorfield brings web research into your AI agent. Explore keywords, search rankings, AI visibility and local leads with public Apify Actors.",
   "author": {
     "name": "Khadin Akbar"
   },
