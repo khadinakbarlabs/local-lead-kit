@@ -105,6 +105,12 @@ def main():
     parser.add_argument('--env-file',type=Path)
     commands=parser.add_subparsers(dest='command',required=True)
     commands.add_parser('menu')
+    commands.add_parser('setup-status',help='Show redacted local dashboard connection state')
+    ai=commands.add_parser('ask-provider', help='Send an explicitly approved prompt to a configured AI provider')
+    ai.add_argument('--provider', choices=['anthropic','openrouter','openai','gemini'], required=True)
+    ai.add_argument('--model', required=True)
+    ai.add_argument('--prompt-file', type=Path, required=True)
+    ai.add_argument('--confirm-send', choices=['anthropic','openrouter','openai','gemini'], required=True)
     commands.add_parser('areas', help='Browse categorized research areas')
     area=commands.add_parser('area');area.add_argument('id')
     workflow=commands.add_parser('workflow', help='Design a goal-driven multi-source research plan')
@@ -136,6 +142,20 @@ def main():
     s=commands.add_parser('start');s.add_argument('plan');s.add_argument('--approve',required=True)
     r=commands.add_parser('result');r.add_argument('plan');r.add_argument('--limit',type=int,default=100)
     a=parser.parse_args()
+    if a.command=='setup-status':
+        from .settings import Connections
+        return Connections.from_environment(a.env_file).status()
+    if a.command=='ask-provider':
+        from .providers import ask
+        from .settings import Connections
+        if a.confirm_send != a.provider:
+            raise ValueError('Confirm the same provider that will receive the prompt.')
+        key = Connections.from_environment(a.env_file).provider_key(a.provider)
+        with a.prompt_file.open('rb') as f:
+            content = f.read(32769)
+        if len(content)>32768:
+            raise ValueError('Choose a prompt of up to 32 KiB.')
+        return {'provider':a.provider,'model':a.model,'text':ask(a.provider,key,a.model,content.decode('utf-8'))}
     if a.command in ('areas','area','workflow'):
         from . import workflows
         if a.command=='workflow':return workflows.compose(a.goal,a.area,a.limit)

@@ -17,3 +17,9 @@ Version 0.2 adds one shared task router, an offline Store index, the toolbox CLI
 The shared task vocabulary and intent rules are exported into the static guide. Existing-data and saved-research requests are routed before collection discovery. A validated local draft preserves requested campaign fields in the launcher, with HTML-safe bootstrap serialization. Saved campaign editing restores every request field.
 
 Research areas classify the catalog across multiple purposes. Recipe templates bind exact task cards, ordered dependencies, intake and output contracts for the assistant to adapt. The assistant checks actual schemas and intermediate outputs before paid steps. Local exports prepare flat records for destination import screens with review counts and provenance columns. Destination writes depend on explicit authorization and available host connectors.
+
+## Private dashboard
+
+The installed launcher starts a private loopback dashboard. The authenticated browser must verify Apify and choose whether to save an AI-provider connection before entering settings, history or Local Leads. The public static guide points to installation instructions. Credential forms exist only in the private dashboard.
+
+Connection updates are atomic and owner-readable. A fingerprint binds verification to the effective Apify key. Provider calls are opt-in, single-request text operations with a fixed host, selected model and an approved prompt. History joins the existing local notebook and campaign summaries. The default research path stays with the active host assistant.

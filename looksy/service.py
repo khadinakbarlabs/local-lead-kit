@@ -40,7 +40,7 @@ class CampaignService:
                 job=json.loads(path.read_text());result.append({k:job[k] for k in ['id','status','created_at','request']})
         return sorted(result,key=lambda j:j['created_at'],reverse=True)[:50]
 
-    def prepare(self,value):
+    def prepare(self,value,account_id=None):
         request=validate_request(value);stages=['maps','contacts','validator'] if request['include_contacts'] else ['maps']
         metadata={stage:self.client.metadata(stage) for stage in stages};plan=build_plan(request,metadata)
         for payload in plan['maps_inputs']:validate_input(payload,metadata['maps']['schema'])
@@ -50,6 +50,8 @@ class CampaignService:
             if isinstance(startup,(int,float)) and reservation['cap_usd']<startup:raise ValueError('The allowance is below the current minimum for one of the planned runs. Increase it or reduce the target.')
         job={'id':uuid.uuid4().hex,'status':'PLANNED','created_at':datetime.now(timezone.utc).isoformat(),
              'request':request,'plan':plan,'approved':False,'progress':{'message':'Review the plan before any paid run.'},'results':None,'runs':[]}
+        if account_id:
+            job['apify_account_id'] = account_id
         self.save(job);return job
 
     def approve(self,job_id,plan_hash,background=True):

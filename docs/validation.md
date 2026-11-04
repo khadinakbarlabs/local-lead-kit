@@ -32,3 +32,9 @@ All four native archives are extracted and exercise discovery, research-area lis
 The Research Guide and Local Leads use the same field-notebook design. The generated guide includes its styles, behavior and illustrations in both published HTML files so the downloadable guide works offline. The README preview is a screenshot of the shipped guide with illustrative data.
 
 Validation covers route and recipe parity, all three sample outputs, editable example requests, explicit path choices, saved templates, keyboard handoff, narrow viewports, Local Leads draft restoration and destination CSV preview/download. Campaign cost and start checks use local fixtures. Live paid Actor execution was outside this frontend release.
+
+## Looksy Agent 0.5.0
+
+The installed private dashboard now opens with required Apify verification and a skippable AI-provider step. Tests use temporary configuration files, a simulated Apify account response and mocked provider transports. They exercise session/Origin protection, credential rotation and omission from responses, legacy and environment-supplied keys, history, account-bound campaign actions, and four provider request/response formats. The release workflow also exercises encrypted connection storage on a Windows runner. Chromium tests cover setup, skip, provider settings, persistence, history and Local Leads navigation.
+
+No real provider inference, Actor start or external-account charge was used for this validation. The optional provider is saved locally and checked by the provider on the first explicitly requested direct call.

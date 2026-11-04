@@ -9,3 +9,5 @@ The API client uses a fixed HTTPS origin, certificate verification and no authen
 Source text is treated as data, escaped in the UI, and protected against spreadsheet formulas in CSV output. The app rejects credential-bearing and literal local/private source URLs. It does not control the remote Actor's networking or every redirect a public website may perform; use sources you are permitted to process.
 
 Report a problem through the repository's security reporting feature if available. Otherwise open a minimal issue requesting a private contact route, without exploit details, keys, runtime access files or real contact data. Include the package version and a synthetic reproduction when possible.
+
+Dashboard onboarding verifies Apify through the fixed account endpoint before enabling history, Local Leads or campaign actions. Optional AI keys are write-only in the dashboard and saved with owner-only permissions. Direct inference uses a fixed provider endpoint, verified TLS and a single request with bounded input and output. Explicitly confirm the provider, model and content before using it.

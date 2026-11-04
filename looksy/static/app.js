@@ -537,13 +537,18 @@
   action(null, async () => {
     const jobs = await listJobs();
     if (initialWorkspace !== workspaceVersion) return;
+    const hash = window.location.hash.slice(1);
+    const requested = jobs.find(entry => entry.id === hash);
+    if (requested) {
+      await loadJob(requested.id, {reset: true});
+      return;
+    }
     if (window.looksyBootstrap.draft) {
       fillRequest(window.looksyBootstrap.draft);
       setCampaignStep(1);
       return;
     }
-    const hash = window.location.hash.slice(1);
-    const saved = jobs.find(entry => entry.id === hash) || jobs[0];
+    const saved = jobs[0];
     if (saved) await loadJob(saved.id, {reset: true});
     else setCampaignStep(1);
   });

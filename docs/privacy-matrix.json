@@ -41,6 +41,12 @@
       "purpose": "exact task requested",
       "recipient": "selected catalog Actor after plan approval; evidence may be reviewed in the user-selected agent",
       "retention": "private local workspace and user Apify account"
+    },
+    {
+      "field": "optional provider key and explicitly selected prompt",
+      "purpose": "direct user-requested AI inference",
+      "recipient": "chosen provider over HTTPS, only on an explicitly confirmed call",
+      "retention": "key in private device settings; provider processing under account policy"
     }
   ],
   "publisher_telemetry": false,

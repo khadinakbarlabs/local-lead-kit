@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "looksy"
-version = "0.4.1"
+version = "0.5.0"
 description = "One agent plugin for discovering and using public Apify Actors"
 requires-python = ">=3.11"
 license = {text = "MIT"}

@@ -1,6 +1,7 @@
 """Check public metadata, resource closure, version parity and credential patterns."""
 from pathlib import Path
 import json
+import os
 import re
 import subprocess
 import sys
@@ -46,6 +47,13 @@ def main():
                 assert len(json.loads(areas.stdout))==36
                 workflow=subprocess.run([sys.executable,str(Path(folder)/'skills/looksy/scripts/toolbox.py'),'workflow','Find roofers in Austin'],capture_output=True,text=True,check=True)
                 assert json.loads(workflow.stdout)['candidates'][0]['id']=='local-lead-map'
+                helper=Path(folder)/'skills/looksy/scripts/toolbox.py'
+                environment=dict(os.environ, HOME=folder, USERPROFILE=folder)
+                environment.pop('APIFY_TOKEN',None)
+                status=subprocess.run([sys.executable,str(helper),'setup-status'],env=environment,capture_output=True,text=True,check=True)
+                assert json.loads(status.stdout)==dict(apify_configured=False,apify_verified=False,apify_external=False,ai_provider=None,onboarded=False)
+                assert all('looksy/static/dashboard.'+ext in names for ext in ('html','js','css'))
+                assert not any(Path(name).name in ('connections.json','apify.env','.connections.lock','server-access.json') for name in names)
                 copied=json.loads((Path(folder)/manifest).read_text());assert copied['version']==__version__
             archives.append(path.name)
     print(json.dumps({'passed':True,'version':__version__,'public_files':len(files),'native_archives_checked':archives,'credentials_or_private_paths':0},indent=2))

@@ -63,19 +63,21 @@ Use Python 3.11 or newer and choose your assistant. The install identifier remai
 | --- | --- |
 | **Claude Code** | Enter `/plugin marketplace add khadinakbarlabs/looksy`, then `/plugin install looksy@looksy-marketplace`. Open a fresh session. |
 | **Codex** | Run `codex plugin marketplace add khadinakbarlabs/looksy`, then `codex plugin add looksy@looksy-marketplace`. Open a fresh session. |
-| **Cursor** | Download [Looksy Agent for Cursor](https://github.com/khadinakbarlabs/looksy/releases/download/v0.4.1/looksy-cursor-0.4.1.zip). Extract into `~/.cursor/plugins/local/looksy/` with `.cursor-plugin/plugin.json` directly inside. Reload Cursor. |
-| **Other local agents** | Download the [portable plugin](https://github.com/khadinakbarlabs/looksy/releases/download/v0.4.1/looksy-portable-0.4.1.zip) and import the complete folder into a compatible Agent Plugins client. |
+| **Cursor** | Download [Looksy Agent for Cursor](https://github.com/khadinakbarlabs/looksy/releases/download/v0.5.0/looksy-cursor-0.5.0.zip). Extract into `~/.cursor/plugins/local/looksy/` with `.cursor-plugin/plugin.json` directly inside. Reload Cursor. |
+| **Other local agents** | Download the [portable plugin](https://github.com/khadinakbarlabs/looksy/releases/download/v0.5.0/looksy-portable-0.5.0.zip) and import the complete folder into a compatible Agent Plugins client. |
 
 Try discovery immediately by asking **“Use Looksy Agent to show me workflows for ecommerce research.”** Browsing, examples and local saved results are available before connecting Apify.
 
-## Connect when you need a live source
+## Open your private dashboard
 
-1. Get your key from [Apify settings](https://console.apify.com/settings/integrations).
-2. Ask **“Help me connect Looksy Agent to Apify.”** Your assistant supplies the command for your installed plugin.
-3. Run it in your own terminal and paste the key into the hidden prompt.
-4. Return to your assistant for a live source preview. Apify access is checked during that preview.
+After installation, ask **“Open my Looksy dashboard.”** Your assistant launches Looksy on your device and opens a private, single-use link. The public Research Guide remains available for browsing workflows.
 
-The key is saved privately on your device. Existing `APIFY_TOKEN` configuration takes precedence. Keep credentials out of chat. [Connection instructions](skills/looksy/references/connection.md)
+1. **Connect Apify (required).** Enter your [Apify API key](https://console.apify.com/settings/integrations) in the private dashboard, or verify a key already supplied by your environment. Looksy checks the account with a read-only request before saving.
+2. **Choose how to use AI (optional).** Select **Use current assistant** to continue immediately. You can also save a Claude (Anthropic), OpenRouter, OpenAI or Gemini API key. Direct provider requests require a separate choice of model and content.
+
+The dashboard keeps connection settings and research history on your device. Use **History** to reopen a saved brief in your assistant or return to a local campaign. For research, describe the outcome directly in your assistant. The dashboard also links to Local Leads for campaign review and CSV exports.
+
+On Windows, enter the key in the dashboard or supply `APIFY_TOKEN` through your environment. Locally saved settings use Windows current-user encryption. Keep keys out of chat. [Preview the onboarding screen](docs/brand/dashboard-setup.png) · [Dashboard launch and connection instructions](skills/looksy/references/connection.md)
 
 ## Review scope and costs
 

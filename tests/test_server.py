@@ -1,6 +1,9 @@
 import json
 import http.cookiejar
 import threading
+import tempfile
+from pathlib import Path
+from looksy.settings import Connections
 import unittest
 import urllib.error
 import urllib.request
@@ -12,7 +15,12 @@ class StubService:
 
 class ServerTests(unittest.TestCase):
     def setUp(self):
-        self.server=make_server(StubService(),port=0)
+        temp=tempfile.TemporaryDirectory()
+        self.addCleanup(temp.cleanup)
+        settings=Connections(Path(temp.name),verifier=lambda key:'fixture-account')
+        settings.save_apify('fixture-token')
+        settings.save_ai({'skip':True})
+        self.server=make_server(StubService(),port=0,connections=settings)
         self.thread=threading.Thread(target=self.server.serve_forever,daemon=True);self.thread.start()
         self.base='http://127.0.0.1:'+str(self.server.server_port)
     def tearDown(self):self.server.shutdown();self.server.server_close();self.thread.join()

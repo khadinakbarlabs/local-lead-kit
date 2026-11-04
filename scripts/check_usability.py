@@ -2,10 +2,12 @@
 from pathlib import Path
 import sys
 import threading
+import tempfile
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 from looksy.server import make_server
+from looksy.settings import Connections
 from looksy.tasks import browse, route
 from looksy.workflows import compose
 
@@ -116,7 +118,11 @@ def check_campaign():
                         results={'contacts': [{'email': 'public@example.test', 'business_name': 'Sample business'}, {'email': 'public@example.test'}, {'email': ''}]},
                         plan=dict(hash='fixture', maximum_runs=0, cost_note='Offline fixture', actors={}))
 
-    server = make_server(Service(), port=0, draft=draft)
+    sandbox = tempfile.TemporaryDirectory()
+    private = Connections(Path(sandbox.name), verifier=lambda key: 'fixture-account')
+    private.save_apify('fixture-token')
+    private.save_ai({'skip':True})
+    server = make_server(Service(), port=0, draft=draft, connections=private)
     worker = threading.Thread(target=server.serve_forever, daemon=True)
     worker.start()
     try:
@@ -164,6 +170,7 @@ def check_campaign():
         server.shutdown()
         server.server_close()
         worker.join()
+        sandbox.cleanup()
     print('PASS Local Leads: validated draft preserved, script text inert, saved campaign edit restores all fields.')
 
 

@@ -151,3 +151,9 @@ footer { border-top: 1px solid var(--line); padding-block: 20px; justify-content
 .ledger summary strong { display:block; font-size:18px; font-weight:650; letter-spacing:-.025em; }
 .ledger summary small { display:block; margin-top:4px; font:400 14px/1.5 "Avenir Next",system-ui,sans-serif; }
 .ledger ol li { margin:4px 0; }
+
+.guide-links { display:flex; flex-wrap:wrap; justify-content:flex-end; column-gap:16px; row-gap:2px; }
+@media(max-width:470px) {
+  .guide-links { flex-direction:column; align-items:flex-end; line-height:1.3; }
+  .guide-links .install { font-size:12px; padding:3px 0; }
+}

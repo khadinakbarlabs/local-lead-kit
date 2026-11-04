@@ -1,0 +1,138 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Private workspace · Looksy Agent</title>
+  <link rel="icon" href="/looksy.png">
+  <link rel="stylesheet" href="/dashboard.css">
+</head>
+<body>
+  <a href="#main" class="skip">Skip to content</a>
+  <header>
+    <div class="shell masthead">
+      <a class="brand" href="#home" aria-label="Looksy Agent home">
+        <svg viewBox="0 0 44 31" aria-hidden="true">
+          <g fill="currentColor"><rect x="1" y="2" width="21" height="27" rx="10.5"/><rect x="22" y="1" width="21" height="27" rx="10.5"/></g>
+          <g fill="#f5f5ef"><circle cx="14" cy="15" r="3.7"/><circle cx="35" cy="14" r="3.7"/></g>
+        </svg>
+        <span>Looksy Agent</span>
+      </a>
+      <span class="workspace">Private workspace</span>
+      <nav id="nav" aria-label="Workspace" hidden>
+        <a href="#home">Home</a><a href="#history">History</a><a href="#settings">Settings</a>
+      </nav>
+    </div>
+  </header>
+  <main class="shell" id="main" tabindex="-1">
+    <noscript><p>Enable JavaScript to open your private workspace.</p></noscript>
+    <section id="loading" aria-label="Workspace status">
+      <p class="eyebrow">Local workspace</p>
+      <h1 tabindex="-1" id="loading-title">Opening your workspace…</h1>
+      <div class="loading-lines" aria-hidden="true"><i></i><i></i></div>
+      <p id="load-error" role="alert" hidden></p>
+      <button class="secondary" type="button" id="reload" hidden>Try again</button>
+    </section>
+
+    <div class="layout" id="layout" hidden>
+      <div>
+        <section id="setup" hidden>
+          <ol class="progress" aria-label="Setup progress" id="steps">
+            <li><span>01</span> Apify account</li><li><span>02</span> AI provider · optional</li>
+          </ol>
+          <p class="eyebrow" id="setup-label"></p>
+          <h1 tabindex="-1" id="setup-title"></h1>
+          <p class="intro" id="setup-description"></p>
+          <form id="apify-form" method="post" autocomplete="off" hidden>
+            <label for="apify-key">Apify API key</label>
+            <input type="password" id="apify-key" autocomplete="off" spellcheck="false" autocapitalize="none" maxlength="4096" aria-describedby="apify-hint apify-error">
+            <p class="hint" id="apify-hint"></p>
+            <a class="hint" href="https://console.apify.com/settings/integrations" target="_blank" rel="noopener noreferrer">Get an Apify API key ↗</a>
+            <p class="feedback error" id="apify-error" role="alert" hidden></p>
+            <div class="actions"><button type="submit" class="primary" id="verify">Verify key</button><button type="button" class="secondary cancel" hidden>Cancel</button></div>
+          </form>
+
+          <div id="ai-step" hidden>
+            <div id="assistant-choice">
+              <button type="button" class="primary" id="skip-ai">Use current assistant</button>
+              <button type="button" class="text-button" id="toggle-provider" aria-controls="ai-form" aria-expanded="false">Add a provider key</button>
+            </div>
+            <form id="ai-form" method="post" autocomplete="off" hidden>
+              <label for="provider">AI provider</label>
+              <select id="provider">
+                <option value="anthropic">Claude (Anthropic)</option>
+                <option value="openrouter">OpenRouter</option>
+                <option value="openai">OpenAI</option>
+                <option value="gemini">Gemini</option>
+              </select>
+              <label for="ai-key">Provider API key</label>
+              <input type="password" id="ai-key" autocomplete="off" spellcheck="false" autocapitalize="none" maxlength="4096" required aria-describedby="ai-hint ai-error">
+              <p class="hint" id="ai-hint">Looksy uses this key only when you explicitly request a direct provider call and choose the content to send.</p>
+              <div class="actions"><button type="submit" class="primary" id="save-ai">Save provider</button><button type="button" class="secondary cancel" hidden>Cancel</button></div>
+            </form>
+            <p class="feedback error" id="ai-error" role="alert" hidden></p>
+          </div>
+        </section>
+
+        <section id="home" hidden>
+          <p class="eyebrow">Research workspace</p>
+          <h1 tabindex="-1" id="home-title">Continue in your assistant</h1>
+          <p class="intro">Open the chat where you use Looksy Agent. Describe your question and the result you want.</p>
+          <div class="request-sheet">
+            <p class="small-label">Example request</p>
+            <blockquote id="example">Use Looksy Agent to find 10 independent bookstores in Portland, Oregon. Give me a spreadsheet with each shop’s name, website and source. Show me the plan and cost before collecting data.</blockquote>
+            <button type="button" id="copy-example" class="primary">Copy request</button>
+          </div>
+          <div class="secondary-tool">
+            <div><h2>Local Leads</h2><p>Build a list of businesses by location.</p></div>
+            <a class="secondary" href="/leads">Open Local Leads <span aria-hidden="true">↗</span></a>
+          </div>
+        </section>
+
+        <section id="settings" hidden>
+          <p class="eyebrow">Workspace preferences</p>
+          <h1 tabindex="-1" id="settings-title">Settings</h1>
+          <p class="intro">Manage the accounts Looksy can use on this device.</p>
+          <div class="settings-row">
+            <div><h2>Apify</h2><p id="apify-state"></p></div><button type="button" id="edit-apify" class="secondary">Replace key</button>
+          </div>
+          <div class="settings-row">
+            <div><h2>AI provider</h2><p id="ai-state"></p><p class="hint">Research stays in your current assistant. Direct provider calls use only content you choose to share.</p></div>
+            <div class="setting-actions"><button type="button" id="edit-ai" class="secondary">Add provider</button><button type="button" id="remove-ai" class="text-button" hidden>Remove provider</button></div>
+          </div>
+          <p class="feedback error" id="settings-error" role="alert" hidden></p>
+        </section>
+
+        <section id="history" hidden>
+          <p class="eyebrow">Research notebook</p>
+          <h1 tabindex="-1" id="history-title">History</h1>
+          <p class="intro">Reopen a saved brief in your assistant, or return to a Local Leads campaign.</p>
+          <p id="history-status" role="status" hidden>Reading saved research…</p>
+          <div id="history-error" hidden><p class="feedback error" role="alert">Couldn’t load your history. Check the local connection and try again.</p><button class="secondary" id="retry-history" type="button">Try again</button></div>
+          <div id="history-lists" hidden>
+            <h2 class="list-title">Saved briefs</h2><ul id="brief-list"></ul><p id="brief-empty" class="empty" hidden>Ask your assistant to save a Looksy brief with the next step. It will appear here.</p>
+            <h2 class="list-title">Local Leads campaigns</h2><ul id="campaign-list"></ul><p id="campaign-empty" class="empty" hidden>Your saved Local Leads campaigns will appear here. <a href="/leads">Open Local Leads</a></p>
+          </div>
+        </section>
+      </div>
+      <aside class="field-notes" id="field-notes" aria-labelledby="notes-title">
+        <div class="plate-header"><span>Field notes</span><span aria-hidden="true">L / A</span></div>
+        <h2 id="notes-title">How Looksy works</h2>
+        <ol>
+          <li><span>01</span><div><strong>Ask in your assistant</strong><p>Describe what you want to learn or make.</p></div></li>
+          <li><span>02</span><div><strong>Review the plan</strong><p>Check the sources and approve any cost.</p></div></li>
+          <li><span>03</span><div><strong>Keep your findings</strong><p>Ask to save the brief for your next session.</p></div></li>
+        </ol>
+      </aside>
+    </div>
+    <p id="notice" role="status" aria-live="polite"></p>
+    <div id="manual-copy" hidden>
+      <label for="copy-text">Select and copy this request</label>
+      <textarea id="copy-text" readonly rows="4"></textarea>
+    </div>
+  </main>
+  <footer class="shell"><span class="footer-dot" aria-hidden="true"></span> Private local workspace</footer>
+  <script nonce="__NONCE__">window.looksyBootstrap=__BOOTSTRAP__;</script>
+  <script src="/dashboard.js" defer></script>
+</body>
+</html>

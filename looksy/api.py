@@ -13,6 +13,8 @@ from .core import ACTORS
 
 class ApiError(RuntimeError):pass
 
+class ApifyAccessDenied(ApiError):pass
+
 class NoRedirect(urllib.request.HTTPRedirectHandler):
     def redirect_request(self,req,fp,code,msg,headers,newurl):return None
 
@@ -49,7 +51,7 @@ class ApifyClient:
         if not path or path.startswith('/') or '..' in path or '://' in path:raise ValueError('Unsupported API path.')
         request=urllib.request.Request('https://api.apify.com/v2/'+path,
             data=None if payload is None else json.dumps(payload,allow_nan=False).encode(),
-            headers={'Authorization':'Bearer '+self.token,'Content-Type':'application/json','User-Agent':'looksy/0.4.1'})
+            headers={'Authorization':'Bearer '+self.token,'Content-Type':'application/json','User-Agent':'looksy/0.5.0'})
         if self.transport:return self.transport(request)
         try:
             with self.opener.open(request,timeout=40) as response:
@@ -58,7 +60,7 @@ class ApifyClient:
                 return json.loads(body)
         except urllib.error.HTTPError as exc:
             if exc.code==404 and missing_ok:return None
-            if exc.code in [401,403]:raise ApiError('Apify access was denied. Reconnect or review this account’s access.') from None
+            if exc.code in [401,403]:raise ApifyAccessDenied('Apify access was denied. Reconnect or review this account’s access.') from None
             raise ApiError(f'Apify returned HTTP {exc.code}. Review the existing stage before retrying.') from None
         except (urllib.error.URLError,TimeoutError,OSError) as exc:
             raise ApiError('The Apify connection did not return a confirmed response.') from exc

@@ -8,6 +8,7 @@ from .service import CampaignService
 from .server import make_server
 from .core import atomic_json, validate_request
 from .connection import connect, load_token, workspace
+from .settings import Connections
 
 def load_draft(path):
     if path.stat().st_size > 16384:
@@ -20,8 +21,9 @@ def main():
     parser.add_argument('--workspace',default=str(workspace()))
     parser.add_argument('--env-file',type=Path,help='Explicit private environment file containing APIFY_TOKEN')
     commands=parser.add_subparsers(dest='command',required=True)
-    serve=commands.add_parser('serve');serve.add_argument('--port',type=int,default=8765)
+    serve=commands.add_parser('serve',aliases=['dashboard']);serve.add_argument('--port',type=int,default=8765)
     serve.add_argument('--request-file',type=Path,help='Private JSON draft with the requested niche, locations and target')
+    serve.add_argument('--leads',action='store_true',help='Open the Local Leads workspace after onboarding')
     commands.add_parser('connect',help='Save your Apify key in your own terminal')
     commands.add_parser('list')
     status=commands.add_parser('status');status.add_argument('id')
@@ -33,15 +35,21 @@ def main():
     args=parser.parse_args()
     try:
         if args.command == 'connect':
-            connect()
+            connect(args.env_file)
             return
-        draft = load_draft(args.request_file) if args.command == 'serve' and args.request_file else None
-        load_token(args.env_file)
+        draft = load_draft(args.request_file) if args.command in ('serve','dashboard') and args.request_file else None
+        if args.command in ('serve','dashboard'):
+            connections = Connections.from_environment(args.env_file)
+        else:
+            load_token(args.env_file)
     except (OSError, ValueError) as exc:
         parser.exit(1, str(exc)+'\n')
     service=CampaignService(args.workspace)
-    if args.command=='serve':
-        server=make_server(service,args.port,draft=draft)
+    if args.command in ('serve','dashboard'):
+        try:
+            server=make_server(service,args.port,draft=draft,connections=connections,start_leads=args.leads)
+        except (OSError,ValueError) as error:
+            parser.exit(1, 'Cannot open the private dashboard: '+str(error)+'\n')
         atomic_json(service.workspace/'server-access.json',{'pid':os.getpid(),'port':server.server_port,'cookie':server.cookie_key,'csrf':server.session_key,'ticket':server.ticket})
         print('Open Looksy: http://127.0.0.1:'+str(server.server_port)+'/connect?ticket='+server.ticket,flush=True)
         try:server.serve_forever()
