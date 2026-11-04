@@ -1,7 +1,7 @@
 interface:
-  display_name: "Actorfield"
+  display_name: "Looksy"
   short_description: "Find the right Apify Actor for your task"
   icon_small: "./assets/mark.svg"
   icon_large: "./assets/mark.svg"
-  brand_color: "#D9FF70"
+  brand_color: "#6451C9"
   default_prompt: "Use $local-lead-kit to find the best Actor for my goal and show the inputs, expected output and cost before running it."

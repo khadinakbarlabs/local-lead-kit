@@ -1,7 +1,7 @@
 {
   "name": "local-lead-kit",
-  "version": "0.2.1",
-  "description": "Actorfield brings web research into your AI agent. Explore keywords, search rankings, AI visibility and local leads with public Apify Actors.",
+  "version": "0.2.2",
+  "description": "Looksy brings web research into your AI agent. Explore keywords, search rankings, AI visibility and local leads with public Apify Actors.",
   "author": {
     "name": "Khadin Akbar"
   },

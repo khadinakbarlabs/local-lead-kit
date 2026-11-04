@@ -50,7 +50,7 @@ def make_server(service,port=8765):
             if not self.guard(api=path.startswith('/api/')):return self.respond(403,{'error':'This local session is not authorized.'})
             try:
                 if path=='/':
-                    if not self.authenticated():return self.respond(200,b'<!doctype html><title>Actorfield</title><h1>Actorfield</h1><p>Open the private launcher link from your assistant or terminal to connect this browser.</p>','text/html; charset=utf-8')
+                    if not self.authenticated():return self.respond(200,b'<!doctype html><title>Looksy</title><h1>Looksy</h1><p>Open the private launcher link from your assistant or terminal to connect this browser.</p>','text/html; charset=utf-8')
                     page=(STATIC/'index.html').read_text().replace('__BOOTSTRAP__',json.dumps({'session':self.server.session_key})).replace('__NONCE__',self.server.nonce)
                     return self.respond(200,page.encode(),'text/html; charset=utf-8')
                 if path=='/connect':
@@ -60,7 +60,7 @@ def make_server(service,port=8765):
                             return self.respond(403,{'error':'This private launch link expired or was already used. Ask your assistant for a fresh link.'})
                         self.server.ticket=''
                     return self.respond(303,{},headers={'Location':'/','Set-Cookie':'llk_session='+self.server.cookie_key+'; HttpOnly; SameSite=Strict; Path=/'})
-                if path in ['/app.js','/style.css','/neighborhood.png','/actorfield.png']:
+                if path in ['/app.js','/style.css','/neighborhood.png','/looksy.png']:
                     kind={'.js':'text/javascript; charset=utf-8','.css':'text/css; charset=utf-8','.png':'image/png'}[Path(path).suffix]
                     return self.respond(200,(STATIC/path[1:]).read_bytes(),kind)
                 if path=='/api/jobs':return self.respond(200,{'jobs':service.list_jobs(),'configured':bool(getattr(service,'_client',None) or os.environ.get('APIFY_TOKEN'))})

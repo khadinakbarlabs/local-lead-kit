@@ -1,14 +1,14 @@
-# Actorfield
+# Looksy
 
-**Web research for AI agents.** Use Actorfield as the public product name and Khadin Akbar Labs as the publisher. Refer to the searchable catalog as the Field Guide and the Google Maps workspace as Local Leads. Keep `local-lead-kit` in install commands and links.
+**Web research for AI agents.** Use Looksy as the public product name and Khadin Akbar Labs as the publisher. Refer to the searchable catalog as the Field Guide and the Google Maps workspace as Local Leads. Keep `local-lead-kit` in install commands and links.
 
-Use the [cover](cover.png) for GitHub, the [editable cover](cover.svg) for a new layout, and the [mark](mark.svg) for an icon. The angled F and orange point belong together. Keep the mark on its pine background so it reads at small sizes.
+Use the [cover](cover.png) for GitHub, the [editable cover](cover.svg) for a new layout, and the [mark](mark.svg) for an icon. The two eyes echo the double “o” in Looksy. Use the violet tile for the icon and lime to highlight a selected result.
 
 | Color | Use | Hex |
 |---|---|---|
-| Pine | Background | `#142D28` |
-| Paper | Headlines and body text | `#F5F2DF` |
-| Lime | Mark and route lines | `#D9FF70` |
-| Tangerine | Destination point | `#FF865D` |
+| Ink | Background | `#26223F` |
+| Cream | Headlines and eyes | `#FFF9EC` |
+| Violet | Icon tile | `#6451C9` |
+| Lime | Selected result | `#DEFF89` |
 
-In a tutorial, introduce the outcome first. For example, “Open Local Leads in Actorfield to find roofing businesses in Austin.” Use “Apify Actors” when explaining where data comes from.
+In a tutorial, introduce the outcome first. For example, “Open Local Leads in Looksy to find roofing businesses in Austin.” Use “Apify Actors” when explaining where data comes from.

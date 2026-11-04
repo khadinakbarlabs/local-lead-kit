@@ -9,7 +9,7 @@ from .server import make_server
 from .core import atomic_json
 
 def main():
-    parser=argparse.ArgumentParser(description='Actorfield — private local business campaigns')
+    parser=argparse.ArgumentParser(description='Looksy — private local business campaigns')
     parser.add_argument('--workspace',default=str(Path.home()/'.local/share/local-lead-kit'))
     parser.add_argument('--env-file',type=Path,help='Explicit private environment file containing APIFY_TOKEN')
     commands=parser.add_subparsers(dest='command',required=True)
@@ -31,7 +31,7 @@ def main():
     if args.command=='serve':
         server=make_server(service,args.port)
         atomic_json(service.workspace/'server-access.json',{'pid':os.getpid(),'port':server.server_port,'cookie':server.cookie_key,'csrf':server.session_key,'ticket':server.ticket})
-        print('Open Actorfield: http://127.0.0.1:'+str(server.server_port)+'/connect?ticket='+server.ticket,flush=True)
+        print('Open Looksy: http://127.0.0.1:'+str(server.server_port)+'/connect?ticket='+server.ticket,flush=True)
         try:server.serve_forever()
         except KeyboardInterrupt:pass
         finally:server.server_close()

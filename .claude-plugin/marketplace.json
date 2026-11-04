@@ -1,7 +1,7 @@
 {
   "name": "local-lead-kit-marketplace",
   "metadata": {
-    "description": "Actorfield brings web research into your AI agent. Explore keywords, search rankings, AI visibility and local leads with public Apify Actors."
+    "description": "Looksy brings web research into your AI agent. Explore keywords, search rankings, AI visibility and local leads with public Apify Actors."
   },
   "owner": {
     "name": "Khadin Akbar"
@@ -10,7 +10,7 @@
     {
       "name": "local-lead-kit",
       "source": "./",
-      "description": "Actorfield brings web research into your AI agent. Explore keywords, search rankings, AI visibility and local leads with public Apify Actors."
+      "description": "Looksy brings web research into your AI agent. Explore keywords, search rankings, AI visibility and local leads with public Apify Actors."
     }
   ]
 }

@@ -39,7 +39,7 @@ def main():
             with tempfile.TemporaryDirectory() as folder:
                 archive.extractall(folder)
                 result=subprocess.run([sys.executable,str(Path(folder)/'skills/local-lead-kit/scripts/launch.py'),'--help'],capture_output=True,text=True)
-                assert result.returncode==0 and 'Actorfield' in result.stdout
+                assert result.returncode==0 and 'Looksy' in result.stdout
                 tool=subprocess.run([sys.executable,str(Path(folder)/'skills/local-lead-kit/scripts/toolbox.py'),'find','humanizer'],capture_output=True,text=True,check=True)
                 assert 'khadinakbar/ai-text-humanizer' in tool.stdout
                 copied=json.loads((Path(folder)/manifest).read_text());assert copied['version']==__version__

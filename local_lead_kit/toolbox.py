@@ -98,7 +98,7 @@ def result(client,ws,key,limit):
     return {**summary,'rows_read':len(rows),'additional_rows':more,'assessment':assessment,'private_file':str(path)}
 
 def main():
-    parser=argparse.ArgumentParser(description='Actorfield: search, preview and use a public Apify Actor.')
+    parser=argparse.ArgumentParser(description='Looksy: search, preview and use a public Apify Actor.')
     parser.add_argument('--workspace',type=Path,default=Path.home()/'.local/share/local-lead-kit/toolbox')
     parser.add_argument('--env-file',type=Path)
     commands=parser.add_subparsers(dest='command',required=True)

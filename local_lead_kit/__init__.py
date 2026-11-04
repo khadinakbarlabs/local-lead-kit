@@ -1,3 +1,3 @@
-"""Actorfield — private, evidence-led local business campaigns."""
+"""Looksy — private, evidence-led local business campaigns."""
 
-__version__ = '0.2.1'
+__version__ = '0.2.2'
