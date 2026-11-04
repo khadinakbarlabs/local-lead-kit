@@ -1,20 +1,214 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Local Leads · Looksy Agent</title><link rel="icon" href="/looksy.png"><link rel="stylesheet" href="/style.css"></head>
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Local Leads · Looksy Agent</title>
+  <link rel="icon" href="/looksy.png">
+  <link rel="stylesheet" href="/style.css">
+</head>
 <body>
-<header><a class="brand" href="/" aria-label="Looksy Agent Local Leads home"><img src="/looksy.png" width="46" height="46" alt=""><div>Looksy Agent<small>Local Leads</small></div></a><nav><button id="new-button">New campaign</button><label class="sr-only" for="saved-jobs">Recent campaigns</label><select id="saved-jobs"><option value="">Recent campaigns</option></select><a class="github" href="https://github.com/khadinakbarlabs/looksy" target="_blank" rel="noopener noreferrer">GitHub ↗</a><span id="connection" class="chip muted">Checking setup</span></nav></header>
-<div id="message" role="status" hidden></div><label class="sr-only" for="review-offer">Your offer for AI review</label>
-<main><p id="campaign-step-label" class="hint" role="status">Step 1 of 4 · Business and location</p>
- <section id="create-view">
-  <div class="intro"><div class="eyebrow">LOCAL LEADS / GOOGLE MAPS</div><h1 id="create-title">Find businesses <em>in your market.</em></h1><p id="create-description">Choose a business type and the cities you serve.</p></div>
-  <div class="create-grid"><form id="campaign-form" class="panel form-panel">
-   <fieldset id="target-fields"><legend>Business and location</legend><label for="niche">Business niche</label><input id="niche" name="niche" placeholder="e.g. roofing contractors" minlength="2" maxlength="120" required autocomplete="off">
-   <label for="locations">Cities or territories <span>One per line</span></label><textarea id="locations" name="locations" placeholder="Austin, TX&#10;San Antonio, TX" rows="3" maxlength="2500" required></textarea>
-   </fieldset><fieldset id="options-fields" hidden><legend>Research options</legend><label for="target">Business target</label><div class="presets"><button type="button" class="selected" data-target="25">25</button><button type="button" data-target="100">100</button><button type="button" data-target="250">250</button><input id="target" name="target" aria-label="Custom business target" type="number" value="25" min="1" max="5000" required></div>
-   <div class="budget-line"><div><label for="budget">Actor event limit <span>USD</span></label><input id="budget" name="budget_usd" type="number" value="10" min="0.5" max="500" step="0.01" required></div><p>Suggested limit for Actor event charges. Platform usage is billed separately. Review the current prices before starting.</p></div>
-   <details class="options"><summary>Contacts & optional AI review</summary><label class="check"><input type="checkbox" name="include_contacts" checked>Include public website contact details</label><label class="check"><input type="checkbox" id="analysis-toggle" name="analysis">Ask my assistant for AI review</label><label for="offer">Your offer <span>For AI review</span></label><textarea id="offer" name="offer" rows="2" maxlength="1000" placeholder="e.g. I design websites for local service businesses."></textarea><p class="hint">AI review uses your active Codex or Claude session. It adds sourced research notes to a bounded sample.</p></details>
-   </fieldset><div class="actions"><button type="button" id="target-back" class="secondary" hidden>Back</button><button type="button" id="target-next" class="primary">Continue to options</button><button class="primary" id="plan-button" hidden type="submit">Preview sources and costs <span>↗</span></button></div><p class="hint">Your details stay in place when going back. Previewing sources starts no collection. Results are saved locally.</p>
-  </form><aside class="preview"><div class="illustration"><img src="/neighborhood.png" alt="Illustrative local business neighborhood"></div><h2>One shortlist.<br><em>Sources included.</em></h2><div class="outcomes"><span>⌖ Business details</span><span>@ Contact sources</span><span>✓ Review notes</span></div><p>Use several relevant territories for a larger target. Actual coverage stays visible.</p></aside></div>
- </section>
- <section id="plan-view" hidden><div class="intro"><div class="eyebrow">REVIEW YOUR CAMPAIGN</div><h1 id="plan-title"></h1><p>Review your target and costs. Starting research uses the sources below.</p></div><div id="plan-summary" class="stats"></div><div class="panel plan-card"><div id="plan-copy"></div><p>Actor event charges are capped by your limit. Platform usage is separate. Change your target, contact research or event limit with Edit information.</p><details><summary>Sources & current event prices</summary><div id="source-details"></div></details><div class="actions"><button id="approve-button" class="primary">Approve & start research</button><button id="edit-button" class="secondary">Edit information</button></div></div></section>
- <section id="result-view" hidden><div class="results-heading"><div><div id="result-eyebrow" class="eyebrow"></div><h1 id="result-title"></h1></div><span id="result-status" class="chip"></span></div><div id="run-message" class="run-message" role="status"></div><div id="result-stats" class="stats"></div><div class="table-toolbar"><div class="tabs" role="tablist"><button role="tab" data-kind="businesses" aria-selected="true">Businesses</button><button role="tab" data-kind="contacts" aria-selected="false">Contacts</button><button role="tab" data-kind="analysis" aria-selected="false">AI review</button></div><div class="tools"><input id="search" aria-label="Search this list" placeholder="Search this list"><label for="export-destination" class="sr-only">Export format</label><select id="export-destination"><option value="research">Research CSV</option><option value="instantly">Instantly contacts</option><option value="smartlead">Smartlead contacts</option><option value="hubspot">HubSpot contacts</option></select><button id="export-button" class="secondary">Download CSV ↓</button></div></div><p id="export-status" class="hint" role="status"></p><div id="analysis-controls" class="panel" hidden><div><h3>Give the review a purpose.</h3><p>Describe your offer. Your active assistant can review up to 25 businesses using the saved evidence and public sources.</p></div><textarea id="review-offer" rows="2" maxlength="1000" placeholder="What service do you offer?"></textarea><button id="request-analysis" class="primary">Request AI review</button><span id="analysis-status" class="hint"></span></div><div class="result-layout"><div><div id="rows" class="rows"></div><div class="pagination"><button id="previous" class="secondary">← Previous</button><span id="page-info"></span><button id="next" class="secondary">Next →</button></div></div><aside id="detail" class="detail"></aside></div><div class="result-footer"><span>Source context and uncertainty stay attached.</span><button id="resume-button" class="secondary" hidden>Resume saved campaign</button></div></section>
-</main><footer><span>Private local workspace · no automatic outreach</span><span>Actual results depend on your territory and source coverage.</span></footer>
-<script nonce="__NONCE__">window.looksyBootstrap=__BOOTSTRAP__;</script><script src="/app.js" defer></script></body></html>
+  <a class="skip-link" href="#main">Skip to campaign</a>
+  <header class="masthead">
+    <div class="shell header-inner">
+      <a class="brand" href="/" aria-label="Looksy Agent Local Leads home">
+        <svg class="wordmark-eyes" aria-hidden="true" viewBox="0 0 44 31">
+          <g fill="currentColor"><rect x="1" y="2" width="21" height="27" rx="10.5"/><rect x="22" y="1" width="21" height="27" rx="10.5"/></g>
+          <g fill="#f5f5ef"><circle cx="14" cy="15" r="3.7"/><circle cx="35" cy="14" r="3.7"/></g>
+        </svg>
+        <span>Looksy Agent</span>
+      </a>
+      <span class="workspace-name">Local Leads</span>
+      <nav class="header-actions" aria-label="Campaign tools">
+        <label class="sr-only" for="saved-jobs">Recent campaigns</label>
+        <select id="saved-jobs"><option value="">Recent campaigns</option></select>
+        <button id="new-button" class="secondary new-button"><span aria-hidden="true">+</span> New campaign</button>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main" class="shell" tabindex="-1">
+    <nav class="chapter-nav" aria-label="Campaign progress">
+      <ol id="chapters">
+        <li aria-current="step"><span class="chapter-number">01</span><span>Territory</span></li>
+        <li><span class="chapter-number">02</span><span>Options</span></li>
+        <li><span class="chapter-number">03</span><span>Review</span></li>
+        <li><span class="chapter-number">04</span><span>Results</span></li>
+      </ol>
+      <p id="campaign-step-label" class="sr-only" role="status">Step 1 of 4 · Business and location</p>
+    </nav>
+    <div id="message" role="alert" hidden></div>
+
+    <section id="create-view" class="workbook" aria-labelledby="create-title">
+      <div class="worksheet">
+        <div class="intro">
+          <p id="create-eyebrow" class="eyebrow"><span class="tick" aria-hidden="true"></span> Google Maps research</p>
+          <h1 id="create-title">Find local businesses.</h1>
+          <p id="create-description">Start with the businesses you want to find and where to look.</p>
+        </div>
+        <form id="campaign-form">
+          <fieldset id="target-fields">
+            <legend class="sr-only">Business and location</legend>
+            <label for="niche">Business type</label>
+            <input id="niche" name="niche" placeholder="e.g. Roofing contractors" minlength="2" maxlength="120" required autocomplete="off">
+            <div class="field-label"><label for="locations">Cities or territories</label><span id="locations-hint">One per line</span></div>
+            <textarea id="locations" name="locations" placeholder="Austin, TX&#10;San Antonio, TX" rows="3" maxlength="2500" aria-describedby="locations-hint" required></textarea>
+          </fieldset>
+          <fieldset id="options-fields" hidden>
+            <legend class="sr-only">Research options</legend>
+            <label for="target">Business target</label>
+            <div class="presets">
+              <div role="group" class="target-choices" aria-label="Suggested business targets">
+                <button type="button" data-target="25" aria-pressed="true">25</button>
+                <button type="button" data-target="100" aria-pressed="false">100</button>
+                <button type="button" data-target="250" aria-pressed="false">250</button>
+              </div>
+              <div class="custom-target"><span aria-hidden="true">Custom</span><input id="target" name="target" aria-label="Custom business target" type="number" value="25" min="1" max="5000" required></div>
+            </div>
+            <label for="budget">Actor event limit</label>
+            <div class="currency-input"><span>USD</span><input id="budget" name="budget_usd" type="number" value="10" min="0.5" max="500" step="0.01" aria-describedby="budget-hint" required></div>
+            <p class="hint" id="budget-hint">This caps Actor event charges. Apify platform usage is billed separately.</p>
+            <details class="options">
+              <summary>Contacts and AI review</summary>
+              <div class="options-body">
+                <label class="check"><input type="checkbox" name="include_contacts" checked><span>Include public website contacts</span></label>
+                <label class="check"><input type="checkbox" id="analysis-toggle" name="analysis"><span>Request an AI review from my assistant</span></label>
+                <div id="offer-fields" hidden>
+                  <label for="offer">What do you offer?</label>
+                  <textarea id="offer" name="offer" rows="2" maxlength="1000" placeholder="e.g. Website design for local businesses" aria-describedby="offer-hint"></textarea>
+                  <p id="offer-hint" class="hint">Your active Codex or Claude session reviews up to 25 businesses using saved evidence and public sources.</p>
+                </div>
+              </div>
+            </details>
+          </fieldset>
+          <div class="actions">
+            <button type="button" id="target-back" class="secondary" hidden>Back</button>
+            <button type="button" id="target-next" class="primary forward">Continue to options</button>
+            <button id="plan-button" class="primary forward" type="submit" hidden>Preview sources and costs</button>
+          </div>
+          <p class="form-footnote"><span class="hollow-dot" aria-hidden="true"></span> Research starts after you approve the costs.</p>
+        </form>
+      </div>
+      <aside class="field-guide" aria-labelledby="guide-title">
+        <figure class="map-plate">
+          <div class="map-meta"><span>Territory study <span>/</span> 01</span><span class="north" aria-hidden="true">N ↑</span></div>
+          <svg class="map" viewBox="0 0 420 215" role="img" aria-labelledby="map-title" preserveAspectRatio="xMidYMid slice">
+            <title id="map-title">Illustrative street map with a route connecting three business locations</title>
+            <defs>
+              <pattern id="survey-grid" width="19" height="19" patternUnits="userSpaceOnUse">
+                <path d="M19 0H0v19" fill="none" stroke="#91b59b" stroke-width=".7" opacity=".32"/>
+              </pattern>
+              <pattern id="streets" width="60" height="43" patternUnits="userSpaceOnUse" patternTransform="rotate(-22)">
+                <rect x="4" y="4" width="20" height="13" rx="1" fill="#63806b"/>
+                <rect x="27" y="4" width="27" height="13" rx="1" fill="#63806b"/>
+                <rect x="4" y="20" width="50" height="16" rx="1" fill="#63806b"/>
+              </pattern>
+              <g id="site-marker">
+                <circle r="9" fill="#1c3e33" stroke="#d6e6a6" stroke-width="1.4"/>
+                <circle r="3" fill="#e5efb4"/>
+              </g>
+            </defs>
+            <rect width="420" height="215" fill="url(#survey-grid)"/>
+            <path d="M235-18H425v242H164c14-37 42-60 24-107-23-50 10-81 47-135Z" fill="url(#streets)" opacity=".32"/>
+            <g fill="none" stroke="#678875" stroke-width=".9" opacity=".74">
+              <path d="M-50 18C28-35 47 67 100 50s61-42 107-37S260-6 266-34"/>
+              <path d="M-60 26C20-28 46 77 104 58s65-42 110-36S271-6 276-32"/>
+              <path d="M-59 34C17-19 45 87 109 65s67-43 111-35S280-5 286-31"/>
+              <path d="M-58 43C12-13 45 96 115 73s69-43 112-33S290-4 296-30"/>
+              <path d="M-57 52C8-7 45 105 121 81s71-43 113-31S300-3 306-30"/>
+              <path d="M-58 61C3 0 48 116 127 89s72-44 114-29S309-1 316-29"/>
+              <path d="M-22 144c49-35 87-35 107-13s24 56 0 83-65 33-94 25"/>
+              <path d="M-21 154c44-36 80-39 100-17s21 49 0 72-59 31-85 23"/>
+              <path d="M-21 165c44-36 74-44 93-23s19 43-1 62-51 29-76 20"/>
+              <path d="M-20 176c46-38 70-49 86-28s17 38-2 53-44 24-66 18"/>
+              <path d="M-18 186c47-40 64-52 77-32s15 32-4 45-35 19-54 15"/>
+            </g>
+            <path d="M280-24c-9 42-71 60-89 105s20 54 10 88-30 50-24 81" fill="none" stroke="#82aa92" stroke-width="11"/>
+            <path d="M280-24c-9 42-71 60-89 105s20 54 10 88-30 50-24 81" fill="none" stroke="#315b4a" stroke-width="7.5"/>
+            <path d="M-10 136 98 102l57 8 49 15 53-36 53-6 119-41M249 217l14-49 53-35 40-37 83-12" fill="none" stroke="#a6b99f" stroke-width="2" opacity=".65"/>
+            <path d="m85 106 26-9 44 13 43 14 35-21 27-17 50-4 29-27" fill="none" stroke="#e4ecaa" stroke-width="2" stroke-dasharray="4 4" stroke-linecap="round"/>
+            <use href="#site-marker" x="85" y="106"/><use href="#site-marker" x="233" y="103"/><use href="#site-marker" x="339" y="55"/>
+            <g class="map-label" fill="#edeee0">
+              <text x="72" y="91">01</text><text x="226" y="87">02</text><text x="345" y="42">03</text>
+            </g>
+          </svg>
+          <figcaption><span class="map-rule" aria-hidden="true"></span> Illustrative map</figcaption>
+        </figure>
+        <div class="guide-notes">
+          <p class="eyebrow">Field notes</p>
+          <h2 id="guide-title">Inside your shortlist</h2>
+          <ol class="guide-list">
+            <li><span>01</span><div><strong>Business listings</strong><small>Names, addresses and Google Maps sources.</small></div></li>
+            <li><span>02</span><div><strong>Public contacts</strong><small>Public emails found on business websites.</small></div></li>
+            <li><span>03</span><div><strong>Research exports</strong><small>Download your list as a CSV for review.</small></div></li>
+          </ol>
+        </div>
+      </aside>
+    </section>
+
+    <section id="plan-view" hidden aria-labelledby="plan-title">
+      <div class="intro">
+        <p class="eyebrow"><span class="tick" aria-hidden="true"></span> Campaign review</p>
+        <h1 id="plan-title" tabindex="-1"></h1>
+        <p id="plan-locations"></p>
+      </div>
+      <div id="plan-summary" class="stats"></div>
+      <div class="review-grid">
+        <div class="sources-area">
+          <h2>Research sources</h2>
+          <p class="hint">Check each Actor and its current event prices before starting.</p>
+          <details class="source-disclosure"><summary>Sources and event prices</summary><div id="source-details"></div></details>
+        </div>
+        <aside class="approval" aria-labelledby="approval-title">
+          <p class="eyebrow">Authorization</p>
+          <h2 id="approval-title">Before you start</h2>
+          <div id="plan-copy"></div>
+          <div class="actions"><button id="approve-button" class="primary">Approve and start research</button><button id="edit-button" class="secondary">Edit information</button></div>
+        </aside>
+      </div>
+    </section>
+
+    <section id="result-view" hidden aria-labelledby="result-title">
+      <div class="results-heading">
+        <div class="intro"><p id="result-eyebrow" class="eyebrow"></p><h1 id="result-title" tabindex="-1"></h1><p id="result-locations"></p></div>
+        <span id="result-status" class="chip"></span>
+      </div>
+      <div id="run-message" class="run-message" role="status"></div>
+      <div id="result-stats" class="stats"></div>
+      <div class="tabs" role="tablist" aria-label="Research results">
+        <button id="tab-businesses" role="tab" data-kind="businesses" aria-controls="results-panel" aria-selected="true">Businesses</button>
+        <button id="tab-contacts" role="tab" data-kind="contacts" aria-controls="results-panel" aria-selected="false" tabindex="-1">Contacts</button>
+        <button id="tab-analysis" role="tab" data-kind="analysis" aria-controls="results-panel" aria-selected="false" tabindex="-1">AI review</button>
+      </div>
+      <div id="results-panel" role="tabpanel" aria-labelledby="tab-businesses">
+        <div class="table-toolbar">
+          <div class="search-box"><label for="search" class="sr-only">Search this list</label><input id="search" type="search" placeholder="Search this list"></div>
+          <div class="export-tools"><label for="export-destination" class="sr-only">Export format</label>
+            <select id="export-destination"><option value="research">Research CSV</option><option value="instantly">Instantly contacts</option><option value="smartlead">Smartlead contacts</option><option value="hubspot">HubSpot contacts</option></select>
+            <button id="export-button" class="secondary">Download CSV <span aria-hidden="true">↓</span></button>
+          </div>
+        </div>
+        <p id="export-status" class="hint" role="status"></p>
+        <div id="analysis-controls" class="annotation" hidden>
+          <div><p class="eyebrow">Assistant review</p><h2>What do you offer?</h2><p>Your active assistant can review up to 25 businesses using saved evidence and public sources.</p></div>
+          <div><label class="sr-only" for="review-offer">Your offer for AI review</label><textarea id="review-offer" rows="2" maxlength="1000" placeholder="e.g. Website design for local businesses"></textarea><button id="request-analysis" class="secondary">Request AI review</button><p id="analysis-status" class="hint" role="status"></p></div>
+        </div>
+        <div class="result-layout">
+          <div class="record-list"><div id="rows" class="rows" aria-label="Research records"></div>
+            <div class="pagination"><button id="previous" class="secondary">Previous</button><span id="page-info"></span><button id="next" class="secondary">Next</button></div>
+          </div>
+          <aside id="detail" class="detail" aria-label="Selected record details"></aside>
+        </div>
+      </div>
+      <div class="result-footer"><button id="resume-button" class="secondary" hidden>Resume saved campaign</button></div>
+    </section>
+  </main>
+
+  <footer class="shell footer">
+    <span><span class="hollow-dot" aria-hidden="true"></span>Private local workspace</span>
+    <div><span id="connection" role="status">Checking setup</span><a href="https://github.com/khadinakbarlabs/looksy" target="_blank" rel="noopener noreferrer">GitHub ↗</a></div>
+  </footer>
+  <script nonce="__NONCE__">window.looksyBootstrap=__BOOTSTRAP__;</script>
+  <script src="/app.js" defer></script>
+</body>
+</html>

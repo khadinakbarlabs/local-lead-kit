@@ -26,3 +26,9 @@ Checked 4 November 2026. The local suite passes 48 tests, including the seven or
 Chrome checks compare task and workflow suggestions against the Python router, exercise editable handoffs, research-area selection, three-step guide navigation, four-step campaign navigation, 390px and desktop layouts, validated campaign prefill, saved-request restoration, inert script text in drafts and destination-export preview/download. These checks use offline fixtures and private local servers.
 
 All four native archives are extracted and exercise discovery, research-area listing and a complete workflow-plan command. Package checks reject credential-shaped material and private local paths and exclude internal research and implementation notes. No paid Actor runs were required for this release, and API import/delivery to external CRM or outreach accounts was not exercised. CSV formats are local preparation with destination-side field review.
+
+## Looksy Agent 0.4.1
+
+The Research Guide and Local Leads use the same field-notebook design. The generated guide includes its styles, behavior and illustrations in both published HTML files so the downloadable guide works offline. The README preview is a screenshot of the shipped guide with illustrative data.
+
+Validation covers route and recipe parity, all three sample outputs, editable example requests, explicit path choices, saved templates, keyboard handoff, narrow viewports, Local Leads draft restoration and destination CSV preview/download. Campaign cost and start checks use local fixtures. Live paid Actor execution was outside this frontend release.

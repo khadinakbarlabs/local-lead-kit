@@ -3,5 +3,5 @@ interface:
   short_description: "Find data, analyze results and resume research"
   icon_small: "./assets/mark.svg"
   icon_large: "./assets/mark.svg"
-  brand_color: "#6451C9"
+  brand_color: "#216246"
   default_prompt: "Use $looksy to find the best Actor for my goal and show the inputs, expected output and cost before running it."

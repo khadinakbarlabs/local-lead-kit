@@ -22,6 +22,13 @@ def main():
         errors = []
         page.on('pageerror', lambda error: errors.append(str(error)))
         page.goto((ROOT / 'docs/index.html').as_uri())
+        for name in ['SEO repair list', 'AI citation report', 'Prospect spreadsheet']:
+            page.locator('#sample-next').click()
+            expect(page.locator('#sample-title')).to_have_text(name)
+        page.locator('#sample-use').click()
+        expect(page.locator('#q')).to_have_value('Find 25 roofers in Austin')
+        assert page.locator('#goal-step').is_visible()
+
         def enter_goal(query):
             if not page.locator('#goal-step').is_visible():
                 page.locator('#guide-start-over').click()
@@ -54,23 +61,35 @@ def main():
         enter_goal('Analyze Discord discussion and plan content')
         page.locator('#area').select_option('communities')
         page.locator('#recipes summary').first.click()
-        page.get_by_text('Design this workflow with my assistant', exact=True).first.click()
+        page.get_by_text('Use this workflow', exact=True).first.click()
         assert 'Analyze Discord discussion and plan content' in page.locator('#request').input_value()
-        assert 'Workflow starting point:' in page.locator('#request').input_value()
+        assert 'Workflow\n' in page.locator('#request').input_value()
         assert page.locator('#area option').count() == 37
         enter_goal('Find 25 roofers in Austin')
         page.locator('#area').select_option('')
         page.locator('#advanced>summary').click()
         page.locator('#list summary').first.click()
-        page.locator('#list li').first.get_by_text('Prepare request for my assistant', exact=True).click()
+        page.locator('#list li').first.get_by_text('Use this task', exact=True).click()
         request = page.locator('#request')
         assert 'Find 25 roofers in Austin' in request.input_value()
         assert 'google-maps-leads-scraper' in request.input_value()
         request.fill(request.input_value() + '\nDeliver a CSV for Client A.')
         assert 'Client A' in request.input_value()
-        for width in [390, 1280]:
+        for width in [320, 390, 1280]:
             page.set_viewport_size({'width': width, 'height': 844})
             assert page.evaluate('document.documentElement.scrollWidth') <= width
+        enter_goal('Find 25 roofers in Austin')
+        page.locator('#advanced>summary').click()
+        page.locator('#list summary').first.click()
+        page.locator('#list li').first.get_by_text('Save template', exact=True).click()
+        assert page.locator('#advanced').get_attribute('open') is not None
+        page.reload()
+        enter_goal('Find 25 roofers in Austin')
+        page.locator('#advanced>summary').click()
+        page.locator('#saved').click()
+        assert page.locator('#list>li').count() == 1
+        page.locator('#reset').click()
+        expect(page.locator('#q')).to_have_value('Find 25 roofers in Austin')
         assert not errors, errors
         browser.close()
     print('PASS guide: routing parity, existing-data/recent actions, editable contextual handoff and mobile/desktop layout.')

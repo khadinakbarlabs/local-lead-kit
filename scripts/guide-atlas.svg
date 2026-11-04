@@ -1,0 +1,42 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 440 190" preserveAspectRatio="xMidYMid slice" focusable="false">
+  <defs>
+    <pattern id="grid" width="20" height="20" patternUnits="userSpaceOnUse">
+      <path d="M20 0H0V20" stroke="#638570" stroke-opacity=".3" fill="none"/>
+    </pattern>
+    <g id="point">
+      <circle r="8" fill="#193d2d" stroke="#c4df93" stroke-width="2"/>
+      <circle r="3" fill="#c4df93"/>
+    </g>
+  </defs>
+  <rect width="440" height="190" fill="#193d2d"/>
+  <rect width="440" height="190" fill="url(#grid)"/>
+  <g data-art="0">
+    <g fill="none" stroke="#527b5f" stroke-width="1.2">
+      <path d="M-50 25C32 15 12 110 96 86S176 20 225 35 220 94 313 88 374 46 470 59"/>
+      <path d="M-50 38C27 27 19 122 102 98S180 34 221 47 221 108 313 100 384 59 470 71"/>
+      <path d="M-50 52C23 39 23 137 109 112S184 48 216 61 226 123 317 113 397 71 470 84"/>
+      <path d="M-50 68C22 50 28 151 116 125S187 62 210 74 230 139 323 126 401 84 470 97"/>
+      <path d="M175 -18C229 9 268 -10 302 14S317 49 378 26 412 1 470 2"/>
+      <path d="M205 -20C244 1 274 -20 309 2S325 37 378 14 414 -7 470 -10"/>
+      <path d="M100 198C156 170 142 146 174 131S219 164 251 174 309 182 331 203"/>
+      <path d="M122 204C171 183 153 156 179 145S219 180 252 186 303 195 315 215"/>
+    </g>
+    <path d="M-12 151 61 140 90 156 135 132 174 99 234 89 260 64 298 55 332 35 366 38 392 16 460 0" stroke="#99b89d" stroke-width="4" fill="none" opacity=".6"/>
+    <path d="M78 119 166 61 261 106 348 51" fill="none" stroke="#c4df93" stroke-width="1.8" stroke-dasharray="5 4"/>
+    <use href="#point" x="78" y="119"/><use href="#point" x="166" y="61"/><use href="#point" x="261" y="106"/><use href="#point" x="348" y="51"/>
+    <g fill="#dfebd6" font-family="monospace" font-size="9"><text x="80" y="104">01</text><text x="170" y="46">02</text><text x="263" y="90">03</text><text x="351" y="36">04</text></g>
+  </g>
+  <g data-art="1" hidden stroke="#bbd6b0" stroke-width="1.5" fill="#264e38">
+    <path d="M102 88H152V46H199M152 88H199M152 88V130H199M250 46H294V88H334" fill="none"/>
+    <rect x="48" y="72" width="54" height="34" rx="3"/><rect x="199" y="31" width="51" height="30" rx="3"/>
+    <rect x="199" y="73" width="51" height="30" rx="3"/><rect x="199" y="115" width="51" height="30" rx="3"/>
+    <rect x="334" y="73" width="56" height="30" rx="3"/>
+    <path d="M59 82h26m-26 8h15m114 -47h21m-21 42h21m-21 42h21m115 -40h20" stroke="#c4df93"/>
+  </g>
+  <g data-art="2" hidden fill="none" stroke="#b9d2a6" stroke-width="1.6">
+    <path d="M70 91H150M170 91C210 91 200 42 250 42H307M170 91H307M170 91C210 91 200 138 250 138H307"/>
+    <use href="#point" x="70" y="91"/><circle cx="160" cy="91" r="11" fill="#193d2d"/>
+    <circle cx="318" cy="42" r="9"/><circle cx="318" cy="91" r="9"/><circle cx="318" cy="138" r="9"/>
+    <path d="M335 39h44m-44 6h30m-30 43h44m-44 6h24m-24 41h44m-44 6h34" stroke="#84a58e"/>
+  </g>
+</svg>

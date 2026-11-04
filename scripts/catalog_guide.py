@@ -21,6 +21,8 @@ def main():
                 search=' '.join([c['task'],c['actor'],c['category'],c['subcategory'],c['aliases'],c['description']]).lower().replace('-',' ')) for c in ordered]
     safe=json.dumps({'actors':actors,'tasks':tasks,'routing':ROUTING,'stop':sorted(STOP),'aliases':ALIASES,'weights':weights,'areas':areas(),'recipes':recipes(),'workflow_anchors':sorted(WORKFLOW_ANCHORS)},ensure_ascii=True,separators=(',',':')).replace('<',r'\u003c')
     page=template.replace('__INVENTORY__',safe).replace('__MARK__',(ROOT/'docs/brand/mark.svg').read_text())
+    for marker, filename in [('__STYLES__', 'guide.css'), ('__SCRIPT__', 'guide.js'), ('__ATLAS__', 'guide-atlas.svg')]:
+        page = page.replace(marker, (ROOT / 'scripts' / filename).read_text())
     for name in ('catalog.html','index.html'):
         (ROOT/'docs'/name).write_text(page)
     outline=['# Looksy Agent task library',f"{len(cards):,} task entries from {len(actors)} public Actors. Expand a category to see its subcategories and individual tasks. The Field Guide adds research areas, workflow recipes, saved templates and copyable requests."]
