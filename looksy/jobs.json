@@ -1,0 +1,418 @@
+{
+ "version": 1,
+ "note": "A job is what the user wants done. Tools are listed best-first; get_tool shows live inputs and prices for each.",
+ "jobs": [
+  {
+   "id": "maps.leads",
+   "area": "Leads",
+   "title": "Local business leads from Google Maps",
+   "ask": "Find [roofers] in [Austin, TX] with phone, website and rating",
+   "tools": [
+    "khadinakbar/google-maps-leads-scraper",
+    "khadinakbar/google-maps-extractor",
+    "khadinakbar/apple-maps-business-scraper"
+   ],
+   "next": [
+    "contacts.from_website",
+    "email.verify"
+   ],
+   "keywords": "local businesses leads prospects clients places contractors dentists roofers plumbers agencies"
+  },
+  {
+   "id": "maps.reviews",
+   "area": "Leads",
+   "title": "Google Maps reviews for a business",
+   "ask": "Get the latest 100 Google reviews for [business or Maps URL]",
+   "tools": [
+    "khadinakbar/google-maps-reviews-scraper"
+   ],
+   "keywords": ""
+  },
+  {
+   "id": "contacts.from_website",
+   "area": "Leads",
+   "title": "Emails, phones and socials from company websites",
+   "ask": "Get public emails and social links for these [websites]",
+   "tools": [
+    "khadinakbar/bulk-website-contact-extractor",
+    "khadinakbar/contact-details-scraper"
+   ],
+   "next": [
+    "email.verify"
+   ],
+   "keywords": "email emails contact contacts phone socials website websites enrich enrichment"
+  },
+  {
+   "id": "email.verify",
+   "area": "Leads",
+   "title": "Check whether email addresses are deliverable",
+   "ask": "Validate these [emails] and drop the risky ones",
+   "tools": [
+    "khadinakbar/email-address-validator"
+   ],
+   "keywords": "validate validation deliverable bounce verify verification clean list"
+  },
+  {
+   "id": "email.find.linkedin",
+   "area": "Leads",
+   "title": "Work email from a LinkedIn profile",
+   "ask": "Find the work email for [LinkedIn URL]",
+   "tools": [
+    "khadinakbar/linkedin-email-finder",
+    "khadinakbar/linkedin-profile-email-scraper"
+   ],
+   "next": [
+    "email.verify"
+   ],
+   "keywords": ""
+  },
+  {
+   "id": "linkedin.people",
+   "area": "Leads",
+   "title": "Find people on LinkedIn by title, company or location",
+   "ask": "Find [heads of marketing] at [SaaS companies] in [Germany]",
+   "tools": [
+    "khadinakbar/linkedin-profile-search-scraper",
+    "khadinakbar/linkedin-profile-details-scraper"
+   ],
+   "next": [
+    "email.find.linkedin"
+   ],
+   "keywords": "linkedin people decision makers prospects titles b2b"
+  },
+  {
+   "id": "linkedin.companies",
+   "area": "Leads",
+   "title": "Find companies on LinkedIn",
+   "ask": "Find [fintech] companies in [London] with 50-200 staff",
+   "tools": [
+    "khadinakbar/linkedin-company-search-scraper"
+   ],
+   "keywords": ""
+  },
+  {
+   "id": "linkedin.posts",
+   "area": "Social",
+   "title": "LinkedIn posts by keyword or profile",
+   "ask": "Find LinkedIn posts about [AI agents] from the last week",
+   "tools": [
+    "khadinakbar/linkedin-post-search-scraper",
+    "khadinakbar/linkedin-profile-posts-scraper",
+    "khadinakbar/linkedin-posts-scraper"
+   ],
+   "keywords": ""
+  },
+  {
+   "id": "phone.lookup",
+   "area": "Leads",
+   "title": "Phone number carrier, type and owner signals",
+   "ask": "Look up carrier and line type for these [numbers]",
+   "tools": [
+    "khadinakbar/phone-number-lookup-api"
+   ],
+   "keywords": ""
+  },
+  {
+   "id": "serp.organic",
+   "area": "SEO",
+   "title": "Google search results for a keyword",
+   "ask": "Get the top 20 Google results for [keyword] in [US]",
+   "tools": [
+    "khadinakbar/scrape-google-serp",
+    "khadinakbar/google-serp-all-in-one-scraper"
+   ],
+   "keywords": "serp google results search ranking pages top results"
+  },
+  {
+   "id": "keywords.volume",
+   "area": "SEO",
+   "title": "Keyword search volume, CPC and ideas",
+   "ask": "Get monthly volume and CPC for these [keywords] in [US]",
+   "tools": [
+    "khadinakbar/dataforseo-keyword-research",
+    "khadinakbar/keyword-search-volume-api",
+    "khadinakbar/google-keyword-planner-mcp"
+   ],
+   "keywords": "keyword keywords volume cpc search demand ideas research"
+  },
+  {
+   "id": "keywords.trends",
+   "area": "SEO",
+   "title": "Google Trends interest over time",
+   "ask": "Compare Google Trends for [keyword A] vs [keyword B] over 12 months",
+   "tools": [
+    "khadinakbar/google-trends-scraper"
+   ],
+   "keywords": ""
+  },
+  {
+   "id": "rank.track",
+   "area": "SEO",
+   "title": "Where a domain ranks for keywords",
+   "ask": "Check where [domain] ranks for these [keywords] in [city]",
+   "tools": [
+    "khadinakbar/accuranker-alternative",
+    "khadinakbar/local-rank-tracker",
+    "khadinakbar/keyword-rank-tracker"
+   ],
+   "keywords": "rank ranking rankings position track tracker serp"
+  },
+  {
+   "id": "seo.audit",
+   "area": "SEO",
+   "title": "Technical SEO audit of a website",
+   "ask": "Audit [website] and list the top 10 fixes",
+   "tools": [
+    "khadinakbar/complete-seo-audit",
+    "khadinakbar/website-seo-spider",
+    "khadinakbar/broken-link-checker"
+   ],
+   "keywords": "seo audit technical site crawl broken links pagespeed fixes"
+  },
+  {
+   "id": "backlinks",
+   "area": "SEO",
+   "title": "Backlinks and link opportunities",
+   "ask": "Find sites linking to [competitor] but not to [my domain]",
+   "tools": [
+    "khadinakbar/backlink-opportunity-finder",
+    "khadinakbar/website-backlink-checker"
+   ],
+   "keywords": ""
+  },
+  {
+   "id": "ai.visibility",
+   "area": "AI visibility",
+   "title": "Does ChatGPT/Perplexity/Gemini recommend a brand",
+   "ask": "Check if AI assistants mention [brand] for [buyer questions]",
+   "tools": [
+    "khadinakbar/ai-search-visibility-tracker",
+    "khadinakbar/ai-search-brand-monitor",
+    "khadinakbar/llm-visibility-tracker"
+   ],
+   "keywords": "ai chatgpt perplexity gemini claude llm mention mentions mentioned recommend recommends brand visibility answers geo aeo"
+  },
+  {
+   "id": "ai.citations",
+   "area": "AI visibility",
+   "title": "Which sites AI answers cite",
+   "ask": "Which URLs do AI answers cite for [question]",
+   "tools": [
+    "khadinakbar/ai-citations-tracker",
+    "khadinakbar/ai-overviews-tracker"
+   ],
+   "keywords": "cite cited citations sources urls"
+  },
+  {
+   "id": "ai.overviews",
+   "area": "AI visibility",
+   "title": "Google AI Overviews and AI Mode answers",
+   "ask": "Get the Google AI Overview and AI Mode answer for [query]",
+   "tools": [
+    "khadinakbar/google-ai-mode-scraper",
+    "khadinakbar/google-ai-overviews-scraper"
+   ],
+   "keywords": "google ai overview overviews ai mode sge"
+  },
+  {
+   "id": "text.ai_detect",
+   "area": "Writing",
+   "title": "AI-written text detection",
+   "ask": "Score these [drafts] for AI-likelihood",
+   "tools": [
+    "khadinakbar/ai-content-detector"
+   ],
+   "keywords": ""
+  },
+  {
+   "id": "text.humanize",
+   "area": "Writing",
+   "title": "Rewrite an authorized draft to sound human",
+   "ask": "Humanize this [draft] in a friendly tone",
+   "tools": [
+    "khadinakbar/ai-text-humanizer"
+   ],
+   "keywords": ""
+  },
+  {
+   "id": "ads.meta",
+   "area": "Ads",
+   "title": "Competitor ads from the Meta/Facebook Ad Library",
+   "ask": "Get all active Meta ads from [brand] in [US]",
+   "tools": [
+    "khadinakbar/facebook-ads-library-scraper",
+    "khadinakbar/meta-ad-library-scraper"
+   ],
+   "keywords": "facebook meta instagram ads ad library competitor"
+  },
+  {
+   "id": "ads.google",
+   "area": "Ads",
+   "title": "Competitor ads from Google Ads Transparency",
+   "ask": "Get Google ads run by [domain]",
+   "tools": [
+    "khadinakbar/google-ads-transparency-scraper"
+   ],
+   "keywords": ""
+  },
+  {
+   "id": "ads.tiktok",
+   "area": "Ads",
+   "title": "TikTok, Pinterest and LinkedIn ad libraries",
+   "ask": "Find TikTok ads for [keyword] in [country]",
+   "tools": [
+    "khadinakbar/tiktok-ads-library-scraper",
+    "khadinakbar/pinterest-ads-library-scraper",
+    "khadinakbar/linkedin-ad-library-search-scraper"
+   ],
+   "keywords": ""
+  },
+  {
+   "id": "youtube.search",
+   "area": "Video",
+   "title": "YouTube search results and channel stats",
+   "ask": "Find the top 50 YouTube videos about [topic] this month",
+   "tools": [
+    "khadinakbar/youtube-search-scraper",
+    "khadinakbar/youtube-channel-search-scraper",
+    "khadinakbar/youtube-channel-videos-scraper"
+   ],
+   "keywords": "youtube videos channels search popular viral"
+  },
+  {
+   "id": "youtube.transcripts",
+   "area": "Video",
+   "title": "YouTube transcripts",
+   "ask": "Get transcripts for these [video URLs]",
+   "tools": [
+    "khadinakbar/youtube-transcript-extractor"
+   ],
+   "keywords": ""
+  },
+  {
+   "id": "youtube.emails",
+   "area": "Leads",
+   "title": "Business emails of YouTube creators",
+   "ask": "Find business emails for [fitness] YouTube channels",
+   "tools": [
+    "khadinakbar/youtube-channel-email-extractor"
+   ],
+   "keywords": ""
+  },
+  {
+   "id": "instagram.profiles",
+   "area": "Social",
+   "title": "Instagram profiles, posts and reels",
+   "ask": "Get followers, bio and last 12 posts for [handles]",
+   "tools": [
+    "khadinakbar/instagram-profile-scraper",
+    "khadinakbar/instagram-posts-scraper",
+    "khadinakbar/instagram-reels-scraper"
+   ],
+   "keywords": ""
+  },
+  {
+   "id": "instagram.influencers",
+   "area": "Social",
+   "title": "Find Instagram influencers in a niche",
+   "ask": "Find [vegan food] creators with 10k-100k followers",
+   "tools": [
+    "khadinakbar/instagram-niche-influencer-finder",
+    "khadinakbar/instagram-hashtag-scraper"
+   ],
+   "keywords": "influencer influencers creators micro niche outreach"
+  },
+  {
+   "id": "tiktok.trends",
+   "area": "Social",
+   "title": "Trending TikTok videos and hashtags",
+   "ask": "What is trending on TikTok in [US] today",
+   "tools": [
+    "khadinakbar/tiktok-trending-videos-scraper",
+    "khadinakbar/tiktok-trending-hashtags-scraper"
+   ],
+   "keywords": "tiktok trending viral hashtags sounds"
+  },
+  {
+   "id": "tiktok.profiles",
+   "area": "Social",
+   "title": "TikTok profiles, videos and comments",
+   "ask": "Get stats and latest videos for [TikTok handles]",
+   "tools": [
+    "khadinakbar/tiktok-profile-scraper",
+    "khadinakbar/tiktok-video-search-scraper",
+    "khadinakbar/tiktok-comments-scraper"
+   ],
+   "keywords": ""
+  },
+  {
+   "id": "reddit.research",
+   "area": "Social",
+   "title": "Reddit posts and comments on a topic",
+   "ask": "Find Reddit threads where people complain about [product]",
+   "tools": [
+    "khadinakbar/reddit-posts-comments-scraper",
+    "khadinakbar/reddit-comments-search-scraper",
+    "khadinakbar/subreddit-posts-search-scraper"
+   ],
+   "keywords": "reddit threads subreddit complaints discussions questions"
+  },
+  {
+   "id": "amazon.products",
+   "area": "Ecommerce",
+   "title": "Amazon product search, details and bestsellers",
+   "ask": "Find the top 50 Amazon products for [yoga mat] with price and rating",
+   "tools": [
+    "khadinakbar/amazon-product-search-scraper",
+    "khadinakbar/amazon-search-scraper",
+    "khadinakbar/amazon-product-details-scraper",
+    "khadinakbar/amazon-bestsellers-scraper"
+   ],
+   "keywords": "amazon products product research bestsellers asin price"
+  },
+  {
+   "id": "amazon.reviews",
+   "area": "Ecommerce",
+   "title": "Amazon product reviews",
+   "ask": "Get reviews for [ASIN] and summarize complaints",
+   "tools": [
+    "khadinakbar/amazon-reviews-scraper"
+   ],
+   "keywords": ""
+  },
+  {
+   "id": "software.reviews",
+   "area": "Ecommerce",
+   "title": "B2B software reviews (G2, Capterra…)",
+   "ask": "Get Capterra reviews for [tool] and list switching reasons",
+   "tools": [
+    "khadinakbar/capterra-reviews-scraper",
+    "khadinakbar/software-reviews-all-in-one-scraper"
+   ],
+   "keywords": ""
+  },
+  {
+   "id": "jobs.search",
+   "area": "Careers",
+   "title": "Job listings across job boards",
+   "ask": "Find [remote React] jobs posted this week",
+   "tools": [
+    "khadinakbar/jobs-scraper",
+    "khadinakbar/google-jobs-scraper"
+   ],
+   "keywords": ""
+  },
+  {
+   "id": "realestate.listings",
+   "area": "Property",
+   "title": "Zillow and Redfin property listings",
+   "ask": "Get homes for sale in [ZIP] under [$500k]",
+   "tools": [
+    "khadinakbar/zillow-all-in-one-scraper",
+    "khadinakbar/zillow-search-scraper",
+    "khadinakbar/redfin-all-in-one-scraper"
+   ],
+   "keywords": ""
+  }
+ ]
+}

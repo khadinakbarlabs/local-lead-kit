@@ -10,6 +10,29 @@ Find public data, research a market, analyze an export, and turn the results int
 
 [Explore the research guide](https://khadinakbarlabs.github.io/looksy/) · [Browse all tasks](docs/tasks.md) · [Actor directory](docs/directory.md)
 
+## Give this to your agent
+
+```
+set up Looksy - https://khadinakbarlabs.github.io/looksy/llms.txt
+```
+
+Your agent installs the plugin, you connect your Apify key once, and it can call every tool. [What the agent reads](docs/llms.txt)
+
+## Ask for the job, not the tool
+
+Looksy ships an MCP server (no dependencies, starts with the plugin) with six tools:
+
+| Tool | What it does |
+| --- | --- |
+| `find_tools` | Plain-words job → ranked tools with **price per result, 30-day success rate, runs and users** |
+| `list_jobs` | 36 named jobs (`maps.leads`, `keywords.volume`, `ai.visibility`, `ads.meta`, `email.verify` …) with example requests |
+| `get_tool` | Live input fields, defaults and current prices. No key needed |
+| `run_tool` | Runs on your Apify account with a hard `max_charge_usd`; returns the first rows and the cost |
+| `get_run` | Status, cost and rows page by page |
+| `account` | Your plan and this month's usage |
+
+Every result reports `event_charges_usd`, `platform_usage_usd` and `total_usd`, so you always know what a run cost. Any MCP client can use it directly: `python3 skills/looksy/scripts/mcp.py` (stdio).
+
 ## Three ways to start
 
 | What you need | Ask your assistant |
