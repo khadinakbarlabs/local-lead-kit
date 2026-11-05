@@ -53,6 +53,12 @@ def main():
                 status=subprocess.run([sys.executable,str(helper),'setup-status'],env=environment,capture_output=True,text=True,check=True)
                 assert json.loads(status.stdout)==dict(apify_configured=False,apify_verified=False,apify_external=False,ai_provider=None,onboarded=False)
                 assert all('looksy/static/dashboard.'+ext in names for ext in ('html','js','css'))
+                hello='{"jsonrpc":"2.0","id":1,"method":"initialize","params":{}}\n{"jsonrpc":"2.0","id":2,"method":"tools/call","params":{"name":"find_tools","arguments":{"job":"google maps leads"}}}\n'
+                mcp=subprocess.run([sys.executable,str(Path(folder)/'skills/looksy/scripts/mcp.py')],input=hello,env=environment,capture_output=True,text=True,check=True)
+                replies=[json.loads(line) for line in mcp.stdout.splitlines()]
+                assert replies[0]['result']['serverInfo']['version']==__version__
+                assert replies[1]['result']['structuredContent']['tools'][0]['tool']=='khadinakbar/google-maps-leads-scraper'
+                assert any(n in names for n in ('.mcp.json','.codex-mcp.json'))
                 assert not any(Path(name).name in ('connections.json','apify.env','.connections.lock','server-access.json') for name in names)
                 copied=json.loads((Path(folder)/manifest).read_text());assert copied['version']==__version__
             archives.append(path.name)

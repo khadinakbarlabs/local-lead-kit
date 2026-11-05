@@ -32,6 +32,32 @@ def shelves(slug,title,categories):
     labels=[k for k,pattern in SHELVES.items() if re.search(pattern,slug+' '+title,re.I)]
     return labels or list(dict.fromkeys(FALLBACK[c] for c in FALLBACK if c in categories)) or ['other']
 
+def evidence(item):
+    """Public, unauthenticated Store signals the agent uses to pick between tools."""
+    stats = item.get('stats') or {}
+    runs = stats.get('publicActorRunStats30Days') or {}
+    total = runs.get('TOTAL') or 0
+    # Aborted runs are mostly caller-stopped; score success over decided runs.
+    decided = (runs.get('SUCCEEDED') or 0) + (runs.get('FAILED') or 0) + (runs.get('TIMED-OUT') or 0)
+    pricing = (item.get('currentPricingInfo') or {})
+    events = (pricing.get('pricingPerEvent') or {}).get('actorChargeEvents') or {}
+    primary = next((e for e in events.values() if e.get('isPrimaryEvent')), None)
+    if primary is None:
+        paid = [e for e in events.values() if 'start' not in (e.get('eventTitle') or '').lower()]
+        primary = paid[0] if paid else None
+    return {
+        'pricing_model': pricing.get('pricingModel'),
+        'price_usd': primary.get('eventPriceUsd') if primary else None,
+        'price_unit': primary.get('eventTitle') if primary else None,
+        'success_rate_30d': round((runs.get('SUCCEEDED') or 0) / decided, 3) if decided else None,
+        'runs_30d': total,
+        'users_30d': stats.get('totalUsers30Days') or 0,
+        'users_total': stats.get('totalUsers') or 0,
+        'last_run': (stats.get('lastRunStartedAt') or '')[:10] or None,
+        'rating': stats.get('actorReviewRating') or None,
+        'notice': item.get('notice') if item.get('notice') not in (None, 'NONE') else None,
+    }
+
 def fetch():
     context = ssl.create_default_context(cafile='/etc/ssl/cert.pem' if Path('/etc/ssl/cert.pem').exists() else None)
     offset, rows = 0, {}
@@ -46,7 +72,7 @@ def fetch():
             slug = item['name']
             labels = shelves(slug,item['title'],item.get('categories',[]))
             rows[item['id']] = dict(id=item['id'], slug=f'{OWNER}/{slug}', title=item['title'], description=item.get('description',''),
-                                     shelves=labels or ['other'], categories=item.get('categories', []))
+                                     shelves=labels or ['other'], categories=item.get('categories', []), evidence=evidence(item))
         offset += len(page)
         if offset >= data['total']: break
         if not page: raise ValueError('Incomplete Store response')

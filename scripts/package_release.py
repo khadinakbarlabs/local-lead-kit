@@ -9,6 +9,8 @@ PUBLIC_DIRS=['looksy','skills','docs']
 
 HOSTS={host: f'.{host}-plugin/plugin.json' for host in ('codex','claude','cursor')}
 HOSTS['portable']='plugin.json'
+# MCP server config each host reads (Claude expands ${CLAUDE_PLUGIN_ROOT}; others run from the plugin root).
+MCP={'claude':'.mcp.json','codex':'.codex-mcp.json','cursor':'.codex-mcp.json','portable':'.codex-mcp.json'}
 
 def public_paths():
     paths=[ROOT/name for name in PUBLIC_FILES]
@@ -22,7 +24,7 @@ def main():
     for host,manifest in HOSTS.items():
         version=json.loads((ROOT/manifest).read_text())['version'];target=output/f'looksy-{host}-{version}.zip'
         with zipfile.ZipFile(target,'w',zipfile.ZIP_DEFLATED) as archive:
-            for path in public_paths()+[ROOT/manifest]:archive.write(path,path.relative_to(ROOT))
+            for path in public_paths()+[ROOT/manifest,ROOT/MCP[host]]:archive.write(path,path.relative_to(ROOT))
         receipts.append({'file':target.name,'bytes':target.stat().st_size,'host':host})
     (output/'archives.json').write_text(json.dumps(receipts,indent=2))
     print(json.dumps(receipts,indent=2))
