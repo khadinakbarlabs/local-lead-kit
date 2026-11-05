@@ -126,25 +126,33 @@ class Connect(unittest.TestCase):
         with self.assertRaises(ValueError):
             m.connector_url('nope')
 
-    def test_no_key_guides_instead_of_failing_silently(self):
+    def test_no_key_recommends_sign_in_before_api_key(self):
         with mock.patch.object(m, '_key_source', return_value=None), mock.patch.object(m, 'load_token'):
             with self.assertRaises(ValueError) as caught:
                 m._client()
-            self.assertIn('connect', str(caught.exception))
-            status = m.connect('leads')
-        self.assertFalse(status['ready_to_run'])
-        self.assertIn('mcp.apify.com', status['web_connector']['url'])
-        self.assertIsNotNone(status['local_key_setup'])
+            self.assertIn('sign in with Apify', str(caught.exception))
+            for client in m.CLIENTS:
+                status = m.connect(client, 'leads')
+                self.assertFalse(status['connected'])
+                self.assertEqual(status['recommended'], 'sign_in_with_apify')
+                msg = status['message_for_user']
+                self.assertLess(msg.index('sign in with Apify'), msg.index('API key instead'), client)
+                self.assertIn('never in this chat', msg)
+
+    def test_cli_clients_get_runnable_commands(self):
+        with mock.patch.object(m, '_key_source', return_value=None):
+            code = m.connect('claude_code')['sign_in']['agent_can_run']
+            codex = m.connect('codex')['sign_in']['agent_can_run']
+            web = m.connect('claude_web')
+        self.assertTrue(code[0].startswith('claude mcp add --transport http looksy'))
+        self.assertEqual(codex[-1], 'codex mcp login looksy')
+        self.assertEqual(web['sign_in']['agent_can_run'], [])
+        self.assertIn(m.connector_url('all'), web['message_for_user'])
 
     def test_key_present(self):
         with mock.patch.object(m, '_key_source', return_value='environment'):
             status = m.connect()
-        self.assertTrue(status['ready_to_run'])
-        self.assertIsNone(status['local_key_setup'])
-
-
-if __name__ == '__main__':
-    unittest.main()
+        self.assertTrue(status['connected'])
 
 
 class PublishedDocs(unittest.TestCase):

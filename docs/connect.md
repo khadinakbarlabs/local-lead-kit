@@ -4,8 +4,11 @@ Looksy picks the lowest-friction connection automatically. Your assistant checks
 
 1. **Already connected?** If the assistant already lists Apify tools (`call-actor`, `fetch-actor-details`, or tools named `khadinakbar--…`), Looksy uses them. Nothing to set up.
 2. **Web and desktop apps** (claude.ai, Claude Desktop, ChatGPT, any app that accepts a remote MCP connector): add one connector URL below and **sign in with Apify**. No API key to copy.
-3. **Local agents** (Claude Code, Codex, Cursor): the Looksy plugin uses a key already in `APIFY_TOKEN`, or the one saved in your private dashboard.
-4. **Nothing yet?** Only then does Looksy ask you to add a key: say **"Open my Looksy dashboard"** and paste it there. Never paste keys into chat.
+3. **Local agents** (Claude Code, Codex, Cursor): a key already in `APIFY_TOKEN` or saved in your dashboard is used. If there is none, Looksy recommends **Sign in with Apify** here too, and can add the connector for you:
+   - Claude Code: `claude mcp add --transport http looksy "<URL>"`, then `/mcp` → looksy → Authenticate
+   - Codex: `codex mcp add looksy --url "<URL>"`, then `codex mcp login looksy`
+   - Cursor: Settings → MCP → add a remote server named looksy with the URL, then sign in
+4. **Last resort: API key.** Only if you can't sign in: say **"Open my Looksy dashboard"** and paste it there. Never paste keys into chat.
 
 ## Connector URLs (sign in with Apify, no key)
 

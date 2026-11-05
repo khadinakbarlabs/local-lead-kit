@@ -200,11 +200,11 @@ def connector_url(pack='all'):
     return CONNECTOR.get('base_url', 'https://mcp.apify.com/') + '?tools=' + ','.join(tools)
 
 
-NO_KEY = ('No Apify connection yet. Pick the easiest option for this app: '
-          '(1) in a web or desktop app with connectors (claude.ai, ChatGPT, Claude Desktop), call connect and add the '
-          'connector URL it returns, then sign in with Apify, no key needed; '
-          '(2) in a local agent, ask the user to say "Open my Looksy dashboard" and paste their Apify key there; '
-          '(3) or set APIFY_TOKEN in the environment. Never ask for the key in chat.')
+CLIENTS = ('claude_web', 'claude_desktop', 'chatgpt', 'claude_code', 'codex', 'cursor', 'other')
+
+NO_KEY = ('Not connected to Apify yet. Call connect (pass client, e.g. claude_code, codex, claude_web, chatgpt) and '
+          'show the user its message_for_user: the recommended way is to sign in with Apify, no API key needed. '
+          'Offer an API key only if sign-in is not possible, and never ask for it in chat.')
 
 
 def _client():
@@ -215,24 +215,66 @@ def _client():
     return ToolboxClient()
 
 
-def connect(pack='all'):
+def _sign_in_steps(client, url):
+    """Steps that end in the user clicking 'Sign in with Apify'. The agent can run CLI commands itself."""
+    if client == 'claude_code':
+        return {'agent_can_run': [f'claude mcp add --transport http looksy "{url}"'],
+                'user_does': ['Type /mcp, choose looksy, then Authenticate.', 'Sign in with Apify in the browser tab that opens.']}
+    if client == 'codex':
+        return {'agent_can_run': [f'codex mcp add looksy --url "{url}"', 'codex mcp login looksy'],
+                'user_does': ['Sign in with Apify in the browser tab that opens, then start a new Codex session.']}
+    if client == 'cursor':
+        return {'agent_can_run': [],
+                'user_does': ['Open Cursor Settings > MCP > Add new MCP server and add a remote server named looksy with the URL below.',
+                              'Click Connect / Login and sign in with Apify.']}
+    if client == 'chatgpt':
+        return {'agent_can_run': [],
+                'user_does': ['In ChatGPT settings, add a custom connector (some plans need developer mode on).',
+                              'Name it Looksy and paste the URL below.', 'Click Connect and sign in with Apify.']}
+    if client in ('claude_web', 'claude_desktop'):
+        return {'agent_can_run': [],
+                'user_does': ['Open Settings > Connectors > Add custom connector.', 'Name it Looksy and paste the URL below.',
+                              'Click Connect and sign in with Apify.']}
+    return {'agent_can_run': [],
+            'user_does': ['Add the URL below as a remote MCP server or custom connector named Looksy.',
+                          'Click Connect and sign in with Apify.']}
+
+
+def _message(client, steps, url):
+    lines = ['To get real data, Looksy needs to connect to your Apify account, which runs the data tools for you.',
+             '',
+             '**Recommended: sign in with Apify.** It takes about a minute, there is no API key to copy, and you '
+             'can disconnect any time from Apify Console. A free Apify account works.']
+    if steps['agent_can_run']:
+        lines += ['', "I can set it up now. Say **yes** and I'll add the connector; then you just sign in when your browser opens."]
+    else:
+        lines += [''] + [f'{i}. {step}' for i, step in enumerate(steps['user_does'], 1)]
+        lines += ['', 'Connector URL:', f'`{url}`']
+    lines += ['', '_Prefer an API key instead? Say "Open my Looksy dashboard" and paste it there, never in this chat._']
+    return '\n'.join(lines)
+
+
+def connect(client='other', pack='all'):
+    if client not in CLIENTS:
+        client = 'other'
     source = _key_source()
+    url = connector_url(pack)
+    if source:
+        return {'connected': True, 'via': f'Apify key ({source})', 'next': 'Connected. Continue with find_tools.'}
+    steps = _sign_in_steps(client, url)
     return {
-        'local_key': source or 'not configured',
-        'ready_to_run': bool(source),
+        'connected': False,
         'check_first': 'If this assistant already lists Apify tools (call-actor, fetch-actor-details, or tools named '
-                       'khadinakbar--...), it is already connected: run Looksy tools through them and skip setup.',
-        'web_connector': {
-            'for': 'claude.ai, Claude Desktop, ChatGPT and any client that accepts a remote MCP connector URL',
-            'url': connector_url(pack),
-            'pack': pack,
-            'other_packs': {k: v['title'] for k, v in PACKS.items()},
-            'steps': ['Open the app\'s connector settings and add a custom connector (claude.ai and Claude Desktop: '
-                      'Settings > Connectors; ChatGPT: connector or app settings, which may need developer mode).',
-                      'Paste the URL and name it Looksy.', 'Click Connect and sign in with Apify. No API key needed.'],
-        },
-        'local_key_setup': None if source else 'Say "Open my Looksy dashboard" and paste your Apify key there '
-                                               '(https://console.apify.com/settings/integrations), or set APIFY_TOKEN.',
+                       'khadinakbar--...), it is already connected: use them and skip this.',
+        'recommended': 'sign_in_with_apify',
+        'message_for_user': _message(client, steps, url),
+        'sign_in': {'client': client, 'connector_url': url, 'pack': pack, **steps,
+                    'other_packs': {k: v['title'] for k, v in PACKS.items()},
+                    'after': 'Once signed in, the Apify tools (call-actor, khadinakbar--...) appear; use them to run Looksy jobs.'},
+        'fallback_api_key': {'only_if': 'the user cannot or will not sign in',
+                             'how': 'Say "Open my Looksy dashboard" and paste the key there '
+                                    '(https://console.apify.com/settings/integrations), or set APIFY_TOKEN.',
+                             'never': 'Never ask for or accept the key in chat.'},
     }
 
 
@@ -387,9 +429,12 @@ TOOLS = {
                          'limit': {'type': 'integer', 'minimum': 1, 'maximum': 200, 'default': PREVIEW_ROWS},
                          'offset': {'type': 'integer', 'minimum': 0, 'default': 0}}, ['run_id']), True),
     'connect': (connect,
-                'Check how Looksy is connected and get the no-key option: a sign-in-with-Apify connector URL for '
-                'claude.ai, Claude Desktop and ChatGPT. Call when a tool reports no Apify connection.',
-                _schema({'pack': {'type': 'string', 'enum': ['all', 'leads', 'seo', 'social', 'market'], 'default': 'all',
+                'Check the Apify connection. If not connected, returns a ready-to-show message recommending '
+                '"Sign in with Apify" (no API key) with steps for this app; an API key is only the fallback. '
+                'Call when a tool reports no Apify connection, then show message_for_user.',
+                _schema({'client': {'type': 'string', 'enum': list(CLIENTS), 'default': 'other',
+                                    'description': 'The app you are running in, so the steps fit it.'},
+                         'pack': {'type': 'string', 'enum': ['all', 'leads', 'seo', 'social', 'market'], 'default': 'all',
                                   'description': 'Which tool pack the connector exposes.'}}), True),
     'account': (account, "Show the connected Apify account, plan and this month's usage against its limit.",
                 _schema({}), True),

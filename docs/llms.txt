@@ -32,9 +32,16 @@ The human has asked you to set up Looksy. Install the plugin for the agent you r
 - Any MCP client: clone https://github.com/khadinakbarlabs/looksy and add a stdio server
   `python3 <repo>/skills/looksy/scripts/mcp.py` (Python 3.11+, no dependencies).
 
-Connect Apify: the human pastes their Apify API key (https://console.apify.com/settings/integrations)
-into the private dashboard ("Open my Looksy dashboard") or sets `APIFY_TOKEN` in the environment.
-Never ask for the key in chat. Discovery and prices work without a key.
+Connect Apify, easiest first:
+
+1. **Sign in with Apify (recommended, no key):** call `connect` with your client name and show the user its
+   `message_for_user`. In Claude Code and Codex offer to run its commands yourself
+   (`claude mcp add --transport http looksy "<URL>"` / `codex mcp add looksy --url "<URL>"` then
+   `codex mcp login looksy`); the user only signs in when the browser opens.
+2. **API key (last resort):** only if the user cannot sign in, they say "Open my Looksy dashboard" and paste
+   it there, or set `APIFY_TOKEN`. Never ask for the key in chat.
+
+Discovery and prices work before connecting.
 
 ## The loop: find, read, run
 
