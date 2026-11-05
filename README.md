@@ -16,7 +16,9 @@ Find public data, research a market, analyze an export, and turn the results int
 set up Looksy - https://khadinakbarlabs.github.io/looksy/llms.txt
 ```
 
-Your agent installs the plugin, you connect your Apify key once, and it can call every tool. [What the agent reads](docs/llms.txt)
+Your agent installs the plugin, you connect Apify once, and it can call every tool. [What the agent reads](docs/llms.txt)
+
+**On claude.ai, Claude Desktop or ChatGPT?** No install and no API key: add a Looksy connector URL and sign in with Apify. [Connect Looksy anywhere](docs/connect.md)
 
 ## Ask for the job, not the tool
 
@@ -86,8 +88,8 @@ Use Python 3.11 or newer and choose your assistant. The install identifier remai
 | --- | --- |
 | **Claude Code** | Enter `/plugin marketplace add khadinakbarlabs/looksy`, then `/plugin install looksy@looksy-marketplace`. Open a fresh session. |
 | **Codex** | Run `codex plugin marketplace add khadinakbarlabs/looksy`, then `codex plugin add looksy@looksy-marketplace`. Open a fresh session. |
-| **Cursor** | Download [Looksy Agent for Cursor](https://github.com/khadinakbarlabs/looksy/releases/download/v0.5.0/looksy-cursor-0.5.0.zip). Extract into `~/.cursor/plugins/local/looksy/` with `.cursor-plugin/plugin.json` directly inside. Reload Cursor. |
-| **Other local agents** | Download the [portable plugin](https://github.com/khadinakbarlabs/looksy/releases/download/v0.5.0/looksy-portable-0.5.0.zip) and import the complete folder into a compatible Agent Plugins client. |
+| **Cursor** | Download [Looksy Agent for Cursor](https://github.com/khadinakbarlabs/looksy/releases/download/v0.6.0/looksy-cursor-0.6.0.zip). Extract into `~/.cursor/plugins/local/looksy/` with `.cursor-plugin/plugin.json` directly inside. Reload Cursor. |
+| **Other local agents** | Download the [portable plugin](https://github.com/khadinakbarlabs/looksy/releases/download/v0.6.0/looksy-portable-0.6.0.zip) and import the complete folder into a compatible Agent Plugins client. |
 
 Try discovery immediately by asking **“Use Looksy Agent to show me workflows for ecommerce research.”** Browsing, examples and local saved results are available before connecting Apify.
 

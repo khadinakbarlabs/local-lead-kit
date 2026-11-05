@@ -38,3 +38,9 @@ Validation covers route and recipe parity, all three sample outputs, editable ex
 The installed private dashboard now opens with required Apify verification and a skippable AI-provider step. Tests use temporary configuration files, a simulated Apify account response and mocked provider transports. They exercise session/Origin protection, credential rotation and omission from responses, legacy and environment-supplied keys, history, account-bound campaign actions, and four provider request/response formats. The release workflow also exercises encrypted connection storage on a Windows runner. Chromium tests cover setup, skip, provider settings, persistence, history and Local Leads navigation.
 
 No real provider inference, Actor start or external-account charge was used for this validation. The optional provider is saved locally and checked by the provider on the first explicitly requested direct call.
+
+## Looksy 0.6.0
+
+Adds a dependency-free MCP server (`find_tools`, `list_jobs`, `get_tool`, `run_tool`, `get_run`, `connect`, `account`), price and 30-day reliability evidence for every cataloged Actor, 36 named jobs, and sign-in-with-Apify connector links for claude.ai, Claude Desktop, ChatGPT, Claude Code, Codex and Cursor. Tests cover the MCP protocol, routing examples, cost caps and cost breakdown, sign-in-before-key messaging for every client, connector URLs exposing only Looksy tools, and doc/URL drift. Each release archive starts the MCP server in a temporary home during validation.
+
+One real `run_tool` call returned two Austin roofing leads on the owner's account (event charges $0.0201 plus $0.0370 platform usage). Apify's hosted MCP server listed exactly the 36 Looksy Actors plus six run/result tools for the "all" connector URL. The interactive OAuth sign-in inside claude.ai, ChatGPT, Claude Code and Codex was not exercised for this release.

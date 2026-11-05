@@ -44,7 +44,10 @@ def _load(name):
 
 
 CATALOG = {row['slug']: row for row in _load('catalog.json')['actors']}
-JOBS = _load('jobs.json')['jobs']
+_JOBS_DOC = _load('jobs.json')
+JOBS = _JOBS_DOC['jobs']
+PACKS = {p['id']: p for p in _JOBS_DOC.get('packs', [])}
+CONNECTOR = _JOBS_DOC.get('connector', {})
 
 
 def _terms(text):
@@ -167,10 +170,112 @@ def _summarize_schema(schema):
     return {'required': schema.get('required', []), 'fields': fields}
 
 
+def _key_source():
+    """Where the local Apify key comes from, without revealing it: 'environment', 'saved' or None."""
+    import os
+    if os.environ.get('APIFY_TOKEN'):
+        return 'environment'
+    try:
+        from .settings import Connections
+        return 'saved' if Connections.from_environment().token() else None
+    except (OSError, ValueError):
+        return None
+
+
+def pack_tools(pack='all'):
+    if pack not in PACKS:
+        raise ValueError(f"Unknown pack {pack}. Choose one of: {', '.join(PACKS)}.")
+    by_id = {j['id']: j for j in JOBS}
+    per_job = PACKS[pack].get('per_job', 2)
+    tools = []
+    for job in PACKS[pack]['jobs']:
+        for slug in by_id[job]['tools'][:per_job]:
+            if slug not in tools:
+                tools.append(slug)
+    return tools
+
+
+def connector_url(pack='all'):
+    tools = CONNECTOR.get('base_tools', []) + pack_tools(pack)
+    return CONNECTOR.get('base_url', 'https://mcp.apify.com/') + '?tools=' + ','.join(tools)
+
+
+CLIENTS = ('claude_web', 'claude_desktop', 'chatgpt', 'claude_code', 'codex', 'cursor', 'other')
+
+NO_KEY = ('Not connected to Apify yet. Call connect (pass client, e.g. claude_code, codex, claude_web, chatgpt) and '
+          'show the user its message_for_user: the recommended way is to sign in with Apify, no API key needed. '
+          'Offer an API key only if sign-in is not possible, and never ask for it in chat.')
+
+
 def _client():
     load_token()
+    if not _key_source():
+        raise ValueError(NO_KEY)
     from .toolbox import ToolboxClient
     return ToolboxClient()
+
+
+def _sign_in_steps(client, url):
+    """Steps that end in the user clicking 'Sign in with Apify'. The agent can run CLI commands itself."""
+    if client == 'claude_code':
+        return {'agent_can_run': [f'claude mcp add --transport http looksy "{url}"'],
+                'user_does': ['Type /mcp, choose looksy, then Authenticate.', 'Sign in with Apify in the browser tab that opens.']}
+    if client == 'codex':
+        return {'agent_can_run': [f'codex mcp add looksy --url "{url}"', 'codex mcp login looksy'],
+                'user_does': ['Sign in with Apify in the browser tab that opens, then start a new Codex session.']}
+    if client == 'cursor':
+        return {'agent_can_run': [],
+                'user_does': ['Open Cursor Settings > MCP > Add new MCP server and add a remote server named looksy with the URL below.',
+                              'Click Connect / Login and sign in with Apify.']}
+    if client == 'chatgpt':
+        return {'agent_can_run': [],
+                'user_does': ['In ChatGPT settings, add a custom connector (some plans need developer mode on).',
+                              'Name it Looksy and paste the URL below.', 'Click Connect and sign in with Apify.']}
+    if client in ('claude_web', 'claude_desktop'):
+        return {'agent_can_run': [],
+                'user_does': ['Open Settings > Connectors > Add custom connector.', 'Name it Looksy and paste the URL below.',
+                              'Click Connect and sign in with Apify.']}
+    return {'agent_can_run': [],
+            'user_does': ['Add the URL below as a remote MCP server or custom connector named Looksy.',
+                          'Click Connect and sign in with Apify.']}
+
+
+def _message(client, steps, url):
+    lines = ['To get real data, Looksy needs to connect to your Apify account, which runs the data tools for you.',
+             '',
+             '**Recommended: sign in with Apify.** It takes about a minute, there is no API key to copy, and you '
+             'can disconnect any time from Apify Console. A free Apify account works.']
+    if steps['agent_can_run']:
+        lines += ['', "I can set it up now. Say **yes** and I'll add the connector; then you just sign in when your browser opens."]
+    else:
+        lines += [''] + [f'{i}. {step}' for i, step in enumerate(steps['user_does'], 1)]
+        lines += ['', 'Connector URL:', f'`{url}`']
+    lines += ['', '_Prefer an API key instead? Say "Open my Looksy dashboard" and paste it there, never in this chat._']
+    return '\n'.join(lines)
+
+
+def connect(client='other', pack='all'):
+    if client not in CLIENTS:
+        client = 'other'
+    source = _key_source()
+    url = connector_url(pack)
+    if source:
+        return {'connected': True, 'via': f'Apify key ({source})', 'next': 'Connected. Continue with find_tools.'}
+    steps = _sign_in_steps(client, url)
+    return {
+        'connected': False,
+        'check_first': 'If this assistant already lists Apify tools (call-actor, fetch-actor-details, or tools named '
+                       'khadinakbar--...), it is already connected: use them and skip this.',
+        'recommended': 'sign_in_with_apify',
+        'message_for_user': _message(client, steps, url),
+        'sign_in': {'client': client, 'connector_url': url, 'pack': pack, **steps,
+                    'other_packs': {k: v['title'] for k, v in PACKS.items()},
+                    'after': 'Once signed in, the Apify tools (call-actor, khadinakbar--...) appear; use them to run Looksy jobs.'},
+        'fallback_api_key': {'only_if': 'the user cannot or will not sign in',
+                             'how': 'Say "Open my Looksy dashboard" and paste the key there '
+                                    '(https://console.apify.com/settings/integrations), or set APIFY_TOKEN.',
+                             'never': 'Never ask for or accept the key in chat.'},
+    }
 
 
 def get_tool(tool):
@@ -323,6 +428,14 @@ TOOLS = {
                 _schema({'run_id': {'type': 'string'},
                          'limit': {'type': 'integer', 'minimum': 1, 'maximum': 200, 'default': PREVIEW_ROWS},
                          'offset': {'type': 'integer', 'minimum': 0, 'default': 0}}, ['run_id']), True),
+    'connect': (connect,
+                'Check the Apify connection. If not connected, returns a ready-to-show message recommending '
+                '"Sign in with Apify" (no API key) with steps for this app; an API key is only the fallback. '
+                'Call when a tool reports no Apify connection, then show message_for_user.',
+                _schema({'client': {'type': 'string', 'enum': list(CLIENTS), 'default': 'other',
+                                    'description': 'The app you are running in, so the steps fit it.'},
+                         'pack': {'type': 'string', 'enum': ['all', 'leads', 'seo', 'social', 'market'], 'default': 'all',
+                                  'description': 'Which tool pack the connector exposes.'}}), True),
     'account': (account, "Show the connected Apify account, plan and this month's usage against its limit.",
                 _schema({}), True),
 }
