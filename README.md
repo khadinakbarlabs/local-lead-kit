@@ -16,7 +16,9 @@ Find public data, research a market, analyze an export, and turn the results int
 set up Looksy - https://khadinakbarlabs.github.io/looksy/llms.txt
 ```
 
-Your agent installs the plugin, you connect your Apify key once, and it can call every tool. [What the agent reads](docs/llms.txt)
+Your agent installs the plugin, you connect Apify once, and it can call every tool. [What the agent reads](docs/llms.txt)
+
+**On claude.ai, Claude Desktop or ChatGPT?** No install and no API key: add a Looksy connector URL and sign in with Apify. [Connect Looksy anywhere](docs/connect.md)
 
 ## Ask for the job, not the tool
 

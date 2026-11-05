@@ -6,6 +6,23 @@
 > Every tool is a maintained Apify Actor with a published price per result and a measured 30-day
 > success rate. You pay Apify per result; Looksy itself is free and open source (MIT).
 
+## First: are you already connected?
+
+If you can see Apify tools (`call-actor`, `fetch-actor-details`, or tools named `khadinakbar--…`), Looksy is
+connected: skip setup and run those tools. Use https://khadinakbarlabs.github.io/looksy/connect.md to pick
+the right tool for a job.
+
+## Set up (hosted or desktop assistant: claude.ai, Claude Desktop, ChatGPT)
+
+Install nothing. Tell the human to add this as a custom connector, then click Connect and sign in with Apify
+(no API key needed). Then stop and wait.
+
+    https://mcp.apify.com/?tools=fetch-actor-details,call-actor,get-actor-run,get-dataset-items,khadinakbar/google-maps-leads-scraper,khadinakbar/google-maps-reviews-scraper,khadinakbar/bulk-website-contact-extractor,khadinakbar/email-address-validator,khadinakbar/linkedin-email-finder,khadinakbar/linkedin-profile-search-scraper,khadinakbar/linkedin-company-search-scraper,khadinakbar/linkedin-post-search-scraper,khadinakbar/phone-number-lookup-api,khadinakbar/scrape-google-serp,khadinakbar/dataforseo-keyword-research,khadinakbar/google-trends-scraper,khadinakbar/accuranker-alternative,khadinakbar/complete-seo-audit,khadinakbar/backlink-opportunity-finder,khadinakbar/ai-search-visibility-tracker,khadinakbar/ai-citations-tracker,khadinakbar/google-ai-mode-scraper,khadinakbar/ai-content-detector,khadinakbar/ai-text-humanizer,khadinakbar/facebook-ads-library-scraper,khadinakbar/google-ads-transparency-scraper,khadinakbar/tiktok-ads-library-scraper,khadinakbar/youtube-search-scraper,khadinakbar/youtube-transcript-extractor,khadinakbar/youtube-channel-email-extractor,khadinakbar/instagram-profile-scraper,khadinakbar/instagram-niche-influencer-finder,khadinakbar/tiktok-trending-videos-scraper,khadinakbar/tiktok-profile-scraper,khadinakbar/reddit-posts-comments-scraper,khadinakbar/amazon-product-search-scraper,khadinakbar/amazon-reviews-scraper,khadinakbar/capterra-reviews-scraper,khadinakbar/jobs-scraper,khadinakbar/zillow-all-in-one-scraper
+
+That URL exposes the best Looksy tool for each of the 36 jobs. Smaller packs (Leads, SEO and AI visibility,
+Social, Ads and ecommerce) are listed at
+https://khadinakbarlabs.github.io/looksy/connect.md
+
 ## Set up (local coding agent)
 
 The human has asked you to set up Looksy. Install the plugin for the agent you run in, then open a fresh session:

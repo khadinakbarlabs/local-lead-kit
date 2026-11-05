@@ -20,7 +20,7 @@ class McpProtocol(unittest.TestCase):
         self.assertEqual(init['result']['protocolVersion'], '2025-03-26')
         self.assertEqual(init['result']['serverInfo']['name'], 'looksy')
         names = [t['name'] for t in listed['result']['tools']]
-        self.assertEqual(names, ['find_tools', 'list_jobs', 'get_tool', 'run_tool', 'get_run', 'account'])
+        self.assertEqual(names, ['find_tools', 'list_jobs', 'get_tool', 'run_tool', 'get_run', 'connect', 'account'])
         run_tool = next(t for t in listed['result']['tools'] if t['name'] == 'run_tool')
         self.assertIn('max_charge_usd', run_tool['inputSchema']['required'])
         self.assertFalse(run_tool['annotations']['readOnlyHint'])
@@ -111,5 +111,47 @@ class RunTool(unittest.TestCase):
             m.run_tool('google-maps-leads-scraper', {'unknownField': 1}, 0.5, wait_seconds=0)
 
 
+class Connect(unittest.TestCase):
+    def test_connector_url_exposes_only_looksy_tools(self):
+        for pack in m.PACKS:
+            url = m.connector_url(pack)
+            self.assertTrue(url.startswith('https://mcp.apify.com/?tools='))
+            tools = url.split('?tools=')[1].split(',')
+            self.assertNotIn('search-actors', tools)
+            actors = [t for t in tools if '/' in t]
+            self.assertTrue(actors and all(t in m.CATALOG for t in actors), pack)
+            self.assertLess(len(url), 4000)
+
+    def test_unknown_pack(self):
+        with self.assertRaises(ValueError):
+            m.connector_url('nope')
+
+    def test_no_key_guides_instead_of_failing_silently(self):
+        with mock.patch.object(m, '_key_source', return_value=None), mock.patch.object(m, 'load_token'):
+            with self.assertRaises(ValueError) as caught:
+                m._client()
+            self.assertIn('connect', str(caught.exception))
+            status = m.connect('leads')
+        self.assertFalse(status['ready_to_run'])
+        self.assertIn('mcp.apify.com', status['web_connector']['url'])
+        self.assertIsNotNone(status['local_key_setup'])
+
+    def test_key_present(self):
+        with mock.patch.object(m, '_key_source', return_value='environment'):
+            status = m.connect()
+        self.assertTrue(status['ready_to_run'])
+        self.assertIsNone(status['local_key_setup'])
+
+
 if __name__ == '__main__':
     unittest.main()
+
+
+class PublishedDocs(unittest.TestCase):
+    def test_docs_match_generated_connector_urls(self):
+        from pathlib import Path
+        docs = Path(m.__file__).parents[1] / 'docs'
+        self.assertIn(m.connector_url('all'), (docs / 'llms.txt').read_text())
+        connect = (docs / 'connect.md').read_text()
+        for pack in m.PACKS:
+            self.assertIn(m.connector_url(pack), connect)

@@ -414,5 +414,115 @@
    ],
    "keywords": ""
   }
+ ],
+ "connector": {
+  "base_url": "https://mcp.apify.com/",
+  "base_tools": [
+   "fetch-actor-details",
+   "call-actor",
+   "get-actor-run",
+   "get-dataset-items"
+  ],
+  "note": "Apify hosted MCP. Signs in with Apify OAuth, so no API key is pasted anywhere. Only the listed Looksy tools are exposed."
+ },
+ "packs": [
+  {
+   "id": "leads",
+   "title": "Leads",
+   "jobs": [
+    "maps.leads",
+    "maps.reviews",
+    "contacts.from_website",
+    "email.verify",
+    "linkedin.people",
+    "email.find.linkedin",
+    "phone.lookup",
+    "youtube.emails"
+   ]
+  },
+  {
+   "id": "seo",
+   "title": "SEO and AI visibility",
+   "jobs": [
+    "serp.organic",
+    "keywords.volume",
+    "keywords.trends",
+    "rank.track",
+    "seo.audit",
+    "backlinks",
+    "ai.visibility",
+    "ai.citations",
+    "ai.overviews"
+   ]
+  },
+  {
+   "id": "social",
+   "title": "Social and video",
+   "jobs": [
+    "instagram.profiles",
+    "instagram.influencers",
+    "tiktok.trends",
+    "tiktok.profiles",
+    "youtube.search",
+    "youtube.transcripts",
+    "reddit.research",
+    "linkedin.posts"
+   ]
+  },
+  {
+   "id": "market",
+   "title": "Ads and ecommerce",
+   "jobs": [
+    "ads.meta",
+    "ads.google",
+    "ads.tiktok",
+    "amazon.products",
+    "amazon.reviews",
+    "software.reviews"
+   ]
+  },
+  {
+   "id": "all",
+   "title": "Everything (best tool per job)",
+   "jobs": [
+    "maps.leads",
+    "maps.reviews",
+    "contacts.from_website",
+    "email.verify",
+    "email.find.linkedin",
+    "linkedin.people",
+    "linkedin.companies",
+    "linkedin.posts",
+    "phone.lookup",
+    "serp.organic",
+    "keywords.volume",
+    "keywords.trends",
+    "rank.track",
+    "seo.audit",
+    "backlinks",
+    "ai.visibility",
+    "ai.citations",
+    "ai.overviews",
+    "text.ai_detect",
+    "text.humanize",
+    "ads.meta",
+    "ads.google",
+    "ads.tiktok",
+    "youtube.search",
+    "youtube.transcripts",
+    "youtube.emails",
+    "instagram.profiles",
+    "instagram.influencers",
+    "tiktok.trends",
+    "tiktok.profiles",
+    "reddit.research",
+    "amazon.products",
+    "amazon.reviews",
+    "software.reviews",
+    "jobs.search",
+    "realestate.listings"
+   ],
+   "per_job": 1
+  }
  ]
 }

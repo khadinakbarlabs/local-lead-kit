@@ -44,7 +44,10 @@ def _load(name):
 
 
 CATALOG = {row['slug']: row for row in _load('catalog.json')['actors']}
-JOBS = _load('jobs.json')['jobs']
+_JOBS_DOC = _load('jobs.json')
+JOBS = _JOBS_DOC['jobs']
+PACKS = {p['id']: p for p in _JOBS_DOC.get('packs', [])}
+CONNECTOR = _JOBS_DOC.get('connector', {})
 
 
 def _terms(text):
@@ -167,10 +170,70 @@ def _summarize_schema(schema):
     return {'required': schema.get('required', []), 'fields': fields}
 
 
+def _key_source():
+    """Where the local Apify key comes from, without revealing it: 'environment', 'saved' or None."""
+    import os
+    if os.environ.get('APIFY_TOKEN'):
+        return 'environment'
+    try:
+        from .settings import Connections
+        return 'saved' if Connections.from_environment().token() else None
+    except (OSError, ValueError):
+        return None
+
+
+def pack_tools(pack='all'):
+    if pack not in PACKS:
+        raise ValueError(f"Unknown pack {pack}. Choose one of: {', '.join(PACKS)}.")
+    by_id = {j['id']: j for j in JOBS}
+    per_job = PACKS[pack].get('per_job', 2)
+    tools = []
+    for job in PACKS[pack]['jobs']:
+        for slug in by_id[job]['tools'][:per_job]:
+            if slug not in tools:
+                tools.append(slug)
+    return tools
+
+
+def connector_url(pack='all'):
+    tools = CONNECTOR.get('base_tools', []) + pack_tools(pack)
+    return CONNECTOR.get('base_url', 'https://mcp.apify.com/') + '?tools=' + ','.join(tools)
+
+
+NO_KEY = ('No Apify connection yet. Pick the easiest option for this app: '
+          '(1) in a web or desktop app with connectors (claude.ai, ChatGPT, Claude Desktop), call connect and add the '
+          'connector URL it returns, then sign in with Apify, no key needed; '
+          '(2) in a local agent, ask the user to say "Open my Looksy dashboard" and paste their Apify key there; '
+          '(3) or set APIFY_TOKEN in the environment. Never ask for the key in chat.')
+
+
 def _client():
     load_token()
+    if not _key_source():
+        raise ValueError(NO_KEY)
     from .toolbox import ToolboxClient
     return ToolboxClient()
+
+
+def connect(pack='all'):
+    source = _key_source()
+    return {
+        'local_key': source or 'not configured',
+        'ready_to_run': bool(source),
+        'check_first': 'If this assistant already lists Apify tools (call-actor, fetch-actor-details, or tools named '
+                       'khadinakbar--...), it is already connected: run Looksy tools through them and skip setup.',
+        'web_connector': {
+            'for': 'claude.ai, Claude Desktop, ChatGPT and any client that accepts a remote MCP connector URL',
+            'url': connector_url(pack),
+            'pack': pack,
+            'other_packs': {k: v['title'] for k, v in PACKS.items()},
+            'steps': ['Open the app\'s connector settings and add a custom connector (claude.ai and Claude Desktop: '
+                      'Settings > Connectors; ChatGPT: connector or app settings, which may need developer mode).',
+                      'Paste the URL and name it Looksy.', 'Click Connect and sign in with Apify. No API key needed.'],
+        },
+        'local_key_setup': None if source else 'Say "Open my Looksy dashboard" and paste your Apify key there '
+                                               '(https://console.apify.com/settings/integrations), or set APIFY_TOKEN.',
+    }
 
 
 def get_tool(tool):
@@ -323,6 +386,11 @@ TOOLS = {
                 _schema({'run_id': {'type': 'string'},
                          'limit': {'type': 'integer', 'minimum': 1, 'maximum': 200, 'default': PREVIEW_ROWS},
                          'offset': {'type': 'integer', 'minimum': 0, 'default': 0}}, ['run_id']), True),
+    'connect': (connect,
+                'Check how Looksy is connected and get the no-key option: a sign-in-with-Apify connector URL for '
+                'claude.ai, Claude Desktop and ChatGPT. Call when a tool reports no Apify connection.',
+                _schema({'pack': {'type': 'string', 'enum': ['all', 'leads', 'seo', 'social', 'market'], 'default': 'all',
+                                  'description': 'Which tool pack the connector exposes.'}}), True),
     'account': (account, "Show the connected Apify account, plan and this month's usage against its limit.",
                 _schema({}), True),
 }
