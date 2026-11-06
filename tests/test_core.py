@@ -47,6 +47,26 @@ class CampaignTests(unittest.TestCase):
         self.assertFalse(plan['approved'])
         self.assertEqual(plan['maps_inputs'][0]['enrichEmails'],False)
 
+    def test_new_metadata_guard_preserves_existing_run_and_uncertain_reservation(self):
+        for uncertain in (False, True):
+            with self.subTest(uncertain=uncertain), tempfile.TemporaryDirectory() as folder:
+                ledger=Ledger(Path(folder)/'ledger.json',1)
+                client=FakeClient(fail=uncertain)
+                original={'build':'1.0.0','maxTotalChargeUsd':1}
+                if uncertain:
+                    with self.assertRaises(NeedsAttention):
+                        start_once(client,ledger,'actor','Actor123456',{},original)
+                else:
+                    start_once(client,ledger,'actor','Actor123456',{},original)
+                guarded={**original,'expectedMetadataHash':'a'*64}
+                if uncertain:
+                    with self.assertRaisesRegex(NeedsAttention,'uncertain'):
+                        start_once(client,ledger,'actor','Actor123456',{},guarded)
+                else:
+                    self.assertEqual(start_once(client,ledger,'actor','Actor123456',{},guarded)['id'],'Run1234567890123')
+                self.assertEqual(client.starts,1)
+                self.assertIn('expectedMetadataHash',guarded)
+
     def test_shared_domain_does_not_merge_business_locations(self):
         maps=[{'place_id':str(i),'business_name':'Test Co','website':'https://example.org','full_address':str(i),'google_maps_url':'https://maps.google.com/?q='+str(i)} for i in [1,2]]
         sites=[{'source_url':'https://example.org','pages_crawled':1,'emails':['INFO@example.org','info@example.org']}]

@@ -1,4 +1,17 @@
 {
   "name": "looksy-marketplace",
-  "plugins": [{"name": "looksy", "version": "0.3.0", "source": {"source": "local", "path": "./"}, "policy": {"installation": "AVAILABLE"}, "category": "Productivity"}]
+  "plugins": [
+    {
+      "name": "looksy",
+      "version": "0.7.0",
+      "source": {
+        "source": "local",
+        "path": "./"
+      },
+      "policy": {
+        "installation": "AVAILABLE"
+      },
+      "category": "Productivity"
+    }
+  ]
 }

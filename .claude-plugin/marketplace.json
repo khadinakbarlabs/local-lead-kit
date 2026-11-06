@@ -1,7 +1,7 @@
 {
   "name": "looksy-marketplace",
   "metadata": {
-    "description": "Looksy Agent brings web research and saved results into your AI assistant."
+    "description": "Research workflows powered by Apify, inside your AI assistant."
   },
   "owner": {
     "name": "Khadin Akbar"
@@ -10,7 +10,7 @@
     {
       "name": "looksy",
       "source": "./",
-      "description": "Find public data, analyze existing results and resume research with Looksy Agent."
+      "description": "Research workflows powered by Apify. Connect your assistant, review costs, and turn public data into useful reports."
     }
   ]
 }

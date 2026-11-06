@@ -1,8 +1,8 @@
 {
   "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
   "name": "looksy",
-  "version": "0.6.0",
-  "description": "Looksy Agent helps you find public data, analyze existing results and resume research in your AI assistant.",
+  "version": "0.7.0",
+  "description": "Research workflows powered by Apify. Connect your assistant, review costs, and turn public data into useful reports.",
   "author": {
     "name": "Khadin Akbar"
   },

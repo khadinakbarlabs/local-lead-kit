@@ -12,7 +12,7 @@ ROOT=Path(__file__).resolve().parents[1]
 sys.path.insert(0,str(ROOT))
 from looksy import __version__
 sys.path.insert(0,str(Path(__file__).resolve().parent))
-from package_release import public_paths, HOSTS
+from package_release import public_paths, HOSTS, MCP
 
 def main():
     for host in HOSTS:
@@ -54,11 +54,21 @@ def main():
                 assert json.loads(status.stdout)==dict(apify_configured=False,apify_verified=False,apify_external=False,ai_provider=None,onboarded=False)
                 assert all('looksy/static/dashboard.'+ext in names for ext in ('html','js','css'))
                 hello='{"jsonrpc":"2.0","id":1,"method":"initialize","params":{}}\n{"jsonrpc":"2.0","id":2,"method":"tools/call","params":{"name":"find_tools","arguments":{"job":"google maps leads"}}}\n'
-                mcp=subprocess.run([sys.executable,str(Path(folder)/'skills/looksy/scripts/mcp.py')],input=hello,env=environment,capture_output=True,text=True,check=True)
+                config = json.loads((Path(folder)/MCP[host]).read_text())['mcpServers']['looksy']
+                variables = {'${PLUGIN_ROOT}': folder, '${CLAUDE_PLUGIN_ROOT}': folder, '${CURSOR_PLUGIN_ROOT}': folder}
+                def expand(value):
+                    for marker, root in variables.items():
+                        value = value.replace(marker, root)
+                    return value
+                args = [expand(arg) for arg in config['args']]
+                assert Path(args[0]).is_absolute() and Path(args[0]).is_file()
+                assert len(set(names).intersection(MCP.values())) == 1
+                # Start from an unrelated directory to catch accidental workspace-relative launchers.
+                mcp=subprocess.run([sys.executable,*args],input=hello,env=environment,cwd=Path(folder).parent,capture_output=True,text=True,check=True)
                 replies=[json.loads(line) for line in mcp.stdout.splitlines()]
                 assert replies[0]['result']['serverInfo']['version']==__version__
                 assert replies[1]['result']['structuredContent']['tools'][0]['tool']=='khadinakbar/google-maps-leads-scraper'
-                assert any(n in names for n in ('.mcp.json','.codex-mcp.json'))
+                assert MCP[host] in names
                 assert not any(Path(name).name in ('connections.json','apify.env','.connections.lock','server-access.json') for name in names)
                 copied=json.loads((Path(folder)/manifest).read_text());assert copied['version']==__version__
             archives.append(path.name)

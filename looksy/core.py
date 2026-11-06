@@ -75,7 +75,7 @@ def build_plan(request, metadata):
             for location in request['locations']]
     plan={'request':request,'actors':metadata,'maps_inputs':inputs,'reservations':reservations,
           'maximum_runs':len(reservations),'approved':False,
-          'cost_note':'Research runs share your approved campaign allowance. Check your account for final charges; assistant-model usage is separate.'}
+          'cost_note':'Research runs share the approved Actor event allowance. Platform usage may be additional. Review current prices and reconcile final charges in Apify.'}
     plan['hash']=hashlib.sha256(json.dumps(plan,sort_keys=True).encode()).hexdigest()
     return plan
 
@@ -106,7 +106,9 @@ def start_once(client,ledger,key,actor,payload,options):
         data=ledger.read()
         if Decimal(str(data['allowance_usd']))!=ledger.allowance:raise NeedsAttention('The original allowance changed. Review the campaign.')
         entries=data['entries'];existing=entries.get(key)
-        fingerprint=hashlib.sha256(json.dumps({'actor':actor,'input':payload,'options':options},sort_keys=True).encode()).hexdigest()
+        # A local metadata guard is not a paid request option. Keep legacy run fingerprints stable.
+        paid_options={name:value for name,value in options.items() if name!='expectedMetadataHash'}
+        fingerprint=hashlib.sha256(json.dumps({'actor':actor,'input':payload,'options':paid_options},sort_keys=True).encode()).hexdigest()
         if existing:
             if existing['fingerprint']!=fingerprint:raise NeedsAttention('This stage already has a different approved input.')
             if existing.get('run_id'):return client.get_run(existing['run_id'])

@@ -1,6 +1,6 @@
 {
  "version": 1,
- "note": "A job is what the user wants done. Tools are listed best-first; get_tool shows live inputs and prices for each.",
+ "note": "Suggested starting points from a dated catalog. Verify fit, permissions, current prices and actual results.",
  "jobs": [
   {
    "id": "maps.leads",
@@ -383,7 +383,7 @@
   {
    "id": "software.reviews",
    "area": "Ecommerce",
-   "title": "B2B software reviews (G2, Capterra…)",
+   "title": "B2B software reviews (G2, Capterra\u2026)",
    "ask": "Get Capterra reviews for [tool] and list switching reasons",
    "tools": [
     "khadinakbar/capterra-reviews-scraper",
@@ -423,7 +423,7 @@
    "get-actor-run",
    "get-dataset-items"
   ],
-  "note": "Apify hosted MCP. Signs in with Apify OAuth, so no API key is pasted anywhere. Only the listed Looksy tools are exposed."
+  "note": "Apify operates the hosted MCP and sign-in. The tools parameter selects tools, not account permissions. Apify may add run and storage helpers."
  },
  "packs": [
   {
@@ -483,7 +483,7 @@
   },
   {
    "id": "all",
-   "title": "Everything (best tool per job)",
+   "title": "All research areas",
    "jobs": [
     "maps.leads",
     "maps.reviews",

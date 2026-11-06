@@ -2,8 +2,10 @@
   "mcpServers": {
     "looksy": {
       "command": "python3",
-      "args": ["./skills/looksy/scripts/mcp.py"],
-      "cwd": "."
+      "args": [
+        "${PLUGIN_ROOT}/skills/looksy/scripts/mcp.py"
+      ],
+      "cwd": "${PLUGIN_ROOT}"
     }
   }
 }

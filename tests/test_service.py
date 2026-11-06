@@ -65,6 +65,21 @@ class ServiceTests(unittest.TestCase):
             self.assertEqual(client.starts,['maps','contacts','validator'])
             self.assertEqual(service.load(job['id'])['results']['summary']['businesses'],1)
 
+    def test_unresolved_tier_prices_stop_before_saving_a_campaign(self):
+        with tempfile.TemporaryDirectory() as directory:
+            client=FakeApify()
+            original=client.metadata
+            def tiered(stage):
+                result=original(stage)
+                result['pricing']['requires_tier_review']=True
+                return result
+            client.metadata=tiered
+            service=CampaignService(directory,client=client)
+            with self.assertRaisesRegex(ValueError,'tier'):
+                service.prepare({'niche':'Roofing','locations':['Example City'],'target':250,'budget_usd':10})
+            self.assertEqual(client.starts,[])
+            self.assertEqual(service.list_jobs(),[])
+
     def test_changed_build_requires_a_new_review(self):
         with tempfile.TemporaryDirectory() as directory:
             client=FakeApify();service=CampaignService(directory,client=client)

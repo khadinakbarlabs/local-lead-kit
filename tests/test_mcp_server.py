@@ -1,6 +1,9 @@
 import io
 import json
+import copy
 import unittest
+import tempfile
+from pathlib import Path
 from unittest import mock
 
 from looksy import mcp_server as m
@@ -84,25 +87,39 @@ class RunTool(unittest.TestCase):
             m.run_tool('apify/website-content-crawler', {}, 1)
 
     def test_cost_breakdown(self):
-        run = {'status': 'SUCCEEDED', 'usageTotalUsd': 0.03, 'chargedEventCounts': {'place-scraped': 10},
+        run = {'status': 'SUCCEEDED', 'usageTotalUsd': 0.07, 'chargedEventCounts': {'place-scraped': 10},
+               'eventUsage': {'place-scraped': {'eventTotalUsd': 0.04}},
+               'usageUsd': {'ACTOR_COMPUTE_UNITS': 0.03},
                'pricingInfo': {'isPPEPlatformUsagePaidByUser': True,
                                'pricingPerEvent': {'actorChargeEvents': {'place-scraped': {'eventPriceUsd': 0.004}}}}}
         cost = m._cost(run)
         self.assertAlmostEqual(cost['event_charges_usd'], 0.04)
         self.assertAlmostEqual(cost['total_usd'], 0.07)
+        run.pop('usageUsd')
         run['pricingInfo']['isPPEPlatformUsagePaidByUser'] = False
         self.assertEqual(m._cost(run)['platform_usage_usd'], 0)
+        self.assertTrue(cost['provisional'])
 
     def test_run_flow_with_fake_client(self):
         row = m.CATALOG['khadinakbar/google-maps-leads-scraper']
         fake = mock.Mock()
-        fake.metadata.return_value = {'id': row['id'], 'build_number': '1.8.7',
+        fake.metadata.return_value = {'id': row['id'], 'build_id': 'build12345', 'build_number': '1.8.7',
+                                      'permission_level': 'LIMITED_PERMISSIONS',
+                                      'pricing': {'model': 'PAY_PER_EVENT', 'events': {'result': {'price_usd': 0.01}}},
                                       'schema': {'type': 'object', 'properties': {'searchQuery': {'type': 'string'}}}}
+        fake.data.return_value = {'id': 'account12345', 'plan': {'id': 'STARTER'}}
         fake.start.return_value = {'id': 'run12345', 'status': 'SUCCEEDED', 'defaultDatasetId': 'ds123456'}
         fake.identity.side_effect = lambda v: v
         fake.request.return_value = [{'business_name': 'A'}]
-        with mock.patch.object(m, '_client', return_value=fake):
-            view = m.run_tool('google-maps-leads-scraper', {'searchQuery': 'roofers'}, 0.5, wait_seconds=0)
+        with tempfile.TemporaryDirectory() as tmp, mock.patch.object(m, 'workspace', return_value=Path(tmp)), mock.patch.object(m, '_client', return_value=fake):
+            preview = m.run_tool('google-maps-leads-scraper', {'searchQuery': 'roofers'}, 0.5, wait_seconds=0)
+            fake.start.assert_not_called()
+            self.assertEqual(preview['state'], 'PREVIEW')
+            view = m.run_tool('google-maps-leads-scraper', {'searchQuery': 'roofers'}, 0.5, wait_seconds=0, approval=preview['approval'])
+            fake.get_run.return_value = fake.start.return_value
+            repeated = m.run_tool('google-maps-leads-scraper', {'searchQuery': 'roofers'}, 0.5, wait_seconds=0, approval=preview['approval'])
+            self.assertEqual(repeated['run_id'], view['run_id'])
+            self.assertEqual(fake.start.call_count, 1)
         options = fake.start.call_args[0][2]
         self.assertEqual(options['maxTotalChargeUsd'], 0.5)
         self.assertEqual(options['build'], '1.8.7')
@@ -112,11 +129,12 @@ class RunTool(unittest.TestCase):
 
 
 class Connect(unittest.TestCase):
-    def test_connector_url_exposes_only_looksy_tools(self):
+    def test_connector_url_selects_curated_tools_and_disables_telemetry(self):
         for pack in m.PACKS:
             url = m.connector_url(pack)
             self.assertTrue(url.startswith('https://mcp.apify.com/?tools='))
-            tools = url.split('?tools=')[1].split(',')
+            self.assertIn('&telemetry-enabled=false', url)
+            tools = url.split('?tools=')[1].split('&')[0].split(',')
             self.assertNotIn('search-actors', tools)
             actors = [t for t in tools if '/' in t]
             self.assertTrue(actors and all(t in m.CATALOG for t in actors), pack)
@@ -145,14 +163,243 @@ class Connect(unittest.TestCase):
             codex = m.connect('codex')['sign_in']['agent_can_run']
             web = m.connect('claude_web')
         self.assertTrue(code[0].startswith('claude mcp add --transport http looksy'))
-        self.assertEqual(codex[-1], 'codex mcp login looksy')
+        self.assertEqual(codex[-1], 'codex mcp login looksy-apify')
         self.assertEqual(web['sign_in']['agent_can_run'], [])
         self.assertIn(m.connector_url('all'), web['message_for_user'])
 
     def test_key_present(self):
         with mock.patch.object(m, '_key_source', return_value='environment'):
             status = m.connect()
-        self.assertTrue(status['connected'])
+        self.assertFalse(status['connected'])
+        self.assertTrue(status['configured'])
+        self.assertFalse(status['verified'])
+
+
+class ApprovalSafety(unittest.TestCase):
+    def setUp(self):
+        self.tmp = tempfile.TemporaryDirectory()
+        self.addCleanup(self.tmp.cleanup)
+        self.fake = mock.Mock()
+        self.slug = 'khadinakbar/google-maps-leads-scraper'
+        self.fake.metadata.return_value = {
+            'id': m.CATALOG[self.slug]['id'], 'build_id': 'build12345', 'build_number': '1.8.7',
+            'permission_level': 'LIMITED_PERMISSIONS',
+            'schema': {'type': 'object', 'properties': {'query': {'type': 'string'}}},
+            'pricing': {'model': 'PAY_PER_EVENT', 'minimalMaxTotalChargeUsd': 0.01,
+                        'isPPEPlatformUsagePaidByUser': True,
+                        'events': {'result': {'price_usd': 0.01}}}}
+        self.fake.data.return_value = {'id': 'account12345', 'plan': {'id': 'STARTER'}}
+        self.fake.start.return_value = {'id': 'run12345', 'status': 'SUCCEEDED',
+                                       'defaultDatasetId': 'dataset12345',
+                                       'actId': m.CATALOG[self.slug]['id']}
+        self.fake.get_run.return_value = self.fake.start.return_value
+        self.fake.request.return_value = [{'result': 'A'}]
+        self.fake.identity.side_effect = lambda value: value
+        self.fake.record.return_value = None
+        self.args = {'tool': self.slug, 'input': {'query': 'roofers'}, 'max_charge_usd': 0.5, 'wait_seconds': 0}
+        for patcher in (mock.patch.object(m, '_client', return_value=self.fake),
+                        mock.patch.object(m, 'workspace', return_value=Path(self.tmp.name))):
+            patcher.start()
+            self.addCleanup(patcher.stop)
+
+    def test_changed_paid_arguments_require_new_approval(self):
+        preview = m.run_tool(**self.args)
+        for changes in ({'input': {'query': 'dentists'}}, {'max_charge_usd': 0.6},
+                        {'memory_mb': 2048}, {'timeout_seconds': 301}):
+            with self.subTest(changes=changes), self.assertRaises(ValueError):
+                m.run_tool(**{**self.args, **changes}, approval=preview['approval'])
+        self.fake.start.assert_not_called()
+        self.assertEqual(preview['request']['input'], self.args['input'])
+        self.assertEqual(preview['options']['timeout'], 300)
+        self.assertEqual(preview['options']['memory'], 1024)
+
+    def test_account_and_live_metadata_changes_invalidate_approval(self):
+        preview = m.run_tool(**self.args)
+        original = copy.deepcopy(self.fake.metadata.return_value)
+        for changes in ({'build_id': 'newbuild12345'}, {'permission_level': 'FULL_PERMISSIONS'},
+                        {'pricing': {**original['pricing'], 'isPPEPlatformUsagePaidByUser': False}}):
+            self.fake.metadata.return_value = {**original, **changes}
+            with self.subTest(changes=changes), self.assertRaises(ValueError):
+                m.run_tool(**self.args, approval=preview['approval'])
+        self.fake.metadata.return_value = original
+        for account in ({'id': 'another12345'}, {'id': 'account12345', 'plan': {'id': 'SCALE'}}):
+            self.fake.data.return_value = account
+            with self.assertRaises(ValueError):
+                m.run_tool(**self.args, approval=preview['approval'])
+        self.fake.start.assert_not_called()
+
+    def test_ambiguous_start_is_durable_and_never_replayed(self):
+        preview = m.run_tool(**self.args)
+        self.fake.start.side_effect = m.ApiError('secret upstream payload')
+        for _ in range(2):
+            with self.assertRaises(m.NeedsAttention):
+                m.run_tool(**self.args, approval=preview['approval'])
+        self.assertEqual(self.fake.start.call_count, 1)
+        ledger = next(Path(self.tmp.name).rglob('ledger.json'))
+        self.assertEqual(json.loads(ledger.read_text())['entries']['actor']['state'], 'UNKNOWN')
+
+    def test_read_failure_preserves_known_run_and_retry_does_not_restart(self):
+        preview = m.run_tool(**self.args)
+        self.fake.start.return_value['status'] = 'RUNNING'
+        self.fake.get_run.side_effect = m.ApiError('https://host/?token=secret')
+        with mock.patch.object(m.time, 'sleep'):
+            result = m.run_tool(**{**self.args, 'wait_seconds': 1}, approval=preview['approval'])
+        self.assertEqual(result['run_id'], 'run12345')
+        self.assertTrue(result['observation_incomplete'])
+        repeated = m.run_tool(**self.args, approval=preview['approval'])
+        self.assertEqual(repeated['run_id'], 'run12345')
+        self.assertEqual(self.fake.start.call_count, 1)
+        self.assertNotIn('secret', json.dumps(result))
+
+    def test_rows_failure_preserves_run(self):
+        preview = m.run_tool(**self.args)
+        self.fake.request.side_effect = OSError('secret response body')
+        result = m.run_tool(**self.args, approval=preview['approval'])
+        self.assertEqual(result['run_id'], 'run12345')
+        self.assertTrue(result['observation_incomplete'])
+        self.assertIn('get_run', result['next'])
+        self.assertNotIn('secret', json.dumps(result))
+
+    def test_empty_success_reads_evidence_without_inventing_cause(self):
+        self.fake.request.return_value = []
+        self.fake.start.return_value['defaultKeyValueStoreId'] = 'store12345'
+        self.fake.record.side_effect = [{'error': 'upstream failed'}, {'rows': 0}]
+        preview = m.run_tool(**self.args)
+        result = m.run_tool(**self.args, approval=preview['approval'])
+        self.assertIn('cause is unknown', result['note'])
+        self.assertEqual(result['output'], {'error': 'upstream failed'})
+        self.assertEqual(result['run_summary'], {'rows': 0})
+        self.assertEqual(self.fake.record.call_args_list,
+                         [mock.call('store12345', 'OUTPUT'), mock.call('store12345', 'RUN_SUMMARY')])
+
+    def test_invalid_options_fail_before_any_account_read_or_start(self):
+        for changes in ({'wait_seconds': '1'}, {'wait_seconds': True}, {'wait_seconds': -1},
+                        {'memory_mb': 129}, {'memory_mb': 0}, {'memory_mb': False},
+                        {'timeout_seconds': 0}, {'timeout_seconds': 3601},
+                        {'input': {'query': float('nan')}}):
+            with self.subTest(changes=changes), self.assertRaises(ValueError):
+                m.run_tool(**{**self.args, **changes})
+        self.fake.data.assert_not_called()
+        self.fake.start.assert_not_called()
+
+    def test_all_terminal_states_preserve_records_and_partial_rows(self):
+        run = {**self.fake.start.return_value, 'defaultKeyValueStoreId': 'store12345'}
+        for status in m.TERMINAL:
+            with self.subTest(status=status):
+                self.fake.record.side_effect = [{'partial': True}, {'coverage': 'incomplete'}]
+                result = m._run_view(self.fake, {**run, 'status': status})
+                self.assertEqual(result['rows'], [{'result': 'A'}])
+                self.assertEqual(result['output'], {'partial': True})
+                self.assertEqual(result['run_summary'], {'coverage': 'incomplete'})
+                self.assertEqual(result['run_id'], 'run12345')
+        self.fake.record.side_effect = [m.ApiError('SECRET'), {'coverage': 'partial'}]
+        result = m._run_view(self.fake, run)
+        self.assertTrue(result['observation_incomplete'])
+        self.assertIsNone(result['output'])
+        self.assertEqual(result['run_summary'], {'coverage': 'partial'})
+        self.assertEqual(result['rows'], [{'result': 'A'}])
+        self.assertNotIn('SECRET', json.dumps(result))
+
+    def test_get_run_malformed_billing_retains_known_run_id(self):
+        self.fake.get_run.return_value = {**self.fake.start.return_value,
+                                          'chargedEventCounts': ['result'], 'eventUsage': {'result': {'eventTotalUsd': 1}}}
+        result = m.get_run('run12345')
+        self.assertEqual(result['run_id'], 'run12345')
+        self.assertTrue(result['observation_incomplete'])
+        self.assertIn('get_run', result['next'])
+        self.fake.start.assert_not_called()
+
+    def test_tiered_preview_discloses_prices_but_blocks_start(self):
+        self.fake.metadata.return_value['pricing']['requires_tier_review'] = True
+        preview = m.run_tool(**self.args)
+        self.assertTrue(preview['pricing']['requires_tier_review'])
+        with self.assertRaises(ValueError):
+            m.run_tool(**self.args, approval=preview['approval'])
+        self.fake.start.assert_not_called()
+
+    def test_minimum_cap_enforced_before_start(self):
+        self.fake.metadata.return_value['pricing']['minimalMaxTotalChargeUsd'] = 1.0
+        with self.assertRaises(ValueError):
+            m.run_tool(**self.args)
+        self.fake.start.assert_not_called()
+
+    def test_get_tool_uses_exact_public_metadata_and_snapshot_date(self):
+        with mock.patch.object(m, 'ApifyClient', return_value=self.fake) as factory:
+            result = m.get_tool(self.slug)
+        factory.assert_called_once_with(public_metadata_only=True)
+        self.fake.metadata.assert_called_once_with(self.slug)
+        self.fake.request.assert_not_called()
+        self.assertEqual(result['build_id'], 'build12345')
+        self.assertEqual(result['input_schema'], self.fake.metadata.return_value['schema'])
+        self.assertEqual(result['evidence']['snapshot_date'], m._CATALOG_DOC['updated'])
+
+    def test_explicit_collection_label_allows_a_separately_approved_new_run(self):
+        first = m.run_tool(**self.args)
+        m.run_tool(**self.args, approval=first['approval'])
+        repeated = m.run_tool(**self.args)
+        self.assertEqual(repeated['approval'], first['approval'])
+        fresh = m.run_tool(**self.args, request_id='requested-refresh-2')
+        self.assertNotEqual(fresh['approval'], first['approval'])
+        self.assertEqual(self.fake.start.call_count, 1)
+        with self.assertRaises(ValueError):
+            m.run_tool(**self.args, request_id='requested-refresh-2', approval=first['approval'])
+        m.run_tool(**self.args, request_id='requested-refresh-2', approval=fresh['approval'])
+        self.assertEqual(self.fake.start.call_count, 2)
+        m.run_tool(**self.args, request_id='requested-refresh-2', approval=fresh['approval'])
+        self.assertEqual(self.fake.start.call_count, 2)
+
+
+class BillingAndProtocolSafety(unittest.TestCase):
+    def test_authoritative_discounted_events_and_total_are_not_recomputed(self):
+        run = {'status': 'SUCCEEDED', 'usageTotalUsd': 0.06, 'usageUsd': {'COMPUTE': 0.02},
+               'chargedEventCounts': {'result': 10}, 'eventUsage': {'result': {'eventTotalUsd': 0.04}},
+               'pricingInfo': {'pricingPerEvent': {'actorChargeEvents': {'result': {'eventPriceUsd': 0.1}}}}}
+        cost = m._cost(run)
+        self.assertEqual(cost['event_charges_usd'], 0.04)
+        self.assertEqual(cost['platform_usage_usd'], 0.02)
+        self.assertEqual(cost['total_usd'], 0.06)
+        self.assertTrue(cost['provisional'])
+
+    def test_unknown_tiers_and_missing_payer_do_not_become_zero(self):
+        run = {'status': 'SUCCEEDED', 'chargedEventCounts': {'result': 5},
+               'pricingInfo': {'pricingPerEvent': {'actorChargeEvents': {'result': {
+                   'eventPriceUsd': 0.1, 'eventTieredPricingUsd': {'FREE': {'tieredEventPriceUsd': 0.2}}}}}}}
+        cost = m._cost(run)
+        for key in ('event_charges_usd', 'platform_usage_usd', 'total_usd'):
+            self.assertIsNone(cost[key])
+        self.assertIsNone(m._cost({'eventUsage': {'result': {'eventTotalUsd': 1}}})['total_usd'])
+
+    def test_malicious_exception_payloads_are_not_echoed(self):
+        for error in (m.ApiError, ValueError, TypeError, OSError, RuntimeError):
+            original = m.TOOLS['account']
+            with mock.patch.dict(m.TOOLS, account=(mock.Mock(side_effect=error('https://bad/?token=SECRET <body>')),
+                                                  *original[1:])):
+                reply, ping = rpc({'id': 1, 'method': 'tools/call', 'params': {'name': 'account'}},
+                                  {'id': 2, 'method': 'ping'})
+            self.assertTrue(reply['result']['isError'])
+            self.assertNotIn('SECRET', json.dumps(reply))
+            self.assertNotIn('https://bad', json.dumps(reply))
+            self.assertEqual(ping['result'], {})
+
+    def test_invalid_argument_types_never_invoke_tool(self):
+        original = m.TOOLS['run_tool']
+        fake = mock.Mock()
+        cases = ([], None, {'tool': 'x', 'input': {}, 'max_charge_usd': True},
+                 {'tool': 'x', 'input': [], 'max_charge_usd': 1},
+                 {'tool': 'x', 'input': {}, 'max_charge_usd': 1, 'wait_seconds': '2'},
+                 {'tool': 'x', 'input': {}, 'max_charge_usd': 1, 'extra': 'value'})
+        with mock.patch.dict(m.TOOLS, run_tool=(fake, *original[1:])):
+            for args in cases:
+                (reply,) = rpc({'id': 1, 'method': 'tools/call', 'params': {'name': 'run_tool', 'arguments': args}})
+                self.assertTrue(reply['result']['isError'])
+        fake.assert_not_called()
+
+    def test_malformed_protocol_messages_do_not_stop_server(self):
+        replies = rpc({'id': 1, 'method': 'initialize', 'params': []},
+                      {'id': 2, 'method': 'tools/call', 'params': {'name': []}},
+                      {'id': 3, 'method': []}, {'id': 4, 'method': 'ping'})
+        self.assertTrue(all('error' in reply for reply in replies[:-1]))
+        self.assertEqual(replies[-1]['result'], {})
 
 
 class PublishedDocs(unittest.TestCase):

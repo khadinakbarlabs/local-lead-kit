@@ -53,12 +53,16 @@ def plan(client,ws,slug,payload,budget,observation=None):
     if not cap.is_finite() or not Decimal('.01')<=cap<=500 or cap!=cap.quantize(Decimal('.01')):
         raise ValueError('Enter an event charge cap between $0.01 and $500, to the nearest cent.')
     m=client.metadata(slug)
+    minimum=m['pricing'].get('minimalMaxTotalChargeUsd')
+    if minimum is not None and cap < Decimal(str(minimum)):
+        raise ValueError('The event cap is below the current Actor minimum. Review a new cap before running.')
     if not isinstance(payload,dict):raise ValueError('Supply a JSON object as the Actor input.')
     validate_input(payload,m['schema'])
     if not re.fullmatch(r'\d+\.\d+\.\d+',str(m.get('build_number',''))):
         raise ValueError('Cannot pin the published build.')
-    data={'slug':slug,'actor_id':m['id'],'input':payload,'metadata_hash':digest(m),
-          'options':{'build':m['build_number'],'maxTotalChargeUsd':float(cap),'restartOnError':False}}
+    account_id=client.identity(client.data('users/me').get('id'))
+    data={'slug':slug,'actor_id':m['id'],'account_id':account_id,'input':payload,'metadata_hash':digest(m),
+          'options':{'build':m['build_number'],'maxTotalChargeUsd':float(cap),'timeout':300,'restartOnError':False}}
     if observation: data["observation"]=date.fromisoformat(observation).isoformat()
     key=digest(data)
     atomic_json(ws/key/'plan.json',data)
@@ -74,14 +78,23 @@ def start(client,ws,key,approval):
     p=load_plan(ws,key)
     if approval!=key:raise ValueError('Approval must match this exact plan.')
     ledger=Ledger(ws/key/'ledger.json',p['options']['maxTotalChargeUsd'])
-    if not ledger.read()['entries'] and digest(client.metadata(p['slug']))!=p['metadata_hash']:
+    entries=ledger.read()['entries']
+    if p.get('account_id'):
+        if client.data('users/me').get('id')!=p['account_id']:
+            raise ValueError('This approval belongs to a different Apify account. Prepare a new plan.')
+    elif not entries:
+        raise ValueError('This older plan has no verified Apify account. Prepare a new plan before starting.')
+    if not entries and digest(client.metadata(p['slug']))!=p['metadata_hash']:
         raise ValueError('Published metadata changed. Prepare and review a new plan.')
-    r=start_once(client,ledger,'actor',p['actor_id'],p['input'],p['options'])
+    options={**p['options'],'expectedMetadataHash':p['metadata_hash']}
+    r=start_once(client,ledger,'actor',p['actor_id'],p['input'],options)
     return {'run_id':r['id'],'status':r.get('status')}
 
 def result(client,ws,key,limit):
     if not 1<=limit<=1000:raise ValueError('Read between one and 1,000 rows.')
     p=load_plan(ws,key)
+    if p.get('account_id') and client.data('users/me').get('id')!=p['account_id']:
+        raise ValueError('This plan belongs to a different Apify account.')
     entry=Ledger(ws/key/'ledger.json',p['options']['maxTotalChargeUsd']).read()['entries'].get('actor',{})
     if not entry.get('run_id'):raise ValueError('No confirmed run to read.')
     r=client.get_run(entry['run_id'])

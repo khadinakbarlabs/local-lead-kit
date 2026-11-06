@@ -182,6 +182,11 @@
     const name = (actor.slug || '').split('/').pop().replaceAll('-', ' ');
     section.append(node('h3', '', name || 'Research source'), node('p', 'hint', 'Build ' + (actor.build_number ?? 'unavailable')),
       sourceLink(actor.store_url, 'Actor details'));
+    const usagePayer = actor.pricing?.isPPEPlatformUsagePaidByUser;
+    const usageText = usagePayer === true ? 'Your account pays additional platform usage.'
+      : usagePayer === false ? 'Platform usage is included in this Actor’s event prices.'
+      : 'Check platform usage charges in Apify before starting.';
+    section.append(node('p', 'hint', usageText));
     for (const [event, price] of Object.entries(actor.pricing?.events || {})) {
       const row = node('div', 'price-row');
       const value = typeof price.price_usd === 'number' ? '$' + price.price_usd : 'See account pricing';
@@ -203,7 +208,7 @@
       stat(request.include_contacts ? 'Included' : 'Off', 'Contact research')
     );
     $('plan-copy').replaceChildren(
-      node('p', '', 'Approval starts paid research with a ' + currency.format(request.budget_usd) + ' Actor event limit. Apify platform usage is billed separately.'),
+      node('p', '', 'Approval starts paid research with a ' + currency.format(request.budget_usd) + ' Actor event limit. Apify platform usage may be billed separately.'),
       node('p', 'hint', plan.cost_note),
       node('p', 'hint', 'Source coverage can limit how many businesses and contacts you receive.')
     );

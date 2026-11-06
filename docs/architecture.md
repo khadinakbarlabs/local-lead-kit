@@ -1,6 +1,6 @@
 # Architecture
 
-One canonical skill drives a contained local app. Codex and Claude manifests adapt that source; native release ZIPs include only their own wrapper. The Python app uses the standard library, a private filesystem workspace, a loopback HTTP interface and a fixed-origin Apify client. No hosted publisher backend or installed background scheduler is involved.
+One canonical skill describes the research workflow. The remote path uses Apify’s official hosted MCP and OAuth directly from the assistant. The local path combines a stdio MCP server with a contained local app. Codex and Claude manifests adapt that source; native release ZIPs include only their own wrapper. The Python app uses the standard library, a private filesystem workspace, a loopback HTTP interface and a fixed-origin Apify client. No hosted publisher backend or installed background scheduler is involved.
 
 The app validates the niche, territories, target and allowance, reads the current exact Actor builds, schemas and event prices, then persists a plan. User approval is tied to that plan's hash. A changed source requires a new review before another paid start.
 
@@ -23,3 +23,9 @@ Research areas classify the catalog across multiple purposes. Recipe templates b
 The installed launcher starts a private loopback dashboard. The authenticated browser must verify Apify and choose whether to save an AI-provider connection before entering settings, history or Local Leads. The public static guide points to installation instructions. Credential forms exist only in the private dashboard.
 
 Connection updates are atomic and owner-readable. A fingerprint binds verification to the effective Apify key. Provider calls are opt-in, single-request text operations with a fixed host, selected model and an approved prompt. History joins the existing local notebook and campaign summaries. The default research path stays with the active host assistant.
+
+## Apify connection and local execution
+
+The remote URL selects a research pack. Apify handles authentication and execution, and the assistant handles workflow reasoning. Generic helpers can access more than the selected Actor list when the account permits it, so pack selection is not an authorization boundary. The local dashboard has separate credentials and history.
+
+Local discovery reads the dated catalog. A live preview reads the exact Actor and published build rather than relying on a Store search result. Shared execution checks reject full or unverified permissions, unavailable sources and unsupported pricing. Local MCP prepares a durable account-bound plan, then uses its approval token and start ledger for one run. Read failures preserve the run identity. Results distinguish observed billing, unknown values and provisional totals.

@@ -1,6 +1,8 @@
 # Security
 
-Run this app on a trusted local device. It binds to loopback only and is not an internet-facing multi-tenant service. Do not expose its port through a public proxy.
+Use Apify-hosted connections through the assistant’s secure authorization flow. The pack URL selects tools rather than restricting account permissions. It never includes a key. Confirm the requested Actor and data scope before using any generic helper.
+
+Run the local app on a trusted local device. It binds to loopback only and is not an internet-facing multi-tenant service. Do not expose its port through a public proxy.
 
 API reads require the authenticated browser session and a random local request key. Mutations also require the exact local Origin; the server checks Host, disables permissive CORS and sets a restrictive content policy. Private runtime files use owner-only permissions. The single-use browser launch link is not the Apify API token, but still grants access to the local session and must remain private.
 
@@ -11,3 +13,5 @@ Source text is treated as data, escaped in the UI, and protected against spreads
 Report a problem through the repository's security reporting feature if available. Otherwise open a minimal issue requesting a private contact route, without exploit details, keys, runtime access files or real contact data. Include the package version and a synthetic reproduction when possible.
 
 Dashboard onboarding verifies Apify through the fixed account endpoint before enabling history, Local Leads or campaign actions. Optional AI keys are write-only in the dashboard and saved with owner-only permissions. Direct inference uses a fixed provider endpoint, verified TLS and a single request with bounded input and output. Explicitly confirm the provider, model and content before using it.
+
+The shared local client checks current limited permissions on the Actor and published build, public identity and pricing before execution. Local MCP approvals are tied to the account and exact plan. Inspect an unresolved run start before new collection. Hosted operations use Apify’s permission checks and the assistant’s confirmation controls.

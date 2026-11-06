@@ -11,7 +11,7 @@ import threading
 import time
 import uuid
 
-from .api import ApifyClient, ApiError, validate_input
+from .api import ApifyClient, ApiError, validate_input, metadata_digest
 from .core import ACTORS, Ledger, NeedsAttention, atomic_json, build_plan, domain, normalize_results, public_url, safe_csv, start_once, validate_analysis, validate_request
 
 class StillRunning(RuntimeError):pass
@@ -42,10 +42,17 @@ class CampaignService:
 
     def prepare(self,value,account_id=None):
         request=validate_request(value);stages=['maps','contacts','validator'] if request['include_contacts'] else ['maps']
-        metadata={stage:self.client.metadata(stage) for stage in stages};plan=build_plan(request,metadata)
+        metadata={stage:self.client.metadata(stage) for stage in stages}
+        if any(meta['pricing'].get('requires_tier_review') for meta in metadata.values()):
+            raise ValueError('Current subscription-tier prices need review in Apify before planning this campaign.')
+        plan=build_plan(request,metadata)
         for payload in plan['maps_inputs']:validate_input(payload,metadata['maps']['schema'])
         for reservation in plan['reservations']:
-            events=metadata[reservation['stage']]['pricing'].get('events',{})
+            pricing=metadata[reservation['stage']]['pricing']
+            minimum=pricing.get('minimalMaxTotalChargeUsd')
+            if minimum is not None and reservation['cap_usd']<minimum:
+                raise ValueError('The allowance is below the current minimum event cap. Review the plan with a new allowance.')
+            events=pricing.get('events',{})
             startup=events.get('apify-actor-start',{}).get('price_usd',0)
             if isinstance(startup,(int,float)) and reservation['cap_usd']<startup:raise ValueError('The allowance is below the current minimum for one of the planned runs. Increase it or reduce the target.')
         job={'id':uuid.uuid4().hex,'status':'PLANNED','created_at':datetime.now(timezone.utc).isoformat(),
@@ -87,7 +94,8 @@ class CampaignService:
             current=self.client.metadata(stage)
             if current['build_id']!=meta['build_id'] or current['pricing']!=meta['pricing']:raise NeedsAttention('A source changed since approval. Review a new plan before another paid start.')
         options={'build':meta['build_number'],'memory':ACTORS[stage]['memory'],'timeout':ACTORS[stage]['timeout'],
-                 'maxTotalChargeUsd':reservation['cap_usd'],'restartOnError':False}
+                 'maxTotalChargeUsd':reservation['cap_usd'],'restartOnError':False,
+                 'expectedMetadataHash':metadata_digest(meta)}
         job['progress']={'stage':stage,'batch':index+1,'message':{'maps':'Finding businesses','contacts':'Reading public website contacts','validator':'Checking extracted addresses'}[stage]};job['status']='RUNNING';self.save(job)
         run=start_once(self.client,ledger,key,meta['id'],payload,options)
         if run.get('actId')!=meta['id'] or run.get('buildId')!=meta['build_id']:raise NeedsAttention('The returned run identity or build differs from the approved source.')

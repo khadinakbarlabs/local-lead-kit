@@ -1,6 +1,6 @@
 # Looksy Agent · Actor directory
 
-659 public [Store listings](https://apify.com/khadinakbar) on 2026-11-04. Each Actor appears once below. The agent’s search also uses secondary shelves and Store categories. A listing is discovery evidence, not a successful test run.
+659 public [Store listings](https://apify.com/khadinakbar) on 2026-11-05. Each Actor appears once below. The agent’s search also uses secondary shelves and Store categories. A listing is discovery evidence, not a successful test run.
 
 [ai-and-automation (7)](#ai-and-automation) · [ai-visibility (10)](#ai-visibility) · [commerce (71)](#commerce) · [developers-and-web (45)](#developers-and-web) · [jobs-and-property (79)](#jobs-and-property) · [keyword-research (26)](#keyword-research) · [maps-and-local (12)](#maps-and-local) · [news-and-media (14)](#news-and-media) · [other (1)](#other) · [prospecting (65)](#prospecting) · [rank-tracking (12)](#rank-tracking) · [reviews (46)](#reviews) · [seo (26)](#seo) · [social-and-video (228)](#social-and-video) · [travel-and-places (16)](#travel-and-places) · [writing (1)](#writing)
 

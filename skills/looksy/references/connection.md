@@ -1,6 +1,6 @@
-# Installed dashboard
+# Apify connection and local dashboard
 
-Use the dashboard for onboarding, connection settings and history. Research is led by the user's current AI assistant. Credentials belong in the private dashboard and never in conversation, source control, command arguments, recorded launch links or reports.
+Prefer the official Apify-hosted sign-in returned by the `connect` tool for connected research. Confirm authorization with a harmless read. The local dashboard manages local API-key onboarding, settings and saved history. Hosted sign-in stays in the assistant and does not supply the dashboard with a key. Research is led by the user's current AI assistant. Credentials belong in the private dashboard and never in conversation, source control, command arguments, recorded launch links or reports.
 
 ## Open the dashboard
 

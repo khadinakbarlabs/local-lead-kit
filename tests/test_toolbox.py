@@ -2,16 +2,23 @@ import tempfile
 import unittest
 from pathlib import Path
 from looksy.toolbox import catalog, search, plan, start, result
+from looksy.api import ApifyClient
 
 SLUG = 'khadinakbar/keyword-rank-tracker'
 
 class Fake:
+    identity = staticmethod(ApifyClient.identity)
     price = .01
     calls = 0
+    account_id = "Account123456"
+    def data(self, path):
+        assert path == "users/me"
+        return {"id":self.account_id}
     def metadata(self, slug):
         return dict(id='abcdefgh12345678',slug=slug,schema={'type':'object','properties':{'term':{'type':'string'}},'required':['term']},build_number='1.0.1', pricing={'events':{'row':{'price_usd':self.price}}})
     def start(self, actor, payload, options):
         assert options['build']=='1.0.1' and options['maxTotalChargeUsd']==2
+        assert options['timeout']==300
         self.calls+=1
         return {'id':'known123456','status':'RUNNING'}
     def get_run(self, rid):
@@ -40,6 +47,15 @@ class ToolboxTests(unittest.TestCase):
             self.assertEqual(c.calls,1)
             out=result(c,ws,p['approval'],10)
             self.assertEqual(out['assessment'],'no dataset rows or output')
+    def test_account_change_blocks_an_approved_start(self):
+        with tempfile.TemporaryDirectory() as folder:
+            client=Fake()
+            preview=plan(client,Path(folder),SLUG,{'term':'pizza'},2)
+            client.account_id='Account987654'
+            with self.assertRaisesRegex(ValueError,'account'):
+                start(client,Path(folder),preview['approval'],preview['approval'])
+            self.assertEqual(client.calls,0)
+
     def test_disallow_unknown_and_invalid_input(self):
         with tempfile.TemporaryDirectory() as d:
             for slug,payload,budget in [('another/actor',{},2),(SLUG,{},2),(SLUG,{'term':'test'},float('nan'))]:

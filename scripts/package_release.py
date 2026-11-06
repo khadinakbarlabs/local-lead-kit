@@ -9,8 +9,8 @@ PUBLIC_DIRS=['looksy','skills','docs']
 
 HOSTS={host: f'.{host}-plugin/plugin.json' for host in ('codex','claude','cursor')}
 HOSTS['portable']='plugin.json'
-# MCP server config each host reads (Claude expands ${CLAUDE_PLUGIN_ROOT}; others run from the plugin root).
-MCP={'claude':'.mcp.json','codex':'.codex-mcp.json','cursor':'.codex-mcp.json','portable':'.codex-mcp.json'}
+# Each host resolves its native install-root variable.
+MCP={'claude':'.mcp.json','codex':'.codex-mcp.json','cursor':'.cursor-mcp.json','portable':'mcp.json'}
 
 def public_paths():
     paths=[ROOT/name for name in PUBLIC_FILES]

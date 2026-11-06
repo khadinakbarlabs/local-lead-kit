@@ -1,49 +1,40 @@
-[![Looksy Agent research guide with a request form and an example prospect spreadsheet](docs/brand/guide-preview.png)](https://khadinakbarlabs.github.io/looksy/)
+[![Looksy Agent research guide](docs/brand/guide-preview.png)](https://khadinakbarlabs.github.io/looksy/)
 
 # Looksy Agent
 
-Find public data, research a market, analyze an export, and turn the results into a useful report with the AI assistant you already use. Looksy Agent connects Claude Code, Codex and Cursor to a categorized directory of Apify Actors and reusable research workflows.
+**Research workflows powered by Apify, inside your AI assistant.**
 
-**36 research areas · 45 workflow recipes · 1,091 task entries · 659 cataloged Actors**
+Connect your Apify account, describe the result you want, review the plan and costs, and let your assistant collect and analyze the evidence. Looksy organizes the khadinakbar Actor catalog into leads, SEO, AI visibility, ecommerce, advertising, social media and other research workflows.
 
-**Start with your goal.** Ask for a prospect spreadsheet, an SEO action plan, a product comparison, a content brief or a research report. Looksy Agent helps choose the sources, preserve your scope, preview charges, inspect the actual results and prepare the deliverable.
+Looksy is an independent project by Khadin Akbar Labs. Apify operates the hosted connection and account sign-in. The Looksy plugin adds workflow guidance, local research history, exports and a local MCP server. Marketplace approval and Apify endorsement require their own review.
 
-[Explore the research guide](https://khadinakbarlabs.github.io/looksy/) · [Browse all tasks](docs/tasks.md) · [Actor directory](docs/directory.md)
+## Connect Looksy
+
+1. Open the [connection guide](docs/connect.md) and choose a research pack.
+2. Add its Apify-hosted URL to your assistant and sign in with Apify.
+3. Ask for an outcome, such as **“Find up to 25 roofers in Austin and prepare a spreadsheet with websites and sources. Show me the plan and costs first.”**
+
+Your existing assistant provides the AI. The hosted connection works with clients that support Apify's remote MCP and sign-in. Availability depends on the client, account and administrator settings. Local coding agents can also [install the plugin](#install-looksy-agent) for saved workflows and the dashboard.
+
+[Connect and choose a pack](docs/connect.md) · [Explore the research guide](https://khadinakbarlabs.github.io/looksy/) · [Apify integration safeguards](docs/apify-integration.md)
 
 ## Give this to your agent
 
-```
+```text
 set up Looksy - https://khadinakbarlabs.github.io/looksy/llms.txt
 ```
 
-Your agent installs the plugin, you connect Apify once, and it can call every tool. [What the agent reads](docs/llms.txt)
+The agent checks the available connection, helps you sign in, then returns to your request. API-key setup in the private dashboard is available when needed.
 
-**On claude.ai, Claude Desktop or ChatGPT?** No install and no API key: add a Looksy connector URL and sign in with Apify. [Connect Looksy anywhere](docs/connect.md)
-
-## Ask for the job, not the tool
-
-Looksy ships an MCP server (no dependencies, starts with the plugin) with six tools:
-
-| Tool | What it does |
-| --- | --- |
-| `find_tools` | Plain-words job → ranked tools with **price per result, 30-day success rate, runs and users** |
-| `list_jobs` | 36 named jobs (`maps.leads`, `keywords.volume`, `ai.visibility`, `ads.meta`, `email.verify` …) with example requests |
-| `get_tool` | Live input fields, defaults and current prices. No key needed |
-| `run_tool` | Runs on your Apify account with a hard `max_charge_usd`; returns the first rows and the cost |
-| `get_run` | Status, cost and rows page by page |
-| `account` | Your plan and this month's usage |
-
-Every result reports `event_charges_usd`, `platform_usage_usd` and `total_usd`, so you always know what a run cost. Any MCP client can use it directly: `python3 skills/looksy/scripts/mcp.py` (stdio).
-
-## Three ways to start
+## Choose the work
 
 | What you need | Ask your assistant |
 | --- | --- |
-| Find new data | “Use Looksy Agent to find up to 25 roofers in Austin. Show the fields and costs before starting.” |
-| Analyze data you have | “Use Looksy Agent to analyze my Apify CSV and prepare a competitor report. Ask which question the report should answer.” |
-| Open recent research | “Use Looksy Agent to reopen my last research brief and show its saved results.” |
+| New research | “Find potential clients in my city and show the sources.” |
+| Analyze existing data | “Turn my Apify CSV into a competitor report.” |
+| Resume saved work | “Open my last Looksy research brief and its next step.” |
 
-The guide takes three steps — your goal, a workflow starting point, and an editable assistant handoff. It includes labeled example deliverables, research areas, reusable workflows, an editable request for your assistant, and browser bookmarks for task templates. Your original request stays in the handoff.
+The bundled catalog is a dated snapshot. It currently organizes 659 Actors into 36 research areas, 45 workflow recipes and 1,091 task entries. Availability, permissions, prices and useful output must be checked for each selected Actor. Snapshot metrics help discovery and do not establish current reliability.
 
 ## Research areas
 
@@ -82,44 +73,55 @@ Looksy Agent uses research templates as a starting point, gathers missing inputs
 
 ## Install Looksy Agent
 
-Use Python 3.11 or newer and choose your assistant. The install identifier remains `looksy`.
+The local plugin requires Python 3.11 or newer. Its install identifier remains `looksy`.
 
 | Assistant | Install |
 | --- | --- |
-| **Claude Code** | Enter `/plugin marketplace add khadinakbarlabs/looksy`, then `/plugin install looksy@looksy-marketplace`. Open a fresh session. |
-| **Codex** | Run `codex plugin marketplace add khadinakbarlabs/looksy`, then `codex plugin add looksy@looksy-marketplace`. Open a fresh session. |
-| **Cursor** | Download [Looksy Agent for Cursor](https://github.com/khadinakbarlabs/looksy/releases/download/v0.6.0/looksy-cursor-0.6.0.zip). Extract into `~/.cursor/plugins/local/looksy/` with `.cursor-plugin/plugin.json` directly inside. Reload Cursor. |
-| **Other local agents** | Download the [portable plugin](https://github.com/khadinakbarlabs/looksy/releases/download/v0.6.0/looksy-portable-0.6.0.zip) and import the complete folder into a compatible Agent Plugins client. |
+| Claude Code | `/plugin marketplace add khadinakbarlabs/looksy`, then `/plugin install looksy@looksy-marketplace`. Open a fresh session. |
+| Codex | `codex plugin marketplace add khadinakbarlabs/looksy`, then `codex plugin add looksy@looksy-marketplace`. Open a fresh session. |
+| Cursor | Use the Cursor archive from the release and the client's local plugin installation flow. |
+| Other MCP clients | Run `python3 <plugin-root>/skills/looksy/scripts/mcp.py` as a local stdio server. |
 
-Try discovery immediately by asking **“Use Looksy Agent to show me workflows for ecommerce research.”** Browsing, examples and local saved results are available before connecting Apify.
+[Download version 0.7.0](https://github.com/khadinakbarlabs/looksy/releases/tag/v0.7.0) · [Connection instructions](docs/connect.md)
 
-## Open your private dashboard
+## Local MCP tools
 
-After installation, ask **“Open my Looksy dashboard.”** Your assistant launches Looksy on your device and opens a private, single-use link. The public Research Guide remains available for browsing workflows.
+| Tool | Purpose |
+| --- | --- |
+| `connect` | Connection status and Apify sign-in instructions for your assistant |
+| `find_tools` | Candidate Actors with dated catalog evidence |
+| `list_jobs` | Research jobs, examples and suggested follow-up steps |
+| `get_tool` | Current published input schema, permissions and event pricing |
+| `run_tool` | Preview a specific run, then execute the reviewed plan with its approval token |
+| `get_run` | Observe the same run, available charges and paginated results |
+| `account` | Verify local account access and inspect reported usage |
 
-1. **Connect Apify (required).** Enter your [Apify API key](https://console.apify.com/settings/integrations) in the private dashboard, or verify a key already supplied by your environment. Looksy checks the account with a read-only request before saving.
-2. **Choose how to use AI (optional).** Select **Use current assistant** to continue immediately. You can also save a Claude (Anthropic), OpenRouter, OpenAI or Gemini API key. Direct provider requests require a separate choice of model and content.
-
-The dashboard keeps connection settings and research history on your device. Use **History** to reopen a saved brief in your assistant or return to a local campaign. For research, describe the outcome directly in your assistant. The dashboard also links to Local Leads for campaign review and CSV exports.
-
-On Windows, enter the key in the dashboard or supply `APIFY_TOKEN` through your environment. Locally saved settings use Windows current-user encryption. Keep keys out of chat. [Preview the onboarding screen](docs/brand/dashboard-setup.png) · [Dashboard launch and connection instructions](skills/looksy/references/connection.md)
+The first `run_tool` call prepares a plan. After the user approves the exact input and cost scope, the assistant repeats it with the returned approval token. Reusing an approved plan observes its existing run. An uncertain start stays held for inspection. For separately requested fresh collection, supply a new `request_id` label, review its new plan and approve it. Never change the label to bypass an uncertain start. Remote Apify tools have their own schemas and controls, so the assistant must apply the same review process before calling them.
 
 ## Review scope and costs
 
-Installation and catalog browsing are free. Collecting new data through Actors can incur charges. Before a paid start, review the exact source, build, inputs, requested output and Actor event-charge limit. **Platform usage may be billed separately.** Actual coverage may be lower than your requested target.
+Installation and offline catalog browsing are free. Apify bills collection to the connected user's account under the selected Actor's current contract. Review event prices, startup or minimum charges, input, exact build, runtime limit and any separate platform usage before starting.
 
-Local Leads uses four steps — business and location, research options, cost review, and results. Looksy Agent preserves your requested business type, territories and count in the form. You can edit them before starting. Useful partial results remain available for review and export.
+**The event cap is per run. Platform usage can be additional.** Unknown charges stay unknown, and run-time totals remain provisional until reconciled with Apify billing. Empty or failed runs can still have charges. Useful rows, source coverage and quality are checked separately from the run status. [Cost and execution details](docs/apify-integration.md)
+
+## Open your private dashboard
+
+Ask **“Open my Looksy dashboard.”** The installed plugin starts the dashboard on your device and opens a private launch link.
+
+The local dashboard has two setup steps. First, verify the required Apify API key. Second, choose **Use current assistant** or save an optional Claude, OpenRouter, OpenAI or Gemini key. The hosted Apify sign-in connects your assistant independently and does not copy its credentials into the local dashboard.
+
+Use **Settings** to manage local connections and **History** to reopen local briefs or campaigns. Research takes place in your assistant. Local Leads has a dedicated campaign review and CSV export flow. On Windows, use the dashboard or `APIFY_TOKEN` for local credentials.
+
+[Preview the dashboard](docs/brand/dashboard-setup.png) · [Private dashboard instructions](skills/looksy/references/connection.md)
 
 ## Prepare data for your other tools
 
-Local Leads exports a research CSV. Its Contacts view also previews and exports **Instantly, Smartlead and HubSpot** import formats. The toolbox supports flat CSV/JSON files, explicit field mapping and an optional email exclusion list. Export receipts show included, duplicate and missing/invalid-email counts. Unknown personal names remain blank and source/check context is preserved where available.
+Local Leads exports research CSV files and prepares Instantly, Smartlead and HubSpot import formats. The toolbox supports CSV/JSON, explicit field mapping and an email exclusion list. Export receipts show included, duplicate and missing-email counts. Unknown names stay blank and source context is retained.
 
-Review the file and confirm field mapping in your destination. Destination API actions use the authorized tools available in your assistant and require an explicit destination and action. [Export formats and integration process](skills/looksy/references/export-formats.md)
+Review the destination mapping and authorize the exact action before any external upload or outreach. Contact checks do not establish consent or guarantee deliverability. [Export formats](skills/looksy/references/export-formats.md)
 
 ## Return to your work
 
-Ask **“Save this as a Looksy brief with the next step.”** Later, ask **“Open my recent research.”** Briefs and cached results stay in your private local workspace, which another supported assistant on the same device can reopen. A fresh observation gets a separate preview.
+Ask **“Save this as a Looksy brief with the next step.”** Briefs and cached results stay in the private local workspace. A supported assistant on the same device can reopen them. Remote Apify results remain available under the user's account and its retention settings. Cloud runs continue independently of your chat or dashboard.
 
-Existing campaigns from the earlier workspace are picked up when the new default workspace is absent. You can select a workspace explicitly with `--workspace`.
-
-[Privacy](PRIVACY.md) · [Support](SUPPORT.md) · [Validation evidence](docs/validation.md) · [License](LICENSE)
+[Privacy](PRIVACY.md) · [Security](SECURITY.md) · [Support](SUPPORT.md) · [Validation](docs/validation.md) · [License](LICENSE)
